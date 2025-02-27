@@ -24,7 +24,7 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates(group.toString(), artifact.toString(), version.toString())
+    coordinates(group.toString(), artifact, version.toString())
 
     pom {
         name.set("Ktor Monitor")
@@ -163,6 +163,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
+            implementation(libs.compose.ui.backhandler)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
@@ -181,9 +182,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.atomicfu)
-            implementation("org.jetbrains.compose.material3.adaptive:adaptive:1.1.0-alpha02") // TODO import using compose.adaptive
-            implementation("org.jetbrains.compose.material3.adaptive:adaptive-layout:1.1.0-alpha02") // TODO compose.adaptive
-            implementation("org.jetbrains.compose.material3.adaptive:adaptive-navigation:1.1.0-alpha02") // TODO compose.adaptive
+            implementation(libs.bundles.compose.adaptive)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
