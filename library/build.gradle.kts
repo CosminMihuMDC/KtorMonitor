@@ -163,6 +163,7 @@ kotlin {
             implementation(compose.materialIconsExtended)
             implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
+            implementation(libs.compose.ui.backhandler)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
