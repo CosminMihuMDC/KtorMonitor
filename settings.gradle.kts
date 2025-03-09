@@ -29,4 +29,5 @@ dependencyResolutionManagement {
 }
 
 include(":library")
+include(":library-no-op")
 include(":sample")
