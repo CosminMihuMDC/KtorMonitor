@@ -6,16 +6,13 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinxSerialization)
-    alias(libs.plugins.sqldelight)
-    alias(libs.plugins.kotlinx.atomicfu)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.binary.compatibility.validator)
     alias(libs.plugins.dokka)
 }
 
 val module = "ktor-monitor"
-val artifact = "ktor-monitor-logging"
+val artifact = "ktor-monitor-logging-no-op"
 group = "ro.cosminmihu.ktor"
 version = "1.5.0"
 
@@ -98,19 +95,6 @@ tasks {
     }
 }
 
-sqldelight {
-    databases {
-        create("LibraryDatabase") {
-            packageName.set("ro.cosminmihu.ktor.monitor.db.sqldelight")
-        }
-    }
-    linkSqlite = true
-}
-
-compose.resources {
-    packageOfResClass = "ro.cosminmihu.ktor.monitor.ui.resources"
-}
-
 kotlin {
     explicitApi()
 
@@ -129,67 +113,15 @@ kotlin {
         iosX64(),
         iosArm64(),
         iosSimulatorArm64(),
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-            linkerOpts("-lsqlite3")
-        }
-    }
+    )
 
     jvm("desktop")
 
     sourceSets {
-        val desktopMain by getting
-
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-            implementation(libs.android.permisssions)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqldelight.android)
-            implementation(libs.koin.android)
-            implementation(libs.coil.gif)
-        }
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-            implementation(libs.sqldelight.native)
-        }
         commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
-            implementation(compose.material3AdaptiveNavigationSuite)
             implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-            implementation(libs.compose.adaptive)
-            implementation(libs.compose.adaptive.layout)
-            implementation(libs.compose.adaptive.navigation)
-            implementation(libs.compose.ui.backhandler)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.sqldelight.runtime)
-            implementation(libs.sqldelight.coroutines)
-            implementation(libs.sqldelight.primitive.adapters)
-            implementation(libs.koin.core)
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
-            implementation(libs.kotlinx.datetime)
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
-            implementation(libs.kotlinx.atomicfu)
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
-            implementation(libs.ktor.client.cio)
-            implementation(libs.sqldelight.jvm)
         }
     }
 }
@@ -213,8 +145,4 @@ android {
     buildFeatures {
         buildConfig = true
     }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }
