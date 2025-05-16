@@ -1,6 +1,10 @@
 package ro.cosminmihu.ktor.monitor.ui.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -57,71 +61,77 @@ internal fun ListScreen(
     Scaffold(
         modifier = modifier,
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(Res.string.ktor_library_name),
-                        fontWeight = FontWeight.Bold,
-                    )
-                },
-                navigationIcon = {
-                    Image(
-                        imageVector = vectorResource(Res.drawable.ktor_ic_launcher),
-                        contentDescription = stringResource(Res.string.ktor_library_name),
-                        modifier = Modifier.size(Dimens.ExtraExtraLarge)
-                    )
-                },
-                actions = {
-                    if (uiState.isEmpty && !showSearchBar) return@TopAppBar
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            text = stringResource(Res.string.ktor_library_name),
+                            fontWeight = FontWeight.Bold,
+                        )
+                    },
+                    navigationIcon = {
+                        Image(
+                            imageVector = vectorResource(Res.drawable.ktor_ic_launcher),
+                            contentDescription = stringResource(Res.string.ktor_library_name),
+                            modifier = Modifier.size(Dimens.ExtraExtraLarge)
+                        )
+                    },
+                    actions = {
+                        if (uiState.isEmpty && !showSearchBar) return@TopAppBar
 
-                    IconButton(
-                        onClick = {
-                            showSearchBar = !showSearchBar
-                            if (!showSearchBar) {
-                                clearSearchQuery()
+                        IconButton(
+                            onClick = {
+                                showSearchBar = !showSearchBar
+                                if (!showSearchBar) {
+                                    clearSearchQuery()
+                                }
                             }
+                        ) {
+                            Icon(
+                                imageVector = when (showSearchBar) {
+                                    true -> Icons.Filled.SearchOff
+                                    else -> Icons.Filled.Search
+                                },
+                                contentDescription = stringResource(Res.string.ktor_filter),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
                         }
-                    ) {
-                        Icon(
-                            imageVector = when (showSearchBar) {
-                                true -> Icons.Filled.SearchOff
-                                else -> Icons.Filled.Search
-                            },
-                            contentDescription = stringResource(Res.string.ktor_filter),
-                            tint = MaterialTheme.colorScheme.primary,
-                        )
-                    }
-                    IconButton(
-                        onClick = {
-                            deleteCalls()
-                            clearSearchQuery()
-                            showSearchBar = false
+                        IconButton(
+                            onClick = {
+                                deleteCalls()
+                                clearSearchQuery()
+                                showSearchBar = false
+                            }
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Delete,
+                                contentDescription = stringResource(Res.string.ktor_clean),
+                                tint = MaterialTheme.colorScheme.primary,
+                            )
                         }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Delete,
-                            contentDescription = stringResource(Res.string.ktor_clean),
-                            tint = MaterialTheme.colorScheme.primary,
-                        )
-                    }
-                }
-            )
-        }
-    ) {
-        Column(modifier = Modifier.padding(it).fillMaxWidth()) {
+                    },
+                )
 
-            if (uiState.showNotification) {
+                AnimatedVisibility(visible = showSearchBar) {
+                    SearchField(
+                        onSearch = setSearchQuery,
+                        onClear = clearSearchQuery
+                    )
+                }
+
+                HorizontalDivider()
+            }
+        }
+    ) { paddingValues ->
+        Column(modifier = Modifier.padding(paddingValues).fillMaxWidth()) {
+
+            AnimatedVisibility(
+                visible = uiState.showNotification,
+                enter = slideInVertically(initialOffsetY = { -it }) + fadeIn(),
+                exit = slideOutVertically(targetOffsetY = { -it }) + fadeOut()
+            ) {
                 NotificationPermissionBanner()
             }
-
-            AnimatedVisibility(visible = showSearchBar) {
-                SearchField(
-                    onSearch = setSearchQuery,
-                    onClear = clearSearchQuery
-                )
-            }
-
-            HorizontalDivider()
 
             when {
                 uiState.isLoading -> {

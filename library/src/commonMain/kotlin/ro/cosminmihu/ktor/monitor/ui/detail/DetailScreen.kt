@@ -1,20 +1,13 @@
 package ro.cosminmihu.ktor.monitor.ui.detail
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.IntrinsicSize
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -24,17 +17,17 @@ import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_back
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_more
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_request
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary
@@ -54,31 +47,14 @@ internal fun DetailScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState { PAGE_COUNT }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     Scaffold(
         modifier = modifier,
-    ) {
-        Column(
-            modifier = Modifier.padding(it).fillMaxWidth()
-        ) {
-
-            if (uiState.call == null || uiState.summary == null) {
-                return@Column
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.height(TopAppBarDefaults.TopAppBarExpandedHeight)
-            ) {
-                Column(
-                    modifier = Modifier.fillMaxHeight().width(IntrinsicSize.Max)
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = Dimens.Small, top = Dimens.Small),
-                        contentAlignment = Alignment.Center
-                    ) {
+        topBar = {
+            Column {
+                TopAppBar(
+                    navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
@@ -86,76 +62,59 @@ internal fun DetailScreen(
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
-                    }
+                    },
+                    title = {
+                        PrimaryTabRow(
+                            selectedTabIndex = pagerState.currentPage,
+                            divider = {},
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        ) {
+                            val tabs = listOf(
+                                Res.string.ktor_summary,
+                                Res.string.ktor_request,
+                                Res.string.ktor_response
+                            )
 
-                    HorizontalDivider(modifier = Modifier.fillMaxWidth())
-                }
-
-                PrimaryTabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    modifier = Modifier.align(Alignment.Bottom).weight(1f)
-                ) {
-                    Tab(
-                        selected = pagerState.currentPage == PAGE_INDEX_SUMMARY,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(PAGE_INDEX_SUMMARY)
+                            tabs.forEachIndexed { index, stringRes ->
+                                Tab(
+                                    selected = pagerState.currentPage == index,
+                                    onClick = {
+                                        coroutineScope.launch { pagerState.animateScrollToPage(index) }
+                                    }
+                                ) {
+                                    Text(
+                                        text = stringResource(stringRes),
+                                        style = MaterialTheme.typography.titleMedium.copy(
+                                            fontWeight = if (pagerState.currentPage == index) FontWeight.Bold else FontWeight.Normal
+                                        ),
+                                        modifier = Modifier.padding(vertical = Dimens.Small)
+                                    )
+                                }
                             }
-                        },
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.ktor_summary),
-                            modifier = Modifier.padding(vertical = Dimens.Medium)
-                        )
-                    }
-                    Tab(
-                        selected = pagerState.currentPage == PAGE_INDEX_REQUEST,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(PAGE_INDEX_REQUEST)
-                            }
-                        },
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.ktor_request),
-                            modifier = Modifier.padding(vertical = Dimens.Medium)
-                        )
-                    }
-                    Tab(
-                        selected = pagerState.currentPage == PAGE_INDEX_RESPONSE,
-                        onClick = {
-                            coroutineScope.launch {
-                                pagerState.animateScrollToPage(PAGE_INDEX_RESPONSE)
-                            }
-                        },
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.ktor_response),
-                            modifier = Modifier.padding(vertical = Dimens.Medium)
-                        )
-                    }
-                }
-
-//                Column(
-//                    modifier = Modifier.fillMaxHeight().width(IntrinsicSize.Max)
-//                ) {
-//                    Box(
-//                        modifier = Modifier
-//                            .weight(1f)
-//                            .padding(start = Dimens.Small, top = Dimens.Small),
-//                        contentAlignment = Alignment.Center
-//                    ) {
-//                        IconButton(onClick = { /* TODO */ }) {
+                        }
+                    },
+                    actions = {
+//                        IconButton(onClick = {}, enabled = false) {
 //                            Icon(
-//                                imageVector = Icons.Default.MoreVert,
+//                                imageVector = Icons.Filled.MoreVert,
 //                                contentDescription = stringResource(Res.string.ktor_more),
-//                                tint = MaterialTheme.colorScheme.primary
+//                                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
 //                            )
 //                        }
-//                    }
-//
-//                    HorizontalDivider(modifier = Modifier.fillMaxWidth())
-//                }
+                    },
+                    scrollBehavior = scrollBehavior
+                )
+                HorizontalDivider()
+            }
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier.padding(paddingValues).fillMaxWidth()
+        ) {
+
+            if (uiState.call == null || uiState.summary == null) {
+                return@Column
             }
 
             HorizontalPager(
