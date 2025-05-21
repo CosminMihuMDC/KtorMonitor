@@ -1,5 +1,6 @@
 package ro.cosminmihu.ktor.monitor
 
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import ro.cosminmihu.ktor.monitor.ui.main.MainRoute
@@ -12,8 +13,10 @@ public fun KtorMonitor(
     modifier: Modifier = Modifier,
     useKtorMonitorTheme: Boolean = true,
 ) {
-    MainRoute(
-        modifier = modifier,
-        useLibraryTheme = useKtorMonitorTheme,
-    )
+    SelectionContainer {
+        MainRoute(
+            modifier = modifier,
+            useLibraryTheme = useKtorMonitorTheme,
+        )
+    }
 }
