@@ -1,6 +1,7 @@
 package ro.cosminmihu.ktor.monitor
 
 import io.ktor.client.plugins.api.ClientPlugin
+import io.ktor.http.HttpHeaders
 import ro.cosminmihu.ktor.monitor.api.LoggingPlugin
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.days
@@ -40,7 +41,7 @@ public object ContentLength {
  * ```kotlin
  * HttpClient {
  *    install(KtorMonitorLogging) {
- *       sanitizeHeader { header -> header == "Authorization" }
+ *       sanitizeHeader { header -> header.equals(HttpHeaders.Authorization, ignoreCase = true) }
  *       filter { request -> !request.url.host.contains("cosminmihu.ro") }
  *       isActive = true
  *       showNotification = true
