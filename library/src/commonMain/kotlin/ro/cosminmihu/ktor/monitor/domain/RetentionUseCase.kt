@@ -1,13 +1,15 @@
 package ro.cosminmihu.ktor.monitor.domain
 
-import kotlinx.datetime.Clock
 import ro.cosminmihu.ktor.monitor.RetentionPeriod
 import ro.cosminmihu.ktor.monitor.db.LibraryDao
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 internal class RetentionUseCase(
     private val configUseCase: ConfigUseCase,
     private val dao: LibraryDao,
 ) {
+    @OptIn(ExperimentalTime::class)
     suspend operator fun invoke() {
         val retentionPeriod = configUseCase.getRetentionPeriod()
         if (retentionPeriod == RetentionPeriod.Forever) return

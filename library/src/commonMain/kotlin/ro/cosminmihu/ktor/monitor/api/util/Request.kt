@@ -7,10 +7,11 @@ import io.ktor.utils.io.toByteArray
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import ro.cosminmihu.ktor.monitor.ContentLength
 import ro.cosminmihu.ktor.monitor.SanitizedHeader
 import ro.cosminmihu.ktor.monitor.db.LibraryDao
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 internal suspend fun logRequestException(
     dao: LibraryDao,
@@ -23,6 +24,7 @@ internal suspend fun logRequestException(
     )
 }
 
+@OptIn(ExperimentalTime::class)
 internal suspend fun logRequest(
     dao: LibraryDao,
     id: String,
