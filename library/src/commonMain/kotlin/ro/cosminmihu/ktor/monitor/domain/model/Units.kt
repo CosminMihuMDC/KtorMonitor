@@ -33,7 +33,7 @@ internal fun Long.formatDateTimeTime() = Instant.fromEpochMilliseconds(this)
             dayOfWeek(DayOfWeekNames.ENGLISH_ABBREVIATED)
             char(',')
             char(' ')
-            year(); char(' '); monthName(MonthNames.ENGLISH_ABBREVIATED); char(' '); dayOfMonth()
+            year(); char(' '); monthName(MonthNames.ENGLISH_ABBREVIATED); char(' '); day()
             char(' ')
             hour(); char(':'); minute(); char(':'); second()
             optional { char('.'); secondFraction() }
