@@ -50,7 +50,7 @@ internal fun CallItem(
                 else -> {
                     Text(
                         modifier = Modifier.padding(horizontal = Dimens.Small),
-                        text = call.response.responseCode.toString(),
+                        text = call.response.responseCode,
                         fontWeight = FontWeight.Bold,
                         color = if (call.isError) MaterialTheme.colorScheme.error else Color.Unspecified,
                     )
