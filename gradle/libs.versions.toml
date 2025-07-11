@@ -1,5 +1,5 @@
 [versions]
-agp = "8.11.0"
+agp = "8.11.1"
 android-compileSdk = "36"
 android-minSdk = "26"
 android-targetSdk = "36"
@@ -23,7 +23,7 @@ kotlinx-datetime = "0.7.0"
 coil = "3.2.0"
 kotlin-atomicfu = "0.29.0"
 maven-publish = "0.33.0"
-binary-compatibility-validator = "0.18.0"
+binary-compatibility-validator = "0.18.1"
 dokka = "2.0.0"
 
 [libraries]
