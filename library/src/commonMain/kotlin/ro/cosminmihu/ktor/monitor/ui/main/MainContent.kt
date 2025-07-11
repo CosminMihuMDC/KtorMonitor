@@ -1,9 +1,10 @@
 package ro.cosminmihu.ktor.monitor.ui.main
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Surface
-//import androidx.compose.material3.VerticalDragHandle
+import androidx.compose.material3.VerticalDragHandle
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
@@ -77,16 +78,16 @@ internal fun MainContent(modifier: Modifier = Modifier) {
                 )
             ),
             paneExpansionDragHandle = { state ->
-//                val interactionSource = remember { MutableInteractionSource() } // TODO
-//                VerticalDragHandle(
-//                    modifier = Modifier.paneExpansionDraggable(
-//                        state = state,
-//                        minTouchTargetSize = LocalMinimumInteractiveComponentSize.current,
-//                        interactionSource = interactionSource,
-//                        semanticsProperties = state.defaultDragHandleSemantics()
-//                    ),
-//                    interactionSource = interactionSource
-//                )
+                val interactionSource = remember { MutableInteractionSource() }
+                VerticalDragHandle(
+                    modifier = Modifier.paneExpansionDraggable(
+                        state = state,
+                        minTouchTargetSize = LocalMinimumInteractiveComponentSize.current,
+                        interactionSource = interactionSource,
+                        semanticsProperties = state.defaultDragHandleSemantics()
+                    ),
+                    interactionSource = interactionSource
+                )
             }
         )
     }
