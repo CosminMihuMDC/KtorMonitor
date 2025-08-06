@@ -81,9 +81,9 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(project(":library"))
+            implementation(projects.library)
 //            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.7.3")
-//            implementation(project(":library-no-op"))
+//            implementation(projects.libraryNoOp)
 //            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.7.3")
         }
         desktopMain.dependencies {
