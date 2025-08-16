@@ -11,13 +11,13 @@
 # <img src="./extra/ktor_ic_launcher.svg" width="35"/> KtorMonitor
 Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses, making it easier to debug and analyze network communication.
 
-<img src="extra/readme/ktormonitor_android.gif" width="200"/>
+<img src="extra/readme/ktormonitor_android.gif" width="200" alt="android"/>
 &emsp;
-<img src="extra/readme/ktomonitor_ios.gif" width="210"/>
+<img src="extra/readme/ktomonitor_ios.gif" width="210" alt="ios"/>
 &emsp;
-<img src="extra/readme/ktormonitor_desktop.gif" width="430"/>
+<img src="extra/readme/ktormonitor_desktop.gif" width="430" alt="desktop"/>
 &emsp;
-<img src="extra/readme/ktormonitor_wasm.gif" width="430"/>
+<img src="extra/readme/ktormonitor_wasm.gif" width="430" alt="wasm"/>
 
 By default, **```KtorMonitor```**:
 - **android** -> is enabled for ```debug``` builds and disabled for ```release``` builds
@@ -229,10 +229,10 @@ Feel free to send feedback or [file an issue](https://github.com/CosminMihuMDC/K
 
 ## 🙌 Acknowledgments
 
-[![Kotlin](https://img.shields.io/badge/2.2.0-white?logo=kotlin&logoColor=white&color=7F52FF)](http://kotlinlang.org)
+[![Kotlin](https://img.shields.io/badge/2.2.10-white?logo=kotlin&logoColor=white&color=7F52FF)](http://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/1.9.0-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
-[![Android](https://img.shields.io/badge/Android%2016-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/about/versions/15)
-[![Ktor](https://img.shields.io/badge/3.2.1-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
+[![Android](https://img.shields.io/badge/Android%2016-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/about/versions/16)
+[![Ktor](https://img.shields.io/badge/3.2.3-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
 [![SQLDelight](https://img.shields.io/badge/2.1.0-white?logo=sqlite&logoColor=white&color=003B57)](https://sqldelight.github.io/sqldelight)
 
 Documentation is available at [KtorMonitor Documentation](https://cosminmihumdc.github.io/KtorMonitor/html).
