@@ -37,7 +37,7 @@ internal actual class NotificationManager {
         val content = UNMutableNotificationContent().apply {
             setTitle(NOTIFICATION_TITLE)
             setBody(body)
-            setSound(UNNotificationSound.defaultSound)
+            setSound(null)
             setInterruptionLevel(UNNotificationInterruptionLevel.UNNotificationInterruptionLevelActive)
         }
 

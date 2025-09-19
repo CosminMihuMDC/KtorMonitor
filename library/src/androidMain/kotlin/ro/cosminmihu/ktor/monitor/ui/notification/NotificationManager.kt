@@ -57,6 +57,7 @@ internal actual class NotificationManager : LibraryKoinComponent {
             .setStyle(NotificationCompat.InboxStyle().also { style ->
                 messages.forEach { style.addLine(it) }
             })
+            .setSound(null)
             .build()
 
         notificationManager.notify(NOTIFICATION_ID, notification)
