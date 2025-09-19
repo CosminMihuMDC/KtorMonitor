@@ -12,7 +12,7 @@ plugins {
 
 val artifact = "ktor-monitor-logging-no-op"
 group = "ro.cosminmihu.ktor"
-version = "1.7.3"
+version = "1.7.4"
 
 mavenPublishing {
     publishToMavenCentral()
