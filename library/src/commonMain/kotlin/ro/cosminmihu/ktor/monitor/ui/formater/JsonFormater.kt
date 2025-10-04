@@ -16,8 +16,8 @@ internal fun formatJson(json: ByteArray): AnnotatedString = buildAnnotatedString
         val jsonElement = Json.parseToJsonElement(json.decodeToString())
         val prettyJson = jsonSerializer.encodeToString(JsonElement.serializer(), jsonElement)
 
-        // Regex to match JSON parts: strings, numbers, punctuation
-        val regex = Regex("""("(\\.|[^"\\])*"|\d+|true|false|null|[{}\[\]:,]|\n|\s+)""")
+        // Regex to match JSON parts: strings, numbers (including decimals), punctuation
+        val regex = Regex("""("(\\.|[^"\\])*"|-?\d+(\.\d+)?([eE][+-]?\d+)?|true|false|null|[{}\[\]:,]|\n|\s+)""")
 
         var isKey = true // Track if the current string is a key
 
@@ -57,7 +57,7 @@ internal fun formatJson(json: ByteArray): AnnotatedString = buildAnnotatedString
                     isKey = false // Next string will be a value
                 }
 
-                part.matches(Regex("\\d+")) -> { // Numbers
+                part.matches(Regex("-?\\d+(\\.\\d+)?([eE][+-]?\\d+)?")) -> { // Numbers (int, double, scientific)
                     withStyle(style = SpanStyle(color = Color(0xFF28BE69))) {
                         append(part)
                     }
