@@ -1,5 +1,12 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources////PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/index.html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources//allDrawableResources/ro.cosminmihu.ktor.monitor.ui.resources.Res#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/all-drawable-resources.html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources//allFontResources/ro.cosminmihu.ktor.monitor.ui.resources.Res#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/all-font-resources.html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources//allPluralStringResources/ro.cosminmihu.ktor.monitor.ui.resources.Res#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/all-plural-string-resources.html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources//allStringArrayResources/ro.cosminmihu.ktor.monitor.ui.resources.Res#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/all-string-array-resources.html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources//allStringResources/ro.cosminmihu.ktor.monitor.ui.resources.Res#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/all-string-resources.html
+$dokka.location:ro.cosminmihu.ktor.monitor.ui.resources//ktor_tray_name/ro.cosminmihu.ktor.monitor.ui.resources.Res.string#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor.ui.resources/ktor_tray_name.html
 $dokka.location:ro.cosminmihu.ktor.monitor////PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/index.html
 $dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitor/#androidx.compose.ui.Modifier#kotlin.Boolean/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor.html
 $dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitorLogging/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging.html
@@ -24,3 +31,4 @@ $dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/OneDay/#/PointingToDe
 $dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/OneHour/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/-one-hour.html
 $dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/OneWeek/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/-one-week.html
 ro.cosminmihu.ktor.monitor
+ro.cosminmihu.ktor.monitor.ui.resources

@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -12,7 +13,6 @@ plugins {
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.binary.compatibility.validator)
     alias(libs.plugins.dokka)
-    alias(libs.plugins.dokka.javadoc)
 }
 
 val module = "ktor-monitor"
@@ -86,11 +86,20 @@ dokka {
     moduleName = module
     moduleVersion = project.version.toString()
 
+    dokkaSourceSets.commonMain {
+        perPackageOption {
+            matchingRegex.set("ro.cosminmihu.ktor.monitor.db.sqldelight")
+            suppress.set(true)
+        }
+
+        perPackageOption {
+            matchingRegex.set("ro.cosminmihu.ktor.monitor.ui.resources")
+            suppress.set(true)
+        }
+    }
+
     dokkaPublications.html {
         outputDirectory.set(File(rootDir, "docs/html"))
-    }
-    dokkaPublications.javadoc {
-        outputDirectory.set(File(rootDir, "docs/javadoc"))
     }
 }
 

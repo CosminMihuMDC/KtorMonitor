@@ -81,4 +81,3 @@ kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "kotli
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-dokka-javadoc = { id = "org.jetbrains.dokka-javadoc", version.ref = "dokka" }

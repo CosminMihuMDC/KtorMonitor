@@ -9,5 +9,4 @@ plugins {
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.binary.compatibility.validator) apply false
     alias(libs.plugins.dokka) apply false
-    alias(libs.plugins.dokka.javadoc) apply false
 }
