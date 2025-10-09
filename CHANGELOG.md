@@ -7,7 +7,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * Add support for additional XML and JSON content types in CodeFormatter
 * Enhance callIdentifier to include UUID and hash for improved uniqueness
 * Enhance JSON regex to support decimal and scientific notation
-* 
+
 ## [1.7.4] - 2025-09-19
 * Remove Notification Sound
 
