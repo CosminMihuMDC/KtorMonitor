@@ -206,6 +206,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.cio)
             implementation(libs.sqldelight.jvm)
+            implementation(libs.slf4j.simple)
         }
 
         wasmJsMain.dependencies {
