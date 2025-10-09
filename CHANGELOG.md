@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.7.5] - 2025-09-19
+## [1.7.5] - 2025-10-09
 * Add support for additional XML and JSON content types in CodeFormatter
 * Enhance callIdentifier to include UUID and hash for improved uniqueness
 * Enhance JSON regex to support decimal and scientific notation
