@@ -25,7 +25,7 @@ coil = "3.3.0"
 kotlin-atomicfu = "0.29.0"
 maven-publish = "0.34.0"
 binary-compatibility-validator = "0.18.1"
-dokka = "2.1.0-Beta"
+dokka = "2.1.0"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
