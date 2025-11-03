@@ -17,6 +17,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
  *
  * KtorMonitorWindow(
  *      show = showWindow,
+ *      useLibraryTheme = true,
  *      onCloseRequest = { showWindow = false },
  * )
  * ```
@@ -24,6 +25,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
 @Composable
 public fun KtorMonitorWindow(
     show: Boolean = true,
+    useLibraryTheme: Boolean = true,
     onCloseRequest: () -> Unit = {},
 ) {
     if (!show) return
@@ -32,6 +34,9 @@ public fun KtorMonitorWindow(
         onCloseRequest = onCloseRequest,
         title = stringResource(Res.string.ktor_library_name),
     ) {
-        MainRoute(modifier = Modifier.fillMaxSize())
+        MainRoute(
+            modifier = Modifier.fillMaxSize(),
+            useLibraryTheme = useLibraryTheme
+        )
     }
 }
