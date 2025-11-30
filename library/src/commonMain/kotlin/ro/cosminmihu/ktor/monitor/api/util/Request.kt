@@ -32,7 +32,7 @@ internal suspend fun logRequest(
     request: HttpRequestBuilder,
     coroutineScope: CoroutineScope,
     sanitizedHeaders: List<SanitizedHeader>,
-): OutgoingContent? {
+): OutgoingContent {
     val content = request.body as OutgoingContent
 
     // Headers.
