@@ -34,10 +34,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import io.ktor.http.Url
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import ro.cosminmihu.ktor.monitor.core.URL
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
 import ro.cosminmihu.ktor.monitor.ui.notification.NotificationPermissionBanner
@@ -58,6 +61,7 @@ internal fun ListScreen(
     modifier: Modifier = Modifier,
 ) {
     var showSearchBar by rememberSaveable { mutableStateOf(false) }
+    val uriHandler = LocalUriHandler.current
 
     Scaffold(
         modifier = modifier,
@@ -68,13 +72,16 @@ internal fun ListScreen(
                         Text(
                             text = stringResource(Res.string.ktor_library_name),
                             fontWeight = FontWeight.Bold,
+                            modifier = Modifier.clickable { uriHandler.openUri(URL.GITHUB_REPO) },
                         )
                     },
                     navigationIcon = {
                         Image(
                             imageVector = vectorResource(Res.drawable.ktor_ic_launcher),
                             contentDescription = stringResource(Res.string.ktor_library_name),
-                            modifier = Modifier.size(Dimens.ExtraExtraLarge)
+                            modifier = Modifier
+                                .size(Dimens.ExtraExtraLarge)
+                                .clickable { uriHandler.openUri(URL.GITHUB_REPO) },
                         )
                     },
                     actions = {
