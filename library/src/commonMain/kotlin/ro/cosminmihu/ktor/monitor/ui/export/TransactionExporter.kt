@@ -4,7 +4,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 
-internal class TransactionExporter {
+internal object TransactionExporter {
 
     internal suspend fun exportAsText(call: Call) = withContext(Dispatchers.Default) {
         buildString {
@@ -77,6 +77,25 @@ internal class TransactionExporter {
                 }
                 call.requestBody?.takeIf { it.isNotEmpty() }?.decodeToString()?.let {
                     add("--data-binary \"${shellEscape(it)}\"")
+                }
+                add("\"${shellEscape(call.url)}\"")
+            }
+
+            append(command.joinToString(separator = " \\\n  "))
+        }
+    }
+
+    internal suspend fun exportRequestAsWget(call: Call) = withContext(Dispatchers.Default) {
+        buildString {
+            val command = buildList {
+                add("wget")
+                add("--method=\"${call.method}\"")
+                call.requestHeaders.forEach { (key, values) ->
+                    val value = values.joinToString(separator = "; ")
+                    add("--header=\"${shellEscape("$key: $value")}\"")
+                }
+                call.requestBody?.takeIf { it.isNotEmpty() }?.decodeToString()?.let {
+                    add("--body-data=\"${shellEscape(it)}\"")
                 }
                 add("\"${shellEscape(call.url)}\"")
             }

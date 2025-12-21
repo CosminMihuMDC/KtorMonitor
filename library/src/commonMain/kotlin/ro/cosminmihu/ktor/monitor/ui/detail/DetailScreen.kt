@@ -38,6 +38,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_back
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_curl
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_text
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_wget
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_more
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_request
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response
@@ -122,6 +123,14 @@ internal fun DetailScreen(
                                     text = { Text(stringResource(Res.string.ktor_copy_as_curl)) },
                                     onClick = {
                                         onShare(DetailUiState.ShareType.Curl)
+                                        menuExpanded = false
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    enabled = uiState.call != null,
+                                    text = { Text(stringResource(Res.string.ktor_copy_as_wget)) },
+                                    onClick = {
+                                        onShare(DetailUiState.ShareType.Wget)
                                         menuExpanded = false
                                     }
                                 )
