@@ -6,6 +6,12 @@ import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 
 internal object TransactionExporter {
 
+    internal suspend fun exportUrl(call: Call) = withContext(Dispatchers.Default) {
+        buildString {
+            append(call.url)
+        }
+    }
+
     internal suspend fun exportAsText(call: Call) = withContext(Dispatchers.Default) {
         buildString {
             val requestStartLine = buildString {

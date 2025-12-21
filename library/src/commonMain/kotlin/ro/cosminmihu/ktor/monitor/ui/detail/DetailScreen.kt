@@ -9,7 +9,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -39,6 +38,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_back
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_curl
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_text
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_wget
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_url
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_more
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_request
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response
@@ -118,6 +118,14 @@ internal fun DetailScreen(
                                 expanded = menuExpanded,
                                 onDismissRequest = { menuExpanded = false }
                             ) {
+                                DropdownMenuItem(
+                                    enabled = uiState.call != null,
+                                    text = { Text(stringResource(Res.string.ktor_copy_url)) },
+                                    onClick = {
+                                        onShare(DetailUiState.ShareType.Url)
+                                        menuExpanded = false
+                                    }
+                                )
                                 DropdownMenuItem(
                                     enabled = uiState.call != null,
                                     text = { Text(stringResource(Res.string.ktor_copy_as_curl)) },

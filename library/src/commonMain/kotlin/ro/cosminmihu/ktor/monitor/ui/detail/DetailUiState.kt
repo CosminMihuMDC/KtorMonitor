@@ -59,6 +59,7 @@ internal data class DetailUiState(
     )
 
     enum class ShareType {
+        Url,
         Curl,
         Text,
         Wget,

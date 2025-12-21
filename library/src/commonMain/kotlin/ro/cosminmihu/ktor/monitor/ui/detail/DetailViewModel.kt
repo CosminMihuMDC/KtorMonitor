@@ -124,6 +124,7 @@ internal class DetailViewModel(
             val call = this@DetailViewModel.call.firstOrNull() ?: return@launch
 
             val share = when (type) {
+                DetailUiState.ShareType.Url -> TransactionExporter.exportUrl(call)
                 DetailUiState.ShareType.Curl -> TransactionExporter.exportRequestAsCurl(call)
                 DetailUiState.ShareType.Text -> TransactionExporter.exportAsText(call)
                 DetailUiState.ShareType.Wget -> TransactionExporter.exportRequestAsWget(call)
