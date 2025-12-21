@@ -10,7 +10,6 @@ import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.layout.PaneExpansionAnchor
-import androidx.compose.material3.adaptive.layout.defaultDragHandleSemantics
 import androidx.compose.material3.adaptive.layout.rememberPaneExpansionState
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
@@ -84,7 +83,6 @@ internal fun MainContent(modifier: Modifier = Modifier) {
                         state = state,
                         minTouchTargetSize = LocalMinimumInteractiveComponentSize.current,
                         interactionSource = interactionSource,
-                        semanticsProperties = state.defaultDragHandleSemantics()
                     ),
                     interactionSource = interactionSource
                 )
