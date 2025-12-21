@@ -60,23 +60,25 @@ internal fun Transaction(
             )
         }
 
-        LazyColumn {
-            item { Headers(headers) }
+        SelectionContainer {
+            LazyColumn {
+                item { Headers(headers) }
 
-            if (error.isNotBlank()) {
-                item {
-                    Error(error)
+                if (error.isNotBlank()) {
+                    item {
+                        Error(error)
+                    }
+                    return@LazyColumn
                 }
-                return@LazyColumn
-            }
 
-            if (body == null || body.noBody) {
-                item { NoBody() }
-            } else {
-                Body(
-                    body = body,
-                    displayMode = displayMode,
-                    onDisplayMode = { displayMode = it })
+                if (body == null || body.noBody) {
+                    item { NoBody() }
+                } else {
+                    Body(
+                        body = body,
+                        displayMode = displayMode,
+                        onDisplayMode = { displayMode = it })
+                }
             }
         }
     }

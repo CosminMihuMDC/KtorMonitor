@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.filled.Warning
@@ -20,8 +21,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.domain.model.asColor
 import ro.cosminmihu.ktor.monitor.ui.Dimens
@@ -36,97 +37,99 @@ internal fun CallItem(
     call: ListUiState.Call,
     modifier: Modifier = Modifier,
 ) {
-    Row(
-        modifier = modifier.height(IntrinsicSize.Max).padding(vertical = Dimens.Small)
-    ) {
-        Column(
-            modifier = Modifier.fillMaxHeight().weight(0.2f),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+    SelectionContainer(modifier = modifier) {
+        Row(
+            modifier = modifier.height(IntrinsicSize.Max).padding(vertical = Dimens.Small)
         ) {
-            when {
-                call.isLoading -> Loading.Small()
+            Column(
+                modifier = Modifier.fillMaxHeight().weight(0.2f),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                when {
+                    call.isLoading -> Loading.Small()
 
-                else -> {
-                    Text(
-                        modifier = Modifier.padding(horizontal = Dimens.Small),
-                        text = call.response.responseCode,
-                        fontWeight = FontWeight.Bold,
-                        color = if (call.isError) MaterialTheme.colorScheme.error else Color.Unspecified,
-                    )
-                    if (call.isRedirect) {
-                        Icon(
-                            imageVector = Icons.Filled.RestartAlt,
-                            contentDescription = stringResource(Res.string.ktor_redirect),
-                            tint = MaterialTheme.colorScheme.tertiary,
-                        )
-                    }
-                    if (call.isError) {
-                        Icon(
-                            imageVector = Icons.Filled.Warning,
-                            contentDescription = stringResource(Res.string.ktor_error),
-                            tint = MaterialTheme.colorScheme.error,
-                        )
-                    }
-                    Text(
-                        modifier = Modifier.padding(Dimens.Small),
-                        text = call.response.contentType.contentName,
-                        fontWeight = FontWeight.Bold,
-                        color = call.response.contentType.asColor,
-                    )
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier.fillMaxHeight().weight(0.8f)
-        ) {
-            Text(
-                modifier = Modifier.padding(horizontal = Dimens.Small),
-                text = call.request.method + " " + call.request.pathAndQuery,
-                fontWeight = FontWeight.Bold,
-                color = if (call.isError) MaterialTheme.colorScheme.error else Color.Unspecified,
-            )
-            Text(
-                modifier = Modifier.padding(horizontal = Dimens.Small),
-                text = when (call.isSecure) {
-                    true -> """🔒${call.request.host}"""
-                    else -> call.request.host
-                },
-            )
-            when {
-                call.isLoading -> Text(
-                    modifier = Modifier.padding(horizontal = Dimens.Small),
-                    text = stringResource(Res.string.ktor_in_progress),
-                    fontStyle = FontStyle.Italic,
-                )
-
-                else -> {
-                    Row(modifier = Modifier.padding(horizontal = Dimens.Small)) {
-                        Text(
-                            text = call.request.requestTime,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Text(
-                            text = call.response.duration,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.weight(1f)
-                        )
-                        Text(
-                            text = call.response.size,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.weight(1f)
-                        )
-                    }
-                    if (call.response.error.isNotBlank()) {
+                    else -> {
                         Text(
                             modifier = Modifier.padding(horizontal = Dimens.Small),
-                            text = call.response.error,
-                            fontStyle = FontStyle.Italic,
-                            color = MaterialTheme.colorScheme.error,
-                            maxLines = 3
+                            text = call.response.responseCode,
+                            fontWeight = FontWeight.Bold,
+                            color = if (call.isError) MaterialTheme.colorScheme.error else Color.Unspecified,
                         )
+                        if (call.isRedirect) {
+                            Icon(
+                                imageVector = Icons.Filled.RestartAlt,
+                                contentDescription = stringResource(Res.string.ktor_redirect),
+                                tint = MaterialTheme.colorScheme.tertiary,
+                            )
+                        }
+                        if (call.isError) {
+                            Icon(
+                                imageVector = Icons.Filled.Warning,
+                                contentDescription = stringResource(Res.string.ktor_error),
+                                tint = MaterialTheme.colorScheme.error,
+                            )
+                        }
+                        Text(
+                            modifier = Modifier.padding(Dimens.Small),
+                            text = call.response.contentType.contentName,
+                            fontWeight = FontWeight.Bold,
+                            color = call.response.contentType.asColor,
+                        )
+                    }
+                }
+            }
+
+            Column(
+                modifier = Modifier.fillMaxHeight().weight(0.8f)
+            ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = Dimens.Small),
+                    text = call.request.method + " " + call.request.pathAndQuery,
+                    fontWeight = FontWeight.Bold,
+                    color = if (call.isError) MaterialTheme.colorScheme.error else Color.Unspecified,
+                )
+                Text(
+                    modifier = Modifier.padding(horizontal = Dimens.Small),
+                    text = when (call.isSecure) {
+                        true -> """🔒${call.request.host}"""
+                        else -> call.request.host
+                    },
+                )
+                when {
+                    call.isLoading -> Text(
+                        modifier = Modifier.padding(horizontal = Dimens.Small),
+                        text = stringResource(Res.string.ktor_in_progress),
+                        fontStyle = FontStyle.Italic,
+                    )
+
+                    else -> {
+                        Row(modifier = Modifier.padding(horizontal = Dimens.Small)) {
+                            Text(
+                                text = call.request.requestTime,
+                                textAlign = TextAlign.Start,
+                                modifier = Modifier.weight(1f)
+                            )
+                            Text(
+                                text = call.response.duration,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.weight(1f)
+                            )
+                            Text(
+                                text = call.response.size,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                        if (call.response.error.isNotBlank()) {
+                            Text(
+                                modifier = Modifier.padding(horizontal = Dimens.Small),
+                                text = call.response.error,
+                                fontStyle = FontStyle.Italic,
+                                color = MaterialTheme.colorScheme.error,
+                                maxLines = 3
+                            )
+                        }
                     }
                 }
             }
