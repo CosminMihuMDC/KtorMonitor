@@ -118,38 +118,27 @@ internal fun DetailScreen(
                                 expanded = menuExpanded,
                                 onDismissRequest = { menuExpanded = false }
                             ) {
-                                DropdownMenuItem(
-                                    enabled = uiState.call != null,
-                                    text = { Text(stringResource(Res.string.ktor_copy_url)) },
-                                    onClick = {
-                                        onShare(DetailUiState.ShareType.Url)
-                                        menuExpanded = false
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    enabled = uiState.call != null,
-                                    text = { Text(stringResource(Res.string.ktor_copy_as_curl)) },
-                                    onClick = {
-                                        onShare(DetailUiState.ShareType.Curl)
-                                        menuExpanded = false
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    enabled = uiState.call != null,
-                                    text = { Text(stringResource(Res.string.ktor_copy_as_wget)) },
-                                    onClick = {
-                                        onShare(DetailUiState.ShareType.Wget)
-                                        menuExpanded = false
-                                    }
-                                )
-                                DropdownMenuItem(
-                                    enabled = uiState.call != null,
-                                    text = { Text(stringResource(Res.string.ktor_copy_as_text)) },
-                                    onClick = {
-                                        onShare(DetailUiState.ShareType.Text)
-                                        menuExpanded = false
-                                    }
-                                )
+                                DetailUiState.ShareType.entries.forEach {
+                                    DropdownMenuItem(
+                                        enabled = uiState.call != null,
+                                        text = {
+                                            Text(
+                                                text = stringResource(
+                                                    when (it) {
+                                                        DetailUiState.ShareType.Url -> Res.string.ktor_copy_url
+                                                        DetailUiState.ShareType.Curl -> Res.string.ktor_copy_as_curl
+                                                        DetailUiState.ShareType.Wget -> Res.string.ktor_copy_as_wget
+                                                        DetailUiState.ShareType.Text -> Res.string.ktor_copy_as_text
+                                                    }
+                                                )
+                                            )
+                                        },
+                                        onClick = {
+                                            onShare(it)
+                                            menuExpanded = false
+                                        }
+                                    )
+                                }
                             }
                         }
                     },
