@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import ro.cosminmihu.ktor.monitor.core.ClipboardManager
 import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
@@ -46,7 +47,8 @@ internal class DetailViewModel(
     private val exportCallUrlUseCase: ExportCallUrlUseCase,
     private val exportCallRequestAsCurlUseCase: ExportCallRequestAsCurlUseCase,
     private val exportCallRequestAsWgetUseCase: ExportCallRequestAsWgetUseCase,
-    private val exportCallAsTextUseCase: ExportCallAsTextUseCase
+    private val exportCallAsTextUseCase: ExportCallAsTextUseCase,
+    private val clipboardManager: ClipboardManager,
 ) : ViewModel() {
 
     private val call = getCallUseCase(id)
@@ -130,16 +132,14 @@ internal class DetailViewModel(
         viewModelScope.launch {
             val call = this@DetailViewModel.call.firstOrNull() ?: return@launch
 
-            val share = when (type) {
+            val copy = when (type) {
                 DetailUiState.CopyType.Url -> exportCallUrlUseCase(call)
                 DetailUiState.CopyType.Curl -> exportCallRequestAsCurlUseCase(call)
                 DetailUiState.CopyType.Wget -> exportCallRequestAsWgetUseCase(call)
                 DetailUiState.CopyType.Text -> exportCallAsTextUseCase(call)
             }
 
-            println(share)
-
-            // TODO
+            clipboardManager.setText(copy)
         }
     }
 }
