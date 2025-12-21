@@ -62,7 +62,7 @@ internal fun DetailScreen(
     uiState: DetailUiState,
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
-    onShare: (DetailUiState.ShareType) -> Unit,
+    onCopy: (DetailUiState.CopyType) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState { PAGE_COUNT }
@@ -124,7 +124,7 @@ internal fun DetailScreen(
                                 expanded = menuExpanded,
                                 onDismissRequest = { menuExpanded = false }
                             ) {
-                                DetailUiState.ShareType.entries.forEach {
+                                DetailUiState.CopyType.entries.forEach {
                                     DropdownMenuItem(
                                         enabled = uiState.call != null,
                                         text = {
@@ -133,19 +133,19 @@ internal fun DetailScreen(
                                             ) {
                                                 val type = stringResource(
                                                     when (it) {
-                                                        DetailUiState.ShareType.Url -> Res.string.ktor_copy_url
-                                                        DetailUiState.ShareType.Curl -> Res.string.ktor_copy_as_curl
-                                                        DetailUiState.ShareType.Wget -> Res.string.ktor_copy_as_wget
-                                                        DetailUiState.ShareType.Text -> Res.string.ktor_copy_as_text
+                                                        DetailUiState.CopyType.Url -> Res.string.ktor_copy_url
+                                                        DetailUiState.CopyType.Curl -> Res.string.ktor_copy_as_curl
+                                                        DetailUiState.CopyType.Wget -> Res.string.ktor_copy_as_wget
+                                                        DetailUiState.CopyType.Text -> Res.string.ktor_copy_as_text
                                                     }
                                                 )
                                                 Icon(
                                                     imageVector =
                                                         when (it) {
-                                                            DetailUiState.ShareType.Url -> Icons.Default.Link
-                                                            DetailUiState.ShareType.Curl -> Icons.Default.Laptop
-                                                            DetailUiState.ShareType.Wget -> Icons.Default.Downloading
-                                                            DetailUiState.ShareType.Text -> Icons.AutoMirrored.Filled.Article
+                                                            DetailUiState.CopyType.Url -> Icons.Default.Link
+                                                            DetailUiState.CopyType.Curl -> Icons.Default.Laptop
+                                                            DetailUiState.CopyType.Wget -> Icons.Default.Downloading
+                                                            DetailUiState.CopyType.Text -> Icons.AutoMirrored.Filled.Article
                                                         },
                                                     contentDescription = type,
                                                     tint = MaterialTheme.colorScheme.primary
@@ -154,7 +154,7 @@ internal fun DetailScreen(
                                             }
                                         },
                                         onClick = {
-                                            onShare(it)
+                                            onCopy(it)
                                             menuExpanded = false
                                         }
                                     )

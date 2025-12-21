@@ -1,18 +1,12 @@
-package ro.cosminmihu.ktor.monitor.ui.export
+package ro.cosminmihu.ktor.monitor.domain
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 
-internal object TransactionExporter {
+internal class ExportCallAsTextUseCase {
 
-    internal suspend fun exportUrl(call: Call) = withContext(Dispatchers.Default) {
-        buildString {
-            append(call.url)
-        }
-    }
-
-    internal suspend fun exportAsText(call: Call) = withContext(Dispatchers.Default) {
+    suspend operator fun invoke(call: Call) = withContext(Dispatchers.Default) {
         buildString {
             val requestStartLine = buildString {
                 append(call.method)
@@ -71,50 +65,6 @@ internal object TransactionExporter {
             appendLine()
         }
     }
-
-    internal suspend fun exportRequestAsCurl(call: Call) = withContext(Dispatchers.Default) {
-        buildString {
-            val command = buildList {
-                add("curl")
-                add("-X \"${call.method}\"")
-                call.requestHeaders.forEach { (key, values) ->
-                    val value = values.joinToString(separator = "; ")
-                    add("-H \"${shellEscape("$key: $value")}\"")
-                }
-                call.requestBody?.takeIf { it.isNotEmpty() }?.decodeToString()?.let {
-                    add("--data-binary \"${shellEscape(it)}\"")
-                }
-                add("\"${shellEscape(call.url)}\"")
-            }
-
-            append(command.joinToString(separator = " \\\n  "))
-        }
-    }
-
-    internal suspend fun exportRequestAsWget(call: Call) = withContext(Dispatchers.Default) {
-        buildString {
-            val command = buildList {
-                add("wget")
-                add("--method=\"${call.method}\"")
-                call.requestHeaders.forEach { (key, values) ->
-                    val value = values.joinToString(separator = "; ")
-                    add("--header=\"${shellEscape("$key: $value")}\"")
-                }
-                call.requestBody?.takeIf { it.isNotEmpty() }?.decodeToString()?.let {
-                    add("--body-data=\"${shellEscape(it)}\"")
-                }
-                add("\"${shellEscape(call.url)}\"")
-            }
-
-            append(command.joinToString(separator = " \\\n  "))
-        }
-    }
 }
-
-private fun shellEscape(value: String): String = value
-    .replace("\\", "\\\\")
-    .replace("\"", "\\\"")
-    .replace("\n", "\\n")
-    .replace("$", "\\$")
 
 private fun Boolean?.truncatedLabel() = if (this == true) " (truncated)" else ""

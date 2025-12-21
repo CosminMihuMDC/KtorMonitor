@@ -82,3 +82,9 @@ internal fun String.toColor(): Color {
         throw IllegalArgumentException("Invalid hex color format")
     }
 }
+
+internal fun String.shellEscape(): String = this
+    .replace("\\", "\\\\")
+    .replace("\"", "\\\"")
+    .replace("\n", "\\n")
+    .replace("$", "\\$")

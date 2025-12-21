@@ -9,6 +9,10 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallUrlUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.domain.model.contentType
@@ -27,7 +31,6 @@ import ro.cosminmihu.ktor.monitor.domain.model.totalSizeAsText
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Call
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Request
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Response
-import ro.cosminmihu.ktor.monitor.ui.export.TransactionExporter
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyBytes
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyCode
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyHtml
@@ -40,6 +43,10 @@ private const val NO_DATA = "-"
 internal class DetailViewModel(
     id: String,
     getCallUseCase: GetCallUseCase,
+    private val exportCallUrlUseCase: ExportCallUrlUseCase,
+    private val exportCallRequestAsCurlUseCase: ExportCallRequestAsCurlUseCase,
+    private val exportCallRequestAsWgetUseCase: ExportCallRequestAsWgetUseCase,
+    private val exportCallAsTextUseCase: ExportCallAsTextUseCase
 ) : ViewModel() {
 
     private val call = getCallUseCase(id)
@@ -119,15 +126,15 @@ internal class DetailViewModel(
             DetailUiState()
         )
 
-    fun share(type: DetailUiState.ShareType) {
+    fun copy(type: DetailUiState.CopyType) {
         viewModelScope.launch {
             val call = this@DetailViewModel.call.firstOrNull() ?: return@launch
 
             val share = when (type) {
-                DetailUiState.ShareType.Url -> TransactionExporter.exportUrl(call)
-                DetailUiState.ShareType.Curl -> TransactionExporter.exportRequestAsCurl(call)
-                DetailUiState.ShareType.Text -> TransactionExporter.exportAsText(call)
-                DetailUiState.ShareType.Wget -> TransactionExporter.exportRequestAsWget(call)
+                DetailUiState.CopyType.Url -> exportCallUrlUseCase(call)
+                DetailUiState.CopyType.Curl -> exportCallRequestAsCurlUseCase(call)
+                DetailUiState.CopyType.Wget -> exportCallRequestAsWgetUseCase(call)
+                DetailUiState.CopyType.Text -> exportCallAsTextUseCase(call)
             }
 
             println(share)

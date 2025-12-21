@@ -41,7 +41,7 @@ internal fun DetailRoute(
         modifier = modifier,
         uiState = uiState,
         onBack = onBack,
-        onShare = viewModel::share,
+        onCopy = viewModel::copy,
     )
 }
 

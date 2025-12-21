@@ -10,12 +10,16 @@ import org.koin.dsl.module
 import ro.cosminmihu.ktor.monitor.db.LibraryDao
 import ro.cosminmihu.ktor.monitor.db.createDatabase
 import ro.cosminmihu.ktor.monitor.db.createDatabaseDriver
+import ro.cosminmihu.ktor.monitor.domain.ConfigUseCase
 import ro.cosminmihu.ktor.monitor.domain.DeleteCallsUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallUrlUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.ListenByRecentCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.RetentionUseCase
-import ro.cosminmihu.ktor.monitor.domain.ConfigUseCase
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailViewModel
 import ro.cosminmihu.ktor.monitor.ui.list.ListViewModel
 import ro.cosminmihu.ktor.monitor.ui.main.MainViewModel
@@ -64,4 +68,9 @@ internal val domainModule = module {
     factoryOf(::GetCallsUseCase)
     factoryOf(::GetCallUseCase)
     factoryOf(::DeleteCallsUseCase)
+
+    factoryOf(::ExportCallUrlUseCase)
+    factoryOf(::ExportCallRequestAsCurlUseCase)
+    factoryOf(::ExportCallRequestAsWgetUseCase)
+    factoryOf(::ExportCallAsTextUseCase)
 }
