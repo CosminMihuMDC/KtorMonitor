@@ -1,7 +1,9 @@
 package ro.cosminmihu.ktor.monitor.ui.detail
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -9,6 +11,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
+import androidx.compose.material.icons.automirrored.filled.Article
+import androidx.compose.material.icons.filled.Downloading
+import androidx.compose.material.icons.filled.Laptop
+import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -122,8 +128,10 @@ internal fun DetailScreen(
                                     DropdownMenuItem(
                                         enabled = uiState.call != null,
                                         text = {
-                                            Text(
-                                                text = stringResource(
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(Dimens.Small)
+                                            ) {
+                                                val type = stringResource(
                                                     when (it) {
                                                         DetailUiState.ShareType.Url -> Res.string.ktor_copy_url
                                                         DetailUiState.ShareType.Curl -> Res.string.ktor_copy_as_curl
@@ -131,7 +139,19 @@ internal fun DetailScreen(
                                                         DetailUiState.ShareType.Text -> Res.string.ktor_copy_as_text
                                                     }
                                                 )
-                                            )
+                                                Icon(
+                                                    imageVector =
+                                                        when (it) {
+                                                            DetailUiState.ShareType.Url -> Icons.Default.Link
+                                                            DetailUiState.ShareType.Curl -> Icons.Default.Laptop
+                                                            DetailUiState.ShareType.Wget -> Icons.Default.Downloading
+                                                            DetailUiState.ShareType.Text -> Icons.AutoMirrored.Filled.Article
+                                                        },
+                                                    contentDescription = type,
+                                                    tint = MaterialTheme.colorScheme.primary
+                                                )
+                                                Text(text = type)
+                                            }
                                         },
                                         onClick = {
                                             onShare(it)
