@@ -1,5 +1,6 @@
 package ro.cosminmihu.ktor.monitor.ui.detail
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.text.AnnotatedString
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 
@@ -30,6 +31,7 @@ internal data class DetailUiState(
         val isError: Boolean,
     )
 
+    @Stable
     data class Request(
         val method: String,
         val host: String,
@@ -39,6 +41,7 @@ internal data class DetailUiState(
         val body: Body,
     )
 
+    @Stable
     data class Response(
         val responseCode: String,
         val contentType: ContentType,
@@ -49,6 +52,7 @@ internal data class DetailUiState(
         val body: Body,
     )
 
+    @Stable
     data class Body(
         val bytes: AnnotatedString?,
         val raw: AnnotatedString?,
