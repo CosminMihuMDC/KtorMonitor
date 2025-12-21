@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.domain.model.contentType
@@ -25,6 +27,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.totalSizeAsText
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Call
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Request
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Response
+import ro.cosminmihu.ktor.monitor.ui.export.TransactionExporter
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyBytes
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyCode
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyHtml
@@ -39,7 +42,8 @@ internal class DetailViewModel(
     getCallUseCase: GetCallUseCase,
 ) : ViewModel() {
 
-    val uiState = getCallUseCase(id)
+    private val call = getCallUseCase(id)
+    val uiState = call
         .map { call ->
             call ?: return@map DetailUiState()
 
@@ -114,6 +118,21 @@ internal class DetailViewModel(
             SharingStarted.WhileSubscribed(5.seconds.inWholeMilliseconds),
             DetailUiState()
         )
+
+    fun share(type: DetailUiState.ShareType) {
+        viewModelScope.launch {
+            val call = this@DetailViewModel.call.firstOrNull() ?: return@launch
+
+            val share = when (type) {
+                DetailUiState.ShareType.Curl -> TransactionExporter().exportRequestAsCurl(call)
+                DetailUiState.ShareType.Text -> TransactionExporter().exportAsText(call)
+            }
+
+            println(share)
+
+            // TODO
+        }
+    }
 }
 
 

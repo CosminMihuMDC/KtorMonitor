@@ -1,5 +1,6 @@
 package ro.cosminmihu.ktor.monitor.ui.detail
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -8,6 +9,10 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -19,7 +24,11 @@ import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.launch
@@ -27,6 +36,9 @@ import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_back
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_curl
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_text
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_more
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_request
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary
@@ -43,6 +55,7 @@ internal fun DetailScreen(
     uiState: DetailUiState,
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
+    onShare: (DetailUiState.ShareType) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState { PAGE_COUNT }
@@ -91,13 +104,37 @@ internal fun DetailScreen(
                         }
                     },
                     actions = {
-//                        IconButton(onClick = {}, enabled = false) {
-//                            Icon(
-//                                imageVector = Icons.Filled.MoreVert,
-//                                contentDescription = stringResource(Res.string.ktor_more),
-//                                tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f)
-//                            )
-//                        }
+                        var menuExpanded by remember { mutableStateOf(false) }
+                        Box {
+                            IconButton(onClick = { menuExpanded = true }) {
+                                Icon(
+                                    imageVector = Icons.Filled.Share,
+                                    contentDescription = stringResource(Res.string.ktor_more),
+                                    tint = MaterialTheme.colorScheme.primary,
+                                )
+                            }
+                            DropdownMenu(
+                                expanded = menuExpanded,
+                                onDismissRequest = { menuExpanded = false }
+                            ) {
+                                DropdownMenuItem(
+                                    enabled = uiState.call != null,
+                                    text = { Text(stringResource(Res.string.ktor_copy_as_curl)) },
+                                    onClick = {
+                                        onShare(DetailUiState.ShareType.Curl)
+                                        menuExpanded = false
+                                    }
+                                )
+                                DropdownMenuItem(
+                                    enabled = uiState.call != null,
+                                    text = { Text(stringResource(Res.string.ktor_copy_as_text)) },
+                                    onClick = {
+                                        onShare(DetailUiState.ShareType.Text)
+                                        menuExpanded = false
+                                    }
+                                )
+                            }
+                        }
                     },
                 )
                 HorizontalDivider()

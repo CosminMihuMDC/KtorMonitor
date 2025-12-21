@@ -57,6 +57,11 @@ internal data class DetailUiState(
         val html: AnnotatedString?,
         val isTrimmed: Boolean,
     )
+
+    enum class ShareType {
+        Curl,
+        Text,
+    }
 }
 
 internal val DetailUiState.Response.isLoading
@@ -66,4 +71,4 @@ internal val DetailUiState.Response.isError
     get() = responseCode.isBlank() && error.isNotBlank()
 
 internal val DetailUiState.Body?.noBody
-    get() = this == null || bytes == null || bytes.isEmpty() == true
+    get() = this == null || bytes == null || bytes.isEmpty()

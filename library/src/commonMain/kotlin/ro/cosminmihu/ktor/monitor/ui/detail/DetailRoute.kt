@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
@@ -40,6 +41,7 @@ internal fun DetailRoute(
         modifier = modifier,
         uiState = uiState,
         onBack = onBack,
+        onShare = viewModel::share,
     )
 }
 
@@ -49,7 +51,7 @@ private fun EmptyState(modifier: Modifier = Modifier) {
         val string = stringResource(Res.string.ktor_no_selection)
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.semantics(true) { string },
+            modifier = Modifier.semantics(true) { contentDescription = string },
         ) {
             Icon(
                 imageVector = Icons.Default.TouchApp,
