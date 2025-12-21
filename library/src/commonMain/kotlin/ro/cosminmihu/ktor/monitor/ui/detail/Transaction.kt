@@ -70,7 +70,7 @@ internal fun Transaction(
                 return@LazyColumn
             }
 
-            if (body == null || body.noBody == true) {
+            if (body == null || body.noBody) {
                 item { NoBody() }
             } else {
                 Body(
