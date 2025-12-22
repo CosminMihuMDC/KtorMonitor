@@ -3,10 +3,10 @@ package ro.cosminmihu.ktor.monitor.core
 import android.content.ClipData
 import android.content.Context
 import androidx.core.content.getSystemService
-import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import ro.cosminmihu.ktor.monitor.di.LibraryKoinComponent
 
-internal actual class ClipboardManager : KoinComponent {
+internal actual class ClipboardManager : LibraryKoinComponent {
 
     private val context: Context by inject()
 
