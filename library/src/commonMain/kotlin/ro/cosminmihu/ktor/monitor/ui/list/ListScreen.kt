@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -36,10 +37,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
-import io.ktor.http.Url
+import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import ro.cosminmihu.ktor.monitor.core.URL
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
@@ -49,6 +49,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_clean
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_launcher
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
+import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,10 +122,12 @@ internal fun ListScreen(
                 )
 
                 AnimatedVisibility(visible = showSearchBar) {
-                    SearchField(
-                        onSearch = setSearchQuery,
-                        onClear = clearSearchQuery
-                    )
+                    Surface {
+                        SearchField(
+                            onSearch = setSearchQuery,
+                            onClear = clearSearchQuery
+                        )
+                    }
                 }
 
                 HorizontalDivider()
@@ -160,10 +163,10 @@ internal fun ListScreen(
                     LazyColumn(
                         modifier = Modifier.weight(1f).fillMaxWidth()
                     ) {
-                        itemsIndexed(
+                        items(
                             items = uiState.calls,
-                            key = { _, item -> item.id }
-                        ) { index, item ->
+                            key = { item -> item.id }
+                        ) { item ->
                             CallItem(
                                 call = item,
                                 modifier = Modifier
@@ -191,12 +194,15 @@ internal fun ListScreen(
 @Preview
 @Composable
 private fun ListScreenPreview() {
-    ListScreen(
-        modifier = Modifier,
-        uiState = ListUiState(),
-        setSearchQuery = {},
-        clearSearchQuery = {},
-        deleteCalls = {},
-        onCallClick = {})
+    LibraryTheme {
+        ListScreen(
+            modifier = Modifier,
+            uiState = ListUiState(),
+            setSearchQuery = {},
+            clearSearchQuery = {},
+            deleteCalls = {},
+            onCallClick = {}
+        )
+    }
 }
 
