@@ -3,8 +3,9 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.7.6] - 
+## [1.8.0] - 
 * Add theme injection for KtorMonitorWindow [desktop].
+* Export to clipboard
 
 ## [1.7.5] - 2025-10-09
 * Add support for additional XML and JSON content types in CodeFormatter
