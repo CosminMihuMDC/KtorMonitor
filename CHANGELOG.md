@@ -3,8 +3,12 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.8.1] - TBA
+* Share as file
+
 ## [1.8.0] - 2025-12-22
 * Add theme injection for KtorMonitorWindow [desktop].
+* Change default theme to monochrome 
 * Export to clipboard
 
 ## [1.7.5] - 2025-10-09

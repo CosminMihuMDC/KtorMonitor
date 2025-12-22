@@ -29,6 +29,16 @@
             android:authorities="${applicationId}.ktorMonitorInitializer"
             android:exported="false" />
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.ktorMonitor.share"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/ktor_monitor_file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

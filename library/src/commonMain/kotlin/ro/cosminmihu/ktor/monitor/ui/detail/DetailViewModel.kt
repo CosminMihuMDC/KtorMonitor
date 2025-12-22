@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.core.ClipboardManager
+import ro.cosminmihu.ktor.monitor.core.ShareManager
 import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
@@ -40,6 +41,7 @@ import ro.cosminmihu.ktor.monitor.ui.formater.bodyString
 import kotlin.time.Duration.Companion.seconds
 
 private const val NO_DATA = "-"
+private const val SHARE_FILE_NAME = "ktormonitor.http"
 
 internal class DetailViewModel(
     id: String,
@@ -49,6 +51,7 @@ internal class DetailViewModel(
     private val exportCallRequestAsWgetUseCase: ExportCallRequestAsWgetUseCase,
     private val exportCallAsTextUseCase: ExportCallAsTextUseCase,
     private val clipboardManager: ClipboardManager,
+    private val shareManager: ShareManager,
 ) : ViewModel() {
 
     private val call = getCallUseCase(id)
@@ -128,18 +131,30 @@ internal class DetailViewModel(
             DetailUiState()
         )
 
-    fun copy(type: DetailUiState.CopyType) {
+    fun copy(type: DetailUiState.ClipboardCopyType) {
         viewModelScope.launch {
             val call = this@DetailViewModel.call.firstOrNull() ?: return@launch
 
             val copy = when (type) {
-                DetailUiState.CopyType.Url -> exportCallUrlUseCase(call)
-                DetailUiState.CopyType.Curl -> exportCallRequestAsCurlUseCase(call)
-                DetailUiState.CopyType.Wget -> exportCallRequestAsWgetUseCase(call)
-                DetailUiState.CopyType.Text -> exportCallAsTextUseCase(call)
+                DetailUiState.ClipboardCopyType.Url -> exportCallUrlUseCase(call)
+                DetailUiState.ClipboardCopyType.Curl -> exportCallRequestAsCurlUseCase(call)
+                DetailUiState.ClipboardCopyType.Wget -> exportCallRequestAsWgetUseCase(call)
+                DetailUiState.ClipboardCopyType.Text -> exportCallAsTextUseCase(call)
             }
 
             clipboardManager.setText(copy)
+        }
+    }
+
+    fun share(type: DetailUiState.FileShareType) {
+        viewModelScope.launch {
+            val call = this@DetailViewModel.call.firstOrNull() ?: return@launch
+
+            val share = when (type) {
+                DetailUiState.FileShareType.Text -> exportCallAsTextUseCase(call)
+            }
+
+            shareManager.shareAsFile(share, SHARE_FILE_NAME)
         }
     }
 }

@@ -17,6 +17,7 @@
     <string name="ktor_copy_as_curl">Copy as cURL</string>
     <string name="ktor_copy_as_wget">Copy as wget</string>
     <string name="ktor_copy_as_text">Copy as text</string>
+    <string name="ktor_share_as_text">Share as file</string>
 
     <string name="ktor_list_empty">No items.</string>
     <string name="ktor_no_selection">Noting selected.</string>

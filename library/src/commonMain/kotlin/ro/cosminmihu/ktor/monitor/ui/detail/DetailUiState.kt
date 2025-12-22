@@ -62,10 +62,14 @@ internal data class DetailUiState(
         val isTrimmed: Boolean,
     )
 
-    enum class CopyType {
+    enum class ClipboardCopyType {
         Url,
         Curl,
         Wget,
+        Text,
+    }
+
+    enum class FileShareType {
         Text,
     }
 }

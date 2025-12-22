@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.automirrored.filled.Article
 import androidx.compose.material.icons.filled.Downloading
+import androidx.compose.material.icons.filled.FileDownload
 import androidx.compose.material.icons.filled.Laptop
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Share
@@ -48,6 +49,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_url
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_more
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_request
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_as_text
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary
 
 private const val PAGE_COUNT = 3
@@ -62,7 +64,8 @@ internal fun DetailScreen(
     uiState: DetailUiState,
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
-    onCopy: (DetailUiState.CopyType) -> Unit,
+    onCopy: (DetailUiState.ClipboardCopyType) -> Unit,
+    onShare: (DetailUiState.FileShareType) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState { PAGE_COUNT }
@@ -111,56 +114,11 @@ internal fun DetailScreen(
                         }
                     },
                     actions = {
-                        var menuExpanded by remember { mutableStateOf(false) }
-                        Box {
-                            IconButton(onClick = { menuExpanded = true }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Share,
-                                    contentDescription = stringResource(Res.string.ktor_more),
-                                    tint = MaterialTheme.colorScheme.primary,
-                                )
-                            }
-                            DropdownMenu(
-                                expanded = menuExpanded,
-                                onDismissRequest = { menuExpanded = false }
-                            ) {
-                                DetailUiState.CopyType.entries.forEach {
-                                    DropdownMenuItem(
-                                        enabled = uiState.call != null,
-                                        text = {
-                                            Row(
-                                                horizontalArrangement = Arrangement.spacedBy(Dimens.Small)
-                                            ) {
-                                                val type = stringResource(
-                                                    when (it) {
-                                                        DetailUiState.CopyType.Url -> Res.string.ktor_copy_url
-                                                        DetailUiState.CopyType.Curl -> Res.string.ktor_copy_as_curl
-                                                        DetailUiState.CopyType.Wget -> Res.string.ktor_copy_as_wget
-                                                        DetailUiState.CopyType.Text -> Res.string.ktor_copy_as_text
-                                                    }
-                                                )
-                                                Icon(
-                                                    imageVector =
-                                                        when (it) {
-                                                            DetailUiState.CopyType.Url -> Icons.Default.Link
-                                                            DetailUiState.CopyType.Curl -> Icons.Default.Laptop
-                                                            DetailUiState.CopyType.Wget -> Icons.Default.Downloading
-                                                            DetailUiState.CopyType.Text -> Icons.AutoMirrored.Filled.Article
-                                                        },
-                                                    contentDescription = type,
-                                                    tint = MaterialTheme.colorScheme.primary
-                                                )
-                                                Text(text = type)
-                                            }
-                                        },
-                                        onClick = {
-                                            onCopy(it)
-                                            menuExpanded = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
+                        ExportCall(
+                            call = uiState.call,
+                            onCopy = onCopy,
+                            onShare = onShare
+                        )
                     },
                 )
                 HorizontalDivider()
@@ -195,6 +153,94 @@ internal fun DetailScreen(
                         modifier = Modifier.fillMaxSize()
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ExportCall(
+    call: DetailUiState.Call?,
+    onCopy: (DetailUiState.ClipboardCopyType) -> Unit,
+    onShare: (DetailUiState.FileShareType) -> Unit
+) {
+    var menuExpanded by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { menuExpanded = true }) {
+            Icon(
+                imageVector = Icons.Filled.Share,
+                contentDescription = stringResource(Res.string.ktor_more),
+                tint = MaterialTheme.colorScheme.primary,
+            )
+        }
+        DropdownMenu(
+            expanded = menuExpanded,
+            onDismissRequest = { menuExpanded = false }
+        ) {
+            DetailUiState.ClipboardCopyType.entries.forEach {
+                DropdownMenuItem(
+                    enabled = call != null,
+                    text = {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(Dimens.Small)
+                        ) {
+                            val type = stringResource(
+                                when (it) {
+                                    DetailUiState.ClipboardCopyType.Url -> Res.string.ktor_copy_url
+                                    DetailUiState.ClipboardCopyType.Curl -> Res.string.ktor_copy_as_curl
+                                    DetailUiState.ClipboardCopyType.Wget -> Res.string.ktor_copy_as_wget
+                                    DetailUiState.ClipboardCopyType.Text -> Res.string.ktor_copy_as_text
+                                }
+                            )
+                            Icon(
+                                imageVector =
+                                    when (it) {
+                                        DetailUiState.ClipboardCopyType.Url -> Icons.Default.Link
+                                        DetailUiState.ClipboardCopyType.Curl -> Icons.Default.Laptop
+                                        DetailUiState.ClipboardCopyType.Wget -> Icons.Default.Downloading
+                                        DetailUiState.ClipboardCopyType.Text -> Icons.AutoMirrored.Filled.Article
+                                    },
+                                contentDescription = type,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Text(text = type)
+                        }
+                    },
+                    onClick = {
+                        onCopy(it)
+                        menuExpanded = false
+                    }
+                )
+            }
+
+            DetailUiState.FileShareType.entries.forEach {
+                DropdownMenuItem(
+                    enabled = call != null,
+                    text = {
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(Dimens.Small)
+                        ) {
+                            val type = stringResource(
+                                when (it) {
+                                    DetailUiState.FileShareType.Text -> Res.string.ktor_share_as_text
+                                }
+                            )
+                            Icon(
+                                imageVector =
+                                    when (it) {
+                                        DetailUiState.FileShareType.Text -> Icons.Default.FileDownload
+                                    },
+                                contentDescription = type,
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                            Text(text = type)
+                        }
+                    },
+                    onClick = {
+                        onShare(it)
+                        menuExpanded = false
+                    }
+                )
             }
         }
     }
