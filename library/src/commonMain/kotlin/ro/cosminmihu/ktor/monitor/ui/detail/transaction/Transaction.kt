@@ -31,7 +31,6 @@ internal fun Transaction(
     var displayMode by remember(body) {
         mutableStateOf(
             when {
-                body?.html != null -> DisplayMode.HTML
                 body?.image != null -> DisplayMode.IMAGE
                 body?.code != null -> DisplayMode.CODE
                 body?.raw != null -> DisplayMode.RAW

@@ -37,6 +37,7 @@ import ro.cosminmihu.ktor.monitor.ui.formater.bodyBytes
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyCode
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyHtml
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyImage
+import ro.cosminmihu.ktor.monitor.ui.formater.bodyJson
 import ro.cosminmihu.ktor.monitor.ui.formater.bodyString
 import kotlin.time.Duration.Companion.seconds
 
@@ -122,7 +123,7 @@ internal class DetailViewModel(
                                 bodyHtml(call.responseContentType, call.responseBody)
                             },
                             json = checkBodyTruncated(call.isResponseBodyTruncated) {
-                                bodyString(call.responseBody).text
+                                bodyJson(call.responseBody)
                             },
                             isTrimmed = call.isResponseBodyTruncated == true
                         ),

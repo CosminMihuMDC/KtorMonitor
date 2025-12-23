@@ -22,12 +22,6 @@ internal fun bodyCode(
         ContentType.IMAGE_SVG,
             -> formatXml(body)
 
-        ContentType.APPLICATION_JSON,
-        ContentType.APPLICATION_HAL_JSON,
-        ContentType.APPLICATION_PROBLEM_JSON,
-        ContentType.APPLICATION_VND_API_JSON,
-            -> formatJson(body)
-
         ContentType.TEXT_CSS,
             -> formatCSS(body)
 

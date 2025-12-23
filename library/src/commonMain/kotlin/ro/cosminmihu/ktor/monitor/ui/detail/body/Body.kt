@@ -56,7 +56,7 @@ internal fun Body(
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 )
 
-            body.html != null && displayMode == DisplayMode.HTML ->
+            body.html != null && displayMode == DisplayMode.CODE ->
                 TextBody(text = body.html)
 
             body.json != null && displayMode == DisplayMode.CODE ->
@@ -82,33 +82,41 @@ private fun DisplayModeSelector(
     modifier: Modifier = Modifier,
 ) {
     val segmentedButtons = buildList {
-        if (body.html != null) {
-            add(
-                BodyShowTypeSegment(
-                    text = stringResource(Res.string.ktor_response_view_html),
-                    selected = displayMode == DisplayMode.HTML,
-                    onClick = { onDisplayMode(DisplayMode.HTML) },
+        when {
+            body.image != null ->
+                add(
+                    BodyShowTypeSegment(
+                        text = stringResource(Res.string.ktor_response_view_image),
+                        selected = displayMode == DisplayMode.IMAGE,
+                        onClick = { onDisplayMode(DisplayMode.IMAGE) },
+                    )
                 )
-            )
-        }
-        if (body.image != null) {
-            add(
-                BodyShowTypeSegment(
-                    text = stringResource(Res.string.ktor_response_view_image),
-                    selected = displayMode == DisplayMode.IMAGE,
-                    onClick = { onDisplayMode(DisplayMode.IMAGE) },
+            body.html != null ->
+                add(
+                    BodyShowTypeSegment(
+                        text = stringResource(Res.string.ktor_response_view_html),
+                        selected = displayMode == DisplayMode.CODE,
+                        onClick = { onDisplayMode(DisplayMode.CODE) },
+                    )
                 )
-            )
-        }
-        if (body.code != null) {
-            add(
-                BodyShowTypeSegment(
-                    text = stringResource(Res.string.ktor_response_view_code),
-                    selected = displayMode == DisplayMode.CODE,
-                    onClick = { onDisplayMode(DisplayMode.CODE) },
+            body.json != null ->
+                add(
+                    BodyShowTypeSegment(
+                        text = stringResource(Res.string.ktor_response_view_code),
+                        selected = displayMode == DisplayMode.CODE,
+                        onClick = { onDisplayMode(DisplayMode.CODE) },
+                    )
                 )
-            )
+            body.code != null ->
+                add(
+                    BodyShowTypeSegment(
+                        text = stringResource(Res.string.ktor_response_view_code),
+                        selected = displayMode == DisplayMode.CODE,
+                        onClick = { onDisplayMode(DisplayMode.CODE) },
+                    )
+                )
         }
+
         if (body.raw != null) {
             add(
                 BodyShowTypeSegment(
@@ -118,6 +126,7 @@ private fun DisplayModeSelector(
                 )
             )
         }
+
         if (!body.bytes.isNullOrEmpty()) {
             add(
                 BodyShowTypeSegment(
@@ -178,5 +187,5 @@ private data class BodyShowTypeSegment(
 )
 
 internal enum class DisplayMode {
-    HTML, IMAGE, CODE, RAW, BYTES
+    IMAGE, CODE, RAW, BYTES
 }
