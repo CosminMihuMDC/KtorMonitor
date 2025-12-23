@@ -169,7 +169,9 @@ private fun DisplayModeSelector(
                     selected = item.selected,
                     onClick = item.onClick,
                     shape = SegmentedButtonDefaults.itemShape(
-                        index = index, count = segmentedButtons.size
+                        index = index,
+                        count = segmentedButtons.size,
+                        baseShape = MaterialTheme.shapes.small,
                     ),
                     modifier = modifier,
                 ) {
