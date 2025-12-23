@@ -4,7 +4,6 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
@@ -27,51 +26,46 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_html
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_image
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_raw
 
-internal fun LazyListScope.Body(
+@Composable
+internal fun Body(
     body: DetailUiState.Body,
     displayMode: DisplayMode,
     onDisplayMode: (DisplayMode) -> Unit,
 ) {
-    item {
-        DisplayModeSelector(
-            body = body,
-            displayMode = displayMode,
-            onDisplayMode = onDisplayMode,
-        )
-    }
+
+    DisplayModeSelector(
+        body = body,
+        displayMode = displayMode,
+        onDisplayMode = onDisplayMode,
+    )
 
     when {
-        body.image != null && displayMode == DisplayMode.IMAGE -> item {
+        body.image != null && displayMode == DisplayMode.IMAGE ->
             AsyncImage(
                 model = body.image,
                 contentDescription = null,
                 modifier = Modifier.horizontalScroll(rememberScrollState())
             )
-        }
 
-        body.html != null && displayMode == DisplayMode.HTML -> item {
+        body.html != null && displayMode == DisplayMode.HTML ->
             SelectionContainer {
                 Text(text = body.html, style = MaterialTheme.typography.bodyMedium)
             }
-        }
 
-        body.code != null && displayMode == DisplayMode.CODE -> item {
+        body.code != null && displayMode == DisplayMode.CODE ->
             SelectionContainer {
                 Text(text = body.code, style = MaterialTheme.typography.bodyMedium)
             }
-        }
 
-        body.raw != null && displayMode == DisplayMode.RAW -> item {
+        body.raw != null && displayMode == DisplayMode.RAW ->
             SelectionContainer {
                 Text(text = body.raw, style = MaterialTheme.typography.bodyMedium)
             }
-        }
 
-        !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES -> item {
+        !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES ->
             SelectionContainer {
                 Text(text = body.bytes, style = MaterialTheme.typography.bodyMedium)
             }
-        }
     }
 }
 

@@ -2,11 +2,10 @@ package ro.cosminmihu.ktor.monitor.ui.detail
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
@@ -19,9 +18,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.tooling.preview.Preview
 import io.ktor.utils.io.core.toByteArray
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
@@ -37,8 +36,23 @@ internal fun Transaction(
     error: String,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier = modifier) {
+    var displayMode by remember(body) {
+        mutableStateOf(
+            when {
+                body?.html != null -> DisplayMode.HTML
+                body?.image != null -> DisplayMode.IMAGE
+                body?.code != null -> DisplayMode.CODE
+                body?.raw != null -> DisplayMode.RAW
+                else -> DisplayMode.BYTES
+            }
+        )
+    }
 
+    Column(
+        modifier = modifier
+            .verticalScroll(rememberScrollState())
+            .padding(Dimens.Small)
+    ) {
         if (isLoading) {
             Loading.Medium(
                 modifier = Modifier.padding(
@@ -49,38 +63,21 @@ internal fun Transaction(
             return
         }
 
-        var displayMode by remember(body) {
-            mutableStateOf(
-                when {
-                    body?.html != null -> DisplayMode.HTML
-                    body?.image != null -> DisplayMode.IMAGE
-                    body?.code != null -> DisplayMode.CODE
-                    body?.raw != null -> DisplayMode.RAW
-                    else -> DisplayMode.BYTES
-                }
-            )
+        Headers(headers)
+
+        if (error.isNotBlank()) {
+            Error(error)
+            return
         }
 
-        SelectionContainer {
-            LazyColumn(contentPadding = PaddingValues(Dimens.Medium)) {
-                item { Headers(headers) }
-
-                if (error.isNotBlank()) {
-                    item {
-                        Error(error)
-                    }
-                    return@LazyColumn
-                }
-
-                if (body == null || body.noBody) {
-                    item { NoBody() }
-                } else {
-                    Body(
-                        body = body,
-                        displayMode = displayMode,
-                        onDisplayMode = { displayMode = it })
-                }
-            }
+        if (body == null || body.noBody) {
+            NoBody()
+        } else {
+            Body(
+                body = body,
+                displayMode = displayMode,
+                onDisplayMode = { displayMode = it }
+            )
         }
     }
 }
