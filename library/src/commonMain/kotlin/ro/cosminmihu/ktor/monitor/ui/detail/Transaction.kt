@@ -2,6 +2,7 @@ package ro.cosminmihu.ktor.monitor.ui.detail
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
@@ -61,7 +62,7 @@ internal fun Transaction(
         }
 
         SelectionContainer {
-            LazyColumn {
+            LazyColumn(contentPadding = PaddingValues(Dimens.Medium)) {
                 item { Headers(headers) }
 
                 if (error.isNotBlank()) {

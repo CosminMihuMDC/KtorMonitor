@@ -14,12 +14,7 @@ import ro.cosminmihu.ktor.monitor.ui.Dimens
 
 @Composable
 internal fun Headers(headers: Map<String, List<String>>) {
-    Column(
-        modifier = Modifier.padding(
-            vertical = Dimens.Small,
-            horizontal = Dimens.Medium
-        ),
-    ) {
+    Column {
         headers.forEach {
             Text(
                 text = buildAnnotatedString {

@@ -51,25 +51,25 @@ internal fun LazyListScope.Body(
 
         body.html != null && displayMode == DisplayMode.HTML -> item {
             SelectionContainer {
-                Text(text = body.html)
+                Text(text = body.html, style = MaterialTheme.typography.bodyMedium)
             }
         }
 
         body.code != null && displayMode == DisplayMode.CODE -> item {
             SelectionContainer {
-                Text(text = body.code)
+                Text(text = body.code, style = MaterialTheme.typography.bodyMedium)
             }
         }
 
         body.raw != null && displayMode == DisplayMode.RAW -> item {
             SelectionContainer {
-                Text(text = body.raw)
+                Text(text = body.raw, style = MaterialTheme.typography.bodyMedium)
             }
         }
 
-        body.bytes != null && body.bytes.isNotEmpty() && displayMode == DisplayMode.BYTES -> item {
+        !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES -> item {
             SelectionContainer {
-                Text(text = body.bytes)
+                Text(text = body.bytes, style = MaterialTheme.typography.bodyMedium)
             }
         }
     }
@@ -151,7 +151,7 @@ private fun DisplayModeSelector(
                 .align(Alignment.CenterEnd),
         ) {
             segmentedButtons.forEachIndexed { index, item ->
-                val modifier = when(index) {
+                val modifier = when (index) {
                     0 -> Modifier.padding(start = Dimens.Small)
                     segmentedButtons.lastIndex -> Modifier.padding(end = Dimens.Small)
                     else -> Modifier
