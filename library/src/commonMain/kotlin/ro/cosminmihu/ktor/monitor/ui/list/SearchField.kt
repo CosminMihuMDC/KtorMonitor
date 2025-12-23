@@ -23,7 +23,6 @@ import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_back
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_close
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
@@ -32,6 +31,7 @@ import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 internal fun SearchField(
     onSearch: (String) -> Unit,
     onClear: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var searchQuery by rememberSaveable { mutableStateOf("") }
 
@@ -43,7 +43,7 @@ internal fun SearchField(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         OutlinedTextField(
-            modifier = Modifier.weight(1f),
+            modifier = modifier.weight(1f),
             value = searchQuery,
             onValueChange = {
                 searchQuery = it

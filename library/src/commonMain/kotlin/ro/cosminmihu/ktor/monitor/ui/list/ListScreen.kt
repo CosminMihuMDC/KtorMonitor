@@ -29,12 +29,16 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -61,8 +65,17 @@ internal fun ListScreen(
     onCallClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var showSearchBar by rememberSaveable { mutableStateOf(false) }
     val uriHandler = LocalUriHandler.current
+    var showSearchBar by rememberSaveable { mutableStateOf(false) }
+    val searchFocusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(showSearchBar) {
+        if (showSearchBar) {
+            searchFocusRequester.requestFocus()
+        } else {
+            searchFocusRequester.freeFocus()
+        }
+    }
 
     Scaffold(
         modifier = modifier,
@@ -124,6 +137,7 @@ internal fun ListScreen(
                 AnimatedVisibility(visible = showSearchBar) {
                     Surface {
                         SearchField(
+                            modifier = Modifier.focusRequester(searchFocusRequester),
                             onSearch = setSearchQuery,
                             onClear = clearSearchQuery
                         )
@@ -205,4 +219,3 @@ private fun ListScreenPreview() {
         )
     }
 }
-
