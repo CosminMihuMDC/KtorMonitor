@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 
 @Composable
@@ -34,7 +35,8 @@ internal fun TransactionSection(
             Text(
                 text = title,
                 style = MaterialTheme.typography.labelMedium,
-                modifier = Modifier.padding(end = Dimens.Medium)
+                modifier = Modifier.padding(end = Dimens.Medium),
+                fontStyle = FontStyle.Italic,
             )
 
             HorizontalDivider(modifier = Modifier.weight(1f))
