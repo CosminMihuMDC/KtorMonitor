@@ -118,7 +118,7 @@ private fun DisplayModeSelector(
                 )
             )
         }
-        if (body.bytes != null && body.bytes.isNotEmpty()) {
+        if (!body.bytes.isNullOrEmpty()) {
             add(
                 BodyShowTypeSegment(
                     text = stringResource(Res.string.ktor_response_view_binary),
