@@ -19,6 +19,17 @@ import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_error
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_duration
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_method
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_protocol
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_request_size
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_request_time
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_response_code
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_response_size
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_response_time
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_status
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_total_size
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_url
 
 @Composable
 internal fun SummaryScreen(summary: DetailUiState.Summary, modifier: Modifier = Modifier) {
@@ -28,22 +39,48 @@ internal fun SummaryScreen(summary: DetailUiState.Summary, modifier: Modifier = 
             horizontal = Dimens.Medium
         )
     ) {
-        KeyValue(key = "URL", value = summary.url)
-        KeyValue(key = "Method", value = summary.method)
-        KeyValue(key = "Protocol", value = summary.protocol)
+        KeyValue(key = stringResource(Res.string.ktor_summary_url), value = summary.url)
+        KeyValue(key = stringResource(Res.string.ktor_summary_method), value = summary.method)
+        KeyValue(key = stringResource(Res.string.ktor_summary_protocol), value = summary.protocol)
         when {
-            summary.isLoading -> KeyLoading(key = "Status")
-            summary.isError -> KeyError(key = "Status")
-            else -> KeyValue(key = "Response Code", value = summary.responseCode)
+            summary.isLoading ->
+                KeyLoading(key = stringResource(Res.string.ktor_summary_status))
+
+            summary.isError ->
+                KeyError(key = stringResource(Res.string.ktor_summary_status))
+
+            else ->
+                KeyValue(
+                    key = stringResource(Res.string.ktor_summary_response_code),
+                    value = summary.responseCode
+                )
         }
         Spacer(modifier = Modifier.padding(Dimens.Small))
-        KeyValue(key = "Request time", value = summary.requestTime)
-        KeyValue(key = "Response time", value = summary.responseTime)
-        KeyValue(key = "Duration", value = summary.duration)
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_request_time),
+            value = summary.requestTime
+        )
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_response_time),
+            value = summary.responseTime
+        )
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_duration),
+            value = summary.duration
+        )
         Spacer(modifier = Modifier.padding(Dimens.Small))
-        KeyValue(key = "Request size", value = summary.requestSize)
-        KeyValue(key = "Response size", value = summary.responseSize)
-        KeyValue(key = "Total Size", value = summary.totalSize)
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_request_size),
+            value = summary.requestSize
+        )
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_response_size),
+            value = summary.responseSize
+        )
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_total_size),
+            value = summary.totalSize
+        )
     }
 }
 

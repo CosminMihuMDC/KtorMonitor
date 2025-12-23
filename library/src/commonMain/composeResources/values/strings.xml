@@ -30,6 +30,18 @@
     <string name="ktor_redirect">Redirect</string>
     <string name="ktor_in_progress">In Progress...</string>
 
+    <string name="ktor_summary_url">URL</string>
+    <string name="ktor_summary_method">Method</string>
+    <string name="ktor_summary_protocol">Protocol</string>
+    <string name="ktor_summary_status">Status</string>
+    <string name="ktor_summary_response_code">Response Code</string>
+    <string name="ktor_summary_request_time">Request time</string>
+    <string name="ktor_summary_response_time">Response time</string>
+    <string name="ktor_summary_duration">Duration</string>
+    <string name="ktor_summary_request_size">Request size</string>
+    <string name="ktor_summary_response_size">Response size</string>
+    <string name="ktor_summary_total_size">Total Size</string>
+
     <string name="ktor_response_view_html">html</string>
     <string name="ktor_response_view_image">image</string>
     <string name="ktor_response_view_code">pretty</string>
