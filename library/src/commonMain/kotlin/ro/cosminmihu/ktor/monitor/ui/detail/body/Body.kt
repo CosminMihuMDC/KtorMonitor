@@ -1,11 +1,11 @@
-package ro.cosminmihu.ktor.monitor.ui.detail
+package ro.cosminmihu.ktor.monitor.ui.detail.body
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
@@ -16,8 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
 import coil3.compose.AsyncImage
+import com.sebastianneubauer.jsontree.JsonTree
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
+import ro.cosminmihu.ktor.monitor.ui.detail.noBody
+import ro.cosminmihu.ktor.monitor.ui.detail.transaction.TransactionSection
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_body_trimmed
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_binary
@@ -28,44 +32,45 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_raw
 
 @Composable
 internal fun Body(
-    body: DetailUiState.Body,
+    body: DetailUiState.Body?,
     displayMode: DisplayMode,
     onDisplayMode: (DisplayMode) -> Unit,
 ) {
+    TransactionSection(title = "Body") {
+        if (body == null || body.noBody) {
+            NoBody()
+            return@TransactionSection
+        }
 
-    DisplayModeSelector(
-        body = body,
-        displayMode = displayMode,
-        onDisplayMode = onDisplayMode,
-    )
+        DisplayModeSelector(
+            body = body,
+            displayMode = displayMode,
+            onDisplayMode = onDisplayMode,
+        )
 
-    when {
-        body.image != null && displayMode == DisplayMode.IMAGE ->
-            AsyncImage(
-                model = body.image,
-                contentDescription = null,
-                modifier = Modifier.horizontalScroll(rememberScrollState())
-            )
+        when {
+            body.image != null && displayMode == DisplayMode.IMAGE ->
+                AsyncImage(
+                    model = body.image,
+                    contentDescription = null,
+                    modifier = Modifier.horizontalScroll(rememberScrollState())
+                )
 
-        body.html != null && displayMode == DisplayMode.HTML ->
-            SelectionContainer {
-                Text(text = body.html, style = MaterialTheme.typography.bodyMedium)
-            }
+            body.html != null && displayMode == DisplayMode.HTML ->
+                TextBody(text = body.html)
 
-        body.code != null && displayMode == DisplayMode.CODE ->
-            SelectionContainer {
-                Text(text = body.code, style = MaterialTheme.typography.bodyMedium)
-            }
+            body.json != null && displayMode == DisplayMode.CODE ->
+                JsonTree(json = body.json, onLoading = {}, modifier = Modifier.fillMaxHeight())
 
-        body.raw != null && displayMode == DisplayMode.RAW ->
-            SelectionContainer {
-                Text(text = body.raw, style = MaterialTheme.typography.bodyMedium)
-            }
+            body.code != null && displayMode == DisplayMode.CODE ->
+                TextBody(text = body.code)
 
-        !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES ->
-            SelectionContainer {
-                Text(text = body.bytes, style = MaterialTheme.typography.bodyMedium)
-            }
+            body.raw != null && displayMode == DisplayMode.RAW ->
+                TextBody(text = body.raw)
+
+            !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES ->
+                TextBody(text = body.bytes)
+        }
     }
 }
 

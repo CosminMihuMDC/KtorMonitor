@@ -1,16 +1,7 @@
-package ro.cosminmihu.ktor.monitor.ui.detail
+package ro.cosminmihu.ktor.monitor.ui.detail.transaction
 
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,11 +11,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import io.ktor.utils.io.core.toByteArray
-import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
-import ro.cosminmihu.ktor.monitor.ui.resources.Res
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_error
+import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
+import ro.cosminmihu.ktor.monitor.ui.detail.body.Body
+import ro.cosminmihu.ktor.monitor.ui.detail.body.DisplayMode
+import ro.cosminmihu.ktor.monitor.ui.detail.headers.Headers
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @Composable
@@ -49,59 +41,25 @@ internal fun Transaction(
     }
 
     Column(
-        modifier = modifier
-            .verticalScroll(rememberScrollState())
-            .padding(Dimens.Small)
+        modifier = modifier.padding(Dimens.Small)
     ) {
         if (isLoading) {
-            Loading.Medium(
-                modifier = Modifier.padding(
-                    horizontal = Dimens.Medium,
-                    vertical = Dimens.Small,
-                )
-            )
+            Loading.Medium()
             return
         }
-
-        Headers(headers)
 
         if (error.isNotBlank()) {
             Error(error)
             return
         }
 
-        if (body == null || body.noBody) {
-            NoBody()
-        } else {
-            Body(
-                body = body,
-                displayMode = displayMode,
-                onDisplayMode = { displayMode = it }
-            )
-        }
-    }
-}
-
-@Composable
-internal fun Error(error: String) {
-    Icon(
-        imageVector = Icons.Filled.Warning,
-        contentDescription = stringResource(Res.string.ktor_error),
-        tint = MaterialTheme.colorScheme.error,
-        modifier = Modifier
-            .padding(horizontal = Dimens.Medium)
-    )
-    SelectionContainer {
-        Text(
-            text = error,
-            color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(
-                    horizontal = Dimens.Medium,
-                    vertical = Dimens.Small,
-                )
+        Headers(
+            headers = headers
+        )
+        Body(
+            body = body,
+            displayMode = displayMode,
+            onDisplayMode = { displayMode = it }
         )
     }
 }
@@ -118,6 +76,7 @@ private fun TransactionPreview() {
                 "Content-Length" to listOf("1234"),
             ),
             body = DetailUiState.Body(
+                json = null,
                 html = AnnotatedString("<html><body><h1>Hello, World!</h1></body></html>"),
                 image = null,
                 code = AnnotatedString("Hello, World!"),

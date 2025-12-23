@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.ui.detail
+package ro.cosminmihu.ktor.monitor.ui.detail.body
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

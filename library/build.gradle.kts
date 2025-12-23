@@ -203,6 +203,7 @@ kotlin {
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.atomicfu)
+            implementation(libs.jsontree)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

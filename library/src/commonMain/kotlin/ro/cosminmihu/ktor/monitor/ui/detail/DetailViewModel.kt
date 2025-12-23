@@ -96,6 +96,9 @@ internal class DetailViewModel(
                             html = checkBodyTruncated(call.isRequestBodyTruncated) {
                                 bodyHtml(call.responseContentType, call.requestBody)
                             },
+                            json = checkBodyTruncated(call.isRequestBodyTruncated) {
+                                bodyString(call.requestBody).text
+                            },
                             isTrimmed = call.isRequestBodyTruncated == true
                         ),
                     ),
@@ -117,6 +120,9 @@ internal class DetailViewModel(
                             },
                             html = checkBodyTruncated(call.isResponseBodyTruncated) {
                                 bodyHtml(call.responseContentType, call.responseBody)
+                            },
+                            json = checkBodyTruncated(call.isResponseBodyTruncated) {
+                                bodyString(call.responseBody).text
                             },
                             isTrimmed = call.isResponseBodyTruncated == true
                         ),

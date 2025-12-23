@@ -1,20 +1,22 @@
-package ro.cosminmihu.ktor.monitor.ui.detail
+package ro.cosminmihu.ktor.monitor.ui.detail.headers
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
-import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.detail.transaction.TransactionSection
 
 @Composable
 internal fun Headers(headers: Map<String, List<String>>) {
-    Column {
+    TransactionSection(title = "Headers") {
+        if (headers.isEmpty()) {
+            NoHeaders()
+            return@TransactionSection
+        }
+
         headers.forEach {
             Text(
                 text = buildAnnotatedString {
