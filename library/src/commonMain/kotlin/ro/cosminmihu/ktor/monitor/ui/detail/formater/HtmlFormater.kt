@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.ui.formater
+package ro.cosminmihu.ktor.monitor.ui.detail.formater
 
 import androidx.compose.ui.text.AnnotatedString
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType

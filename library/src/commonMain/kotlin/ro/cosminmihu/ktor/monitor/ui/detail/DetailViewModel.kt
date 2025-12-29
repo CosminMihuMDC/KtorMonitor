@@ -33,12 +33,12 @@ import ro.cosminmihu.ktor.monitor.domain.model.totalSizeAsText
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Call
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Request
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Response
-import ro.cosminmihu.ktor.monitor.ui.formater.bodyBytes
-import ro.cosminmihu.ktor.monitor.ui.formater.bodyCode
-import ro.cosminmihu.ktor.monitor.ui.formater.bodyHtml
-import ro.cosminmihu.ktor.monitor.ui.formater.bodyImage
-import ro.cosminmihu.ktor.monitor.ui.formater.bodyJson
-import ro.cosminmihu.ktor.monitor.ui.formater.bodyString
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyBytes
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyCode
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyHtml
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyImage
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyJson
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyString
 import kotlin.time.Duration.Companion.seconds
 
 private const val NO_DATA = "-"
