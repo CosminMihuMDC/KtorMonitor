@@ -14,9 +14,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import coil3.compose.AsyncImage
 import com.sebastianneubauer.jsontree.JsonTree
+import com.sebastianneubauer.jsontree.defaultLightColors
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
@@ -57,13 +59,27 @@ internal fun Body(
                 )
 
             body.html != null && displayMode == DisplayMode.CODE ->
-                TextBody(text = body.html)
+                TextBody(
+                    text = body.html,
+                    modifier = Modifier.codeBlock(),
+                )
 
             body.json != null && displayMode == DisplayMode.CODE ->
-                JsonTree(json = body.json, onLoading = {}, modifier = Modifier.fillMaxHeight())
+                JsonTree(
+                    json = body.json,
+                    onLoading = {},
+                    colors = defaultLightColors.copy(
+                        symbolColor = Color(0xFF2E86C1),
+                        iconColor = Color(0xFF2E86C1),
+                    ),
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
+                )
 
             body.code != null && displayMode == DisplayMode.CODE ->
-                TextBody(text = body.code)
+                TextBody(
+                    text = body.code,
+                    modifier = Modifier.codeBlock(),
+                )
 
             body.raw != null && displayMode == DisplayMode.RAW ->
                 TextBody(text = body.raw)
@@ -91,6 +107,7 @@ private fun DisplayModeSelector(
                         onClick = { onDisplayMode(DisplayMode.IMAGE) },
                     )
                 )
+
             body.html != null ->
                 add(
                     BodyShowTypeSegment(
@@ -99,6 +116,7 @@ private fun DisplayModeSelector(
                         onClick = { onDisplayMode(DisplayMode.CODE) },
                     )
                 )
+
             body.json != null ->
                 add(
                     BodyShowTypeSegment(
@@ -107,6 +125,7 @@ private fun DisplayModeSelector(
                         onClick = { onDisplayMode(DisplayMode.CODE) },
                     )
                 )
+
             body.code != null ->
                 add(
                     BodyShowTypeSegment(
