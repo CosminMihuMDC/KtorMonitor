@@ -203,6 +203,7 @@ kotlin {
             implementation(libs.coil.network.ktor)
             implementation(libs.kotlinx.atomicfu)
             implementation(libs.jsontree)
+            implementation("com.fleeksoft.ksoup:ksoup:0.2.5")
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

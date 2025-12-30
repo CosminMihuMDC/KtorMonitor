@@ -1,8 +1,8 @@
 package ro.cosminmihu.ktor.monitor.ui.detail
 
 import androidx.compose.runtime.Stable
-import androidx.compose.ui.text.AnnotatedString
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
+import ro.cosminmihu.ktor.monitor.domain.model.contentType
 
 internal data class DetailUiState(
     val call: Call? = null,
@@ -54,13 +54,11 @@ internal data class DetailUiState(
 
     @Stable
     data class Body(
-        val bytes: AnnotatedString?,
-        val raw: AnnotatedString?,
-        val code: AnnotatedString?,
+        val bytes: String?,
+        val raw: String?,
         val image: ByteArray?,
-        val html: AnnotatedString?,
-        val json: String?,
         val isTrimmed: Boolean,
+        val contentFormat: ContentFormat?
     )
 
     enum class ClipboardCopyType {
@@ -73,6 +71,14 @@ internal data class DetailUiState(
     enum class FileShareType {
         Text,
     }
+
+    enum class ContentFormat {
+        CSS,
+        FORM_URLENCODED,
+        JAVASCRIPT,
+        JSON,
+        XML,
+    }
 }
 
 internal val DetailUiState.Response.isLoading
@@ -82,4 +88,37 @@ internal val DetailUiState.Response.isError
     get() = responseCode.isBlank() && error.isNotBlank()
 
 internal val DetailUiState.Body?.noBody
-    get() = this == null || bytes == null || bytes.isEmpty()
+    get() = this == null || bytes.isNullOrEmpty()
+
+internal val ContentType.contentFormat
+    get() = when (contentType.contentType) {
+        ContentType.TEXT_HTML,
+        ContentType.TEXT_XML,
+        ContentType.APPLICATION_ATOM,
+        ContentType.APPLICATION_XML,
+        ContentType.APPLICATION_XML_DTD,
+        ContentType.APPLICATION_XAML,
+        ContentType.APPLICATION_RSS,
+        ContentType.APPLICATION_SOAP,
+        ContentType.APPLICATION_PROBLEM_XML,
+        ContentType.IMAGE_SVG,
+            -> DetailUiState.ContentFormat.XML
+
+        ContentType.TEXT_CSS,
+            -> DetailUiState.ContentFormat.CSS
+
+        ContentType.TEXT_JAVASCRIPT,
+        ContentType.APPLICATION_JAVASCRIPT,
+            -> DetailUiState.ContentFormat.JAVASCRIPT
+
+        ContentType.APPLICATION_FORM_URLENCODED,
+            -> DetailUiState.ContentFormat.FORM_URLENCODED
+
+        ContentType.APPLICATION_JSON,
+        ContentType.APPLICATION_HAL_JSON,
+        ContentType.APPLICATION_PROBLEM_JSON,
+        ContentType.APPLICATION_VND_API_JSON,
+            -> DetailUiState.ContentFormat.JSON
+
+        else -> null
+    }

@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import io.ktor.utils.io.core.toByteArray
 import ro.cosminmihu.ktor.monitor.ui.Dimens
@@ -32,7 +31,7 @@ internal fun Transaction(
         mutableStateOf(
             when {
                 body?.image != null -> DisplayMode.IMAGE
-                body?.code != null -> DisplayMode.CODE
+                body?.contentFormat != null -> DisplayMode.CODE
                 body?.raw != null -> DisplayMode.RAW
                 else -> DisplayMode.BYTES
             }
@@ -75,13 +74,11 @@ private fun TransactionPreview() {
                 "Content-Length" to listOf("1234"),
             ),
             body = DetailUiState.Body(
-                json = null,
-                html = AnnotatedString("<html><body><h1>Hello, World!</h1></body></html>"),
                 image = null,
-                code = AnnotatedString("Hello, World!"),
-                raw = AnnotatedString("Hello, World!"),
-                bytes = AnnotatedString("Hello, World!".toByteArray().toString()),
+                raw = "Hello, World!",
+                bytes = "Hello, World!".toByteArray().toString(),
                 isTrimmed = false,
+                contentFormat = null
             ),
             error = "Error message",
         )

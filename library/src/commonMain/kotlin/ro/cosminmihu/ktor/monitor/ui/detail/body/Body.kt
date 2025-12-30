@@ -22,13 +22,13 @@ import com.sebastianneubauer.jsontree.defaultLightColors
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.XmlTree
 import ro.cosminmihu.ktor.monitor.ui.detail.noBody
 import ro.cosminmihu.ktor.monitor.ui.detail.transaction.TransactionSection
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_body_trimmed
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_binary
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_code
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_html
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_image
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_raw
 
@@ -58,27 +58,21 @@ internal fun Body(
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 )
 
-            body.html != null && displayMode == DisplayMode.CODE ->
-                TextBody(
-                    text = body.html,
-                    modifier = Modifier.codeBlock(),
+            body.contentFormat == DetailUiState.ContentFormat.XML && displayMode == DisplayMode.CODE ->
+                XmlTree(
+                    xml = body.raw ?: "",
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
                 )
 
-            body.json != null && displayMode == DisplayMode.CODE ->
+            body.contentFormat == DetailUiState.ContentFormat.JSON && displayMode == DisplayMode.CODE ->
                 JsonTree(
-                    json = body.json,
+                    json = body.raw ?: "",
                     onLoading = {},
                     colors = defaultLightColors.copy(
                         symbolColor = Color(0xFF2E86C1),
                         iconColor = Color(0xFF2E86C1),
                     ),
                     modifier = Modifier.fillMaxHeight().codeBlock(),
-                )
-
-            body.code != null && displayMode == DisplayMode.CODE ->
-                TextBody(
-                    text = body.code,
-                    modifier = Modifier.codeBlock(),
                 )
 
             body.raw != null && displayMode == DisplayMode.RAW ->
@@ -98,42 +92,24 @@ private fun DisplayModeSelector(
     modifier: Modifier = Modifier,
 ) {
     val segmentedButtons = buildList {
-        when {
-            body.image != null ->
-                add(
-                    BodyShowTypeSegment(
-                        text = stringResource(Res.string.ktor_response_view_image),
-                        selected = displayMode == DisplayMode.IMAGE,
-                        onClick = { onDisplayMode(DisplayMode.IMAGE) },
-                    )
+        if (body.image != null) {
+            add(
+                BodyShowTypeSegment(
+                    text = stringResource(Res.string.ktor_response_view_image),
+                    selected = displayMode == DisplayMode.IMAGE,
+                    onClick = { onDisplayMode(DisplayMode.IMAGE) },
                 )
+            )
+        }
 
-            body.html != null ->
-                add(
-                    BodyShowTypeSegment(
-                        text = stringResource(Res.string.ktor_response_view_html),
-                        selected = displayMode == DisplayMode.CODE,
-                        onClick = { onDisplayMode(DisplayMode.CODE) },
-                    )
+        if (body.contentFormat != null && body.raw != null) {
+            add(
+                BodyShowTypeSegment(
+                    text = stringResource(Res.string.ktor_response_view_code),
+                    selected = displayMode == DisplayMode.CODE,
+                    onClick = { onDisplayMode(DisplayMode.CODE) },
                 )
-
-            body.json != null ->
-                add(
-                    BodyShowTypeSegment(
-                        text = stringResource(Res.string.ktor_response_view_code),
-                        selected = displayMode == DisplayMode.CODE,
-                        onClick = { onDisplayMode(DisplayMode.CODE) },
-                    )
-                )
-
-            body.code != null ->
-                add(
-                    BodyShowTypeSegment(
-                        text = stringResource(Res.string.ktor_response_view_code),
-                        selected = displayMode == DisplayMode.CODE,
-                        onClick = { onDisplayMode(DisplayMode.CODE) },
-                    )
-                )
+            )
         }
 
         if (body.raw != null) {

@@ -34,10 +34,7 @@ import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Call
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Request
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Response
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyBytes
-import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyCode
-import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyHtml
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyImage
-import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyJson
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyString
 import kotlin.time.Duration.Companion.seconds
 
@@ -88,19 +85,13 @@ internal class DetailViewModel(
                         body = DetailUiState.Body(
                             bytes = bodyBytes(call.requestBody),
                             raw = bodyString(call.requestBody),
-                            code = checkBodyTruncated(call.isRequestBodyTruncated) {
-                                bodyCode(call.requestContentType, call.requestBody)
-                            },
                             image = checkBodyTruncated(call.isRequestBodyTruncated) {
                                 bodyImage(call.requestContentType, call.requestBody)
                             },
-                            html = checkBodyTruncated(call.isRequestBodyTruncated) {
-                                bodyHtml(call.responseContentType, call.requestBody)
-                            },
-                            json = checkBodyTruncated(call.isRequestBodyTruncated) {
-                                bodyString(call.requestBody).text
-                            },
-                            isTrimmed = call.isRequestBodyTruncated == true
+                            isTrimmed = call.isRequestBodyTruncated == true,
+                            contentFormat = checkBodyTruncated(call.isRequestBodyTruncated) {
+                                call.requestContentType?.contentType?.contentFormat
+                            }
                         ),
                     ),
                     response = Response(
@@ -113,19 +104,13 @@ internal class DetailViewModel(
                         body = DetailUiState.Body(
                             bytes = bodyBytes(call.responseBody),
                             raw = bodyString(call.responseBody),
-                            code = checkBodyTruncated(call.isResponseBodyTruncated) {
-                                bodyCode(call.responseContentType, call.responseBody)
-                            },
                             image = checkBodyTruncated(call.isResponseBodyTruncated) {
                                 bodyImage(call.responseContentType, call.responseBody)
                             },
-                            html = checkBodyTruncated(call.isResponseBodyTruncated) {
-                                bodyHtml(call.responseContentType, call.responseBody)
-                            },
-                            json = checkBodyTruncated(call.isResponseBodyTruncated) {
-                                bodyJson(call.responseBody)
-                            },
-                            isTrimmed = call.isResponseBodyTruncated == true
+                            isTrimmed = call.isResponseBodyTruncated == true,
+                            contentFormat = checkBodyTruncated(call.isResponseBodyTruncated) {
+                                call.responseContentType?.contentType?.contentFormat
+                            }
                         ),
                     )
                 )
