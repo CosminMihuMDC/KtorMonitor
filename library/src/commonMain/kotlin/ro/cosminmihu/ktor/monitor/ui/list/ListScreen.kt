@@ -42,6 +42,8 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextOverflow.Companion
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
@@ -91,6 +93,8 @@ internal fun ListScreen(
                             text = stringResource(Res.string.ktor_library_name),
                             fontWeight = FontWeight.Bold,
                             modifier = Modifier.clickable { uriHandler.openUri(URL.GITHUB_REPO) },
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
                         )
                     },
                     navigationIcon = {

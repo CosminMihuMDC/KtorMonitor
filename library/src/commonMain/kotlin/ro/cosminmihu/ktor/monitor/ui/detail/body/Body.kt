@@ -6,7 +6,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import coil3.ImageLoader
 import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.svg.SvgDecoder
 import com.sebastianneubauer.jsontree.JsonTree
 import com.sebastianneubauer.jsontree.defaultLightColors
 import org.jetbrains.compose.resources.stringResource
@@ -42,6 +45,9 @@ internal fun Body(
             body.image != null && displayMode == DisplayMode.IMAGE ->
                 AsyncImage(
                     model = body.image,
+                    imageLoader = ImageLoader.Builder(LocalPlatformContext.current)
+                        .components { add(SvgDecoder.Factory()) }
+                        .build(),
                     contentDescription = null,
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 )

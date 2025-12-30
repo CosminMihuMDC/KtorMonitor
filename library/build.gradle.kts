@@ -1,4 +1,3 @@
-import org.jetbrains.dokka.gradle.engine.parameters.VisibilityModifier
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -201,9 +200,10 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+            implementation(libs.coil.svg)
             implementation(libs.kotlinx.atomicfu)
             implementation(libs.jsontree)
-            implementation("com.fleeksoft.ksoup:ksoup:0.2.5")
+            implementation(libs.ksoup)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
