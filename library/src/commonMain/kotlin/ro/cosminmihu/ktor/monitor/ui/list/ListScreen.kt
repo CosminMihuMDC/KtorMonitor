@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material.icons.filled.Warning
-import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -55,6 +54,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_clean
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_error
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_launcher
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_warning_off
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
@@ -111,7 +111,7 @@ internal fun ListScreen(
                             Icon(
                                 imageVector = when (uiState.filter.onlyError) {
                                     true -> Icons.Filled.Warning
-                                    else -> Icons.Default.WarningAmber
+                                    else -> vectorResource(Res.drawable.ktor_ic_warning_off)
                                 },
                                 contentDescription = stringResource(Res.string.ktor_error),
                                 tint = MaterialTheme.colorScheme.primary,
