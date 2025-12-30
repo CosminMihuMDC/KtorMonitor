@@ -3,7 +3,14 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.8.3] - 2025-12-29
+## [1.9.0] - 2025-12-30
+* Add new css, form, xml body visualization
+* Fix Navigation on clear calls
+* Add SVG support
+* Clean up sample calls
+* Show only failed calls
+
+## [1.9.0] - 2025-12-29
 * Enhance json body visualization
 
 ## [1.8.2] - 2025-12-23

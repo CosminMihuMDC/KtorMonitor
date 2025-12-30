@@ -17,7 +17,7 @@ plugins {
 val module = "ktor-monitor"
 val artifact = "ktor-monitor-logging"
 group = "ro.cosminmihu.ktor"
-version = "1.8.3"
+version = "1.9.0"
 
 mavenPublishing {
     publishToMavenCentral()
