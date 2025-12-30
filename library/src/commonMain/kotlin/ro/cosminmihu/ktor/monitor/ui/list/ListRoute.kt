@@ -10,6 +10,7 @@ import org.koin.compose.viewmodel.koinViewModel
 internal fun ListRoute(
     modifier: Modifier = Modifier,
     onClick: (String) -> Unit,
+    onClear: () -> Unit,
 ) {
     val viewModel: ListViewModel = koinViewModel()
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -20,7 +21,10 @@ internal fun ListRoute(
         toggleOnlyError = viewModel::toggleOnlyError,
         setSearchQuery = viewModel::setSearchQuery,
         clearSearchQuery = viewModel::clearSearchQuery,
-        deleteCalls = viewModel::deleteCalls,
+        deleteCalls = {
+            viewModel.deleteCalls()
+            onClear()
+        },
         onCallClick = onClick,
     )
 }

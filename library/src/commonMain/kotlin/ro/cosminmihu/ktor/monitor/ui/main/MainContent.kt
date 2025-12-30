@@ -41,11 +41,18 @@ internal fun MainContent(modifier: Modifier = Modifier) {
             value = navigator.scaffoldValue,
             listPane = {
                 AnimatedPane {
-                    ListRoute { id ->
-                        coroutineScope.launch {
-                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
+                    ListRoute(
+                        onClick = { id ->
+                            coroutineScope.launch {
+                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
+                            }
+                        },
+                        onClear = {
+                            coroutineScope.launch {
+                                navigator.navigateBack()
+                            }
                         }
-                    }
+                    )
                 }
             },
             detailPane = {
