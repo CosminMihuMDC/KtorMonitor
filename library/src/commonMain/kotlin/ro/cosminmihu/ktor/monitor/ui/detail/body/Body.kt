@@ -13,7 +13,6 @@ import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.Css
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.FormUrlEncoded
-import ro.cosminmihu.ktor.monitor.ui.detail.formater.Javascript
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.Text
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.XmlTree
 import ro.cosminmihu.ktor.monitor.ui.detail.noBody
@@ -56,12 +55,6 @@ internal fun Body(
             body.contentFormat == DetailUiState.ContentFormat.FORM_URLENCODED && displayMode == DisplayMode.CODE ->
                 FormUrlEncoded(
                     body = body.raw ?: "",
-                    modifier = Modifier.fillMaxHeight().codeBlock(),
-                )
-
-            body.contentFormat == DetailUiState.ContentFormat.JAVASCRIPT && displayMode == DisplayMode.CODE ->
-                Javascript(
-                    js = body.raw ?: "",
                     modifier = Modifier.fillMaxHeight().codeBlock(),
                 )
 
