@@ -4,7 +4,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
@@ -54,10 +53,8 @@ internal fun TransactionSection(
         }
 
         AnimatedVisibility(show) {
-            SelectionContainer {
-                Column {
-                    content()
-                }
+            Column {
+                content()
             }
         }
     }

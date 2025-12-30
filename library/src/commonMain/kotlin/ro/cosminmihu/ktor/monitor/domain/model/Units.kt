@@ -88,3 +88,12 @@ internal fun String.shellEscape(): String = this
     .replace("\"", "\\\"")
     .replace("\n", "\\n")
     .replace("$", "\\$")
+
+internal fun Char.Companion.isWhiteSpace(char: Char) =
+    Regex("\\s+").containsMatchIn(char.toString())
+
+internal fun ByteArray.toBytesString(): String = buildString {
+    append(joinToString(" ") { byte -> byte.toString() })
+}
+
+internal fun ByteArray.asString() = decodeToString()

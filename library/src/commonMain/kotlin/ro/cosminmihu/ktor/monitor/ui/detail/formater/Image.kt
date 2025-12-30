@@ -9,5 +9,6 @@ internal fun bodyImage(contentType: String?, body: ByteArray?) = when (contentTy
     ContentType.IMAGE_JPEG -> body
     ContentType.IMAGE_WEBP -> body
     ContentType.IMAGE_GIF -> body
+    ContentType.IMAGE_SVG -> body
     else -> null
 }

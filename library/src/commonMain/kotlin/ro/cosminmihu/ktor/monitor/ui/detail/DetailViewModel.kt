@@ -17,6 +17,7 @@ import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallUrlUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
+import ro.cosminmihu.ktor.monitor.domain.model.asString
 import ro.cosminmihu.ktor.monitor.domain.model.contentType
 import ro.cosminmihu.ktor.monitor.domain.model.durationAsText
 import ro.cosminmihu.ktor.monitor.domain.model.encodedPathAndQuery
@@ -29,13 +30,12 @@ import ro.cosminmihu.ktor.monitor.domain.model.requestDateTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.requestTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.responseDateTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.sizeAsText
+import ro.cosminmihu.ktor.monitor.domain.model.toBytesString
 import ro.cosminmihu.ktor.monitor.domain.model.totalSizeAsText
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Call
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Request
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Response
-import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyBytes
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyImage
-import ro.cosminmihu.ktor.monitor.ui.detail.formater.bodyString
 import kotlin.time.Duration.Companion.seconds
 
 private const val NO_DATA = "-"
@@ -83,8 +83,8 @@ internal class DetailViewModel(
                         requestTime = call.requestTimeAsText,
                         headers = call.requestHeaders,
                         body = DetailUiState.Body(
-                            bytes = bodyBytes(call.requestBody),
-                            raw = bodyString(call.requestBody),
+                            bytes = call.requestBody?.toBytesString(),
+                            raw = call.requestBody?.asString(),
                             image = checkBodyTruncated(call.isRequestBodyTruncated) {
                                 bodyImage(call.requestContentType, call.requestBody)
                             },
@@ -102,8 +102,8 @@ internal class DetailViewModel(
                         error = call.error ?: "",
                         headers = call.responseHeaders ?: mapOf(),
                         body = DetailUiState.Body(
-                            bytes = bodyBytes(call.responseBody),
-                            raw = bodyString(call.responseBody),
+                            bytes = call.responseBody?.toBytesString(),
+                            raw = call.responseBody?.asString(),
                             image = checkBodyTruncated(call.isResponseBodyTruncated) {
                                 bodyImage(call.responseContentType, call.responseBody)
                             },

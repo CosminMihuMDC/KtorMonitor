@@ -120,5 +120,14 @@ internal fun samples() {
 
         // Other Utilities
         launch { get("$HTTP_BIN_URL/forms/post") }
+
+        // Javascript
+        launch { get("https://code.jquery.com/jquery-3.7.1.min.js") }
+
+        // CSS
+        launch { get("https://www.w3schools.com/plus/plans/main.css?v=1.0.1") }
+
+        // IGNORED
+        launch { get("https://cosminmihu.ro/resume") }
     }
 }
