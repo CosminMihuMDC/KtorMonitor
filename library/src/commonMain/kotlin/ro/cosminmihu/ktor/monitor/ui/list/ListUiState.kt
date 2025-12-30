@@ -4,7 +4,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 
 internal data class ListUiState(
     val calls: List<Call>? = null,
-    val searchQuery: String = "",
+    val filter: Filter = Filter.NoFilter,
     val showNotification: Boolean = false,
 ) {
     data class Call(
@@ -28,13 +28,22 @@ internal data class ListUiState(
         val size: String,
         val error: String,
     )
+
+    data class Filter(
+        val searchQuery: String,
+        val onlyError: Boolean,
+    ) {
+        companion object {
+            internal val NoFilter = Filter(searchQuery = "", onlyError = false)
+        }
+    }
 }
 
 internal val ListUiState.isLoading
     get() = calls == null
 
 internal val ListUiState.isEmpty
-    get() = calls.isNullOrEmpty()
+    get() = calls.isNullOrEmpty() && filter == ListUiState.Filter.NoFilter
 
 internal val ListUiState.Call.isLoading
     get() = response.responseCode.isBlank() && response.error.isBlank()

@@ -17,6 +17,7 @@ internal fun ListRoute(
     ListScreen(
         modifier = modifier,
         uiState = uiState,
+        toggleOnlyError = viewModel::toggleOnlyError,
         setSearchQuery = viewModel::setSearchQuery,
         clearSearchQuery = viewModel::clearSearchQuery,
         deleteCalls = viewModel::deleteCalls,

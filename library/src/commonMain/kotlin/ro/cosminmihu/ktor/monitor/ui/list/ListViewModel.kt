@@ -22,6 +22,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.contentType
 import ro.cosminmihu.ktor.monitor.domain.model.durationAsText
 import ro.cosminmihu.ktor.monitor.domain.model.encodedPathAndQuery
 import ro.cosminmihu.ktor.monitor.domain.model.host
+import ro.cosminmihu.ktor.monitor.domain.model.isError
 import ro.cosminmihu.ktor.monitor.domain.model.isSecure
 import ro.cosminmihu.ktor.monitor.domain.model.requestTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.sizeAsText
@@ -34,33 +35,45 @@ internal class ListViewModel(
     private val deleteCallsUseCase: DeleteCallsUseCase,
 ) : ViewModel() {
 
-    private val _searchQuery = MutableStateFlow("")
-    private val searchQuery = _searchQuery.debounce(0.2.seconds)
+    private val _filter = MutableStateFlow(ListUiState.Filter.NoFilter)
+    private val filter = _filter.debounce(0.2.seconds)
     private val calls = getCallsUseCase()
 
-    val uiState = combine(
-        searchQuery,
-        calls,
-    ) { query, calls ->
-        query to when {
-            query.isBlank() -> calls
-            else -> calls.filter { it.url.contains(query.trim(), ignoreCase = true) }
+    val uiState = combine(this@ListViewModel.filter, calls, ::filter)
+        .map { (filterOption, calls) ->
+            buildUiState(filterOption, calls, configUseCase.isShowNotification())
         }
-    }
         .flowOn(Dispatchers.Default)
-        .map { (query, calls) -> buildUiState(query, calls, configUseCase.isShowNotification()) }
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5.seconds.inWholeMilliseconds),
             ListUiState()
         )
 
+    private fun filter(
+        query: ListUiState.Filter,
+        calls: List<SelectCalls>
+    ): Pair<ListUiState.Filter, List<SelectCalls>> {
+        val filterCalls = when {
+            query.onlyError -> calls.filter { it.isError }
+            else -> calls
+        }
+
+        val result = when {
+            query.searchQuery.isBlank() -> filterCalls
+            else -> filterCalls.filter {
+                it.url.contains(query.searchQuery.trim(), ignoreCase = true)
+            }
+        }
+        return query to result
+    }
+
     private fun buildUiState(
-        query: String,
+        filter: ListUiState.Filter,
         calls: List<SelectCalls>,
         showNotification: Boolean,
     ): ListUiState = ListUiState(
-        searchQuery = query,
+        filter = filter,
         showNotification = showNotification,
         calls = calls.map {
             ListUiState.Call(
@@ -90,10 +103,14 @@ internal class ListViewModel(
     }
 
     fun setSearchQuery(query: String) {
-        this@ListViewModel._searchQuery.update { query }
+        this@ListViewModel._filter.update { it.copy(searchQuery = query) }
     }
 
     fun clearSearchQuery() {
-        this@ListViewModel._searchQuery.update { "" }
+        this@ListViewModel._filter.update { it.copy(searchQuery = "") }
+    }
+
+    fun toggleOnlyError() {
+        this@ListViewModel._filter.update { it.copy(onlyError = !it.onlyError) }
     }
 }

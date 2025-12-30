@@ -3,6 +3,7 @@ package ro.cosminmihu.ktor.monitor.domain.model
 import io.ktor.http.URLBuilder
 import io.ktor.http.isSecure
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
+import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCalls
 import kotlin.time.Duration.Companion.milliseconds
 
 internal val Call.isInProgress
@@ -51,4 +52,13 @@ internal val Call.totalSizeAsText: String?
     get() {
         responseContentLength ?: return null
         return (requestContentLength + responseContentLength).sizeAsText()
+    }
+
+internal val SelectCalls.isError
+    get() = when {
+        !error.isNullOrEmpty() -> true
+        responseCode == null -> false
+        responseCode in 300 until 400 -> false
+        responseCode in 200 until 300 -> false
+        else -> true
     }
