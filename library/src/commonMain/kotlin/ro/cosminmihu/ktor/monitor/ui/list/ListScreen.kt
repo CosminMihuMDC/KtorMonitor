@@ -161,7 +161,9 @@ internal fun ListScreen(
             when {
                 uiState.isLoading -> {
                     Loading.Medium(
-                        modifier = Modifier.align(Alignment.CenterHorizontally)
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = Dimens.Medium)
                     )
                 }
 
