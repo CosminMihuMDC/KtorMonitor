@@ -1,18 +1,22 @@
 package ro.cosminmihu.ktor.monitor.sample
 
 import io.ktor.client.request.delete
-import io.ktor.client.request.forms.formData
+import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import io.ktor.client.request.patch
 import io.ktor.client.request.post
 import io.ktor.client.request.put
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.Parameters
+import io.ktor.http.contentType
 import kotlinx.coroutines.launch
 
 private const val HTTP_BIN_URL = "https://httpbin.org"
 private const val REDIRECT_URL = "https://cosminmihu.ro/"
 
-internal suspend fun makeCalls() {
+internal fun samples() {
     with(httpClient()) {
         // HTTP Methods
         launch { delete("$HTTP_BIN_URL/delete") }
@@ -93,7 +97,12 @@ internal suspend fun makeCalls() {
         launch { get("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
         launch { patch("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
         launch { post("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
-        launch { put("$HTTP_BIN_URL/redirect-to") { formData { append("url", REDIRECT_URL) } } }
+        launch {
+            put("$HTTP_BIN_URL/redirect-to") {
+                contentType(ContentType.Application.FormUrlEncoded)
+                setBody(FormDataContent(Parameters.build { append("url", REDIRECT_URL) }))
+            }
+        }
         launch { get("$HTTP_BIN_URL/redirect/3") }
         launch { get("$HTTP_BIN_URL/relative-redirect/3") }
 

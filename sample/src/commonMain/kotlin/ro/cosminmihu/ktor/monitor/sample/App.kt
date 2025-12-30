@@ -23,7 +23,7 @@ fun App() {
     }
 
     LaunchedEffect(Unit) {
-        makeCalls()
+        samples()
     }
 }
 
