@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
@@ -79,10 +80,9 @@ internal fun DisplayModeSelector(
         if (body.isTrimmed) {
             Text(
                 text = stringResource(Res.string.ktor_body_trimmed),
-                modifier = Modifier.padding(
-                    vertical = Dimens.Small,
-                    horizontal = Dimens.Medium
-                ).align(Alignment.CenterStart),
+                modifier = Modifier
+                    .padding(vertical = Dimens.Small, horizontal = Dimens.Medium)
+                    .align(Alignment.CenterStart),
                 fontStyle = FontStyle.Italic,
                 style = MaterialTheme.typography.bodyMedium,
             )
@@ -110,7 +110,7 @@ internal fun DisplayModeSelector(
                     ),
                     modifier = modifier,
                 ) {
-                    Text(text = item.text)
+                    Text(text = item.text, fontWeight = FontWeight.Bold)
                 }
             }
         }

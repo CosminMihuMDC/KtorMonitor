@@ -46,9 +46,8 @@
     <string name="ktor_summary_response_size">Response size</string>
     <string name="ktor_summary_total_size">Total Size</string>
 
-    <string name="ktor_response_view_html">html</string>
-    <string name="ktor_response_view_image">image</string>
-    <string name="ktor_response_view_code">pretty</string>
-    <string name="ktor_response_view_raw">raw</string>
-    <string name="ktor_response_view_binary">binary</string>
+    <string name="ktor_response_view_image">IMG</string>
+    <string name="ktor_response_view_code">CODE</string>
+    <string name="ktor_response_view_raw">TXT</string>
+    <string name="ktor_response_view_binary">HEX</string>
 </resources>
