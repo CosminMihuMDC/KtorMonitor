@@ -7,8 +7,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
@@ -31,6 +34,8 @@ import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_error
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_in_progress
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_redirect
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_secure
+import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @Composable
 internal fun CallItem(
@@ -89,13 +94,18 @@ internal fun CallItem(
                     fontWeight = FontWeight.Bold,
                     color = if (call.isError) MaterialTheme.colorScheme.error else Color.Unspecified,
                 )
-                Text(
+                Row(
                     modifier = Modifier.padding(horizontal = Dimens.Small),
-                    text = when (call.isSecure) {
-                        true -> """🔒${call.request.host}"""
-                        else -> call.request.host
-                    },
-                )
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(Dimens.Small),
+                ) {
+                    Icon(
+                        imageVector = if (call.isSecure) Icons.Filled.Lock else Icons.Filled.LockOpen,
+                        contentDescription = stringResource(Res.string.ktor_secure),
+                        modifier = Modifier.size(Dimens.Medium),
+                    )
+                    Text(text = call.request.host)
+                }
                 when {
                     call.isLoading -> Text(
                         modifier = Modifier.padding(horizontal = Dimens.Small),
@@ -180,5 +190,8 @@ private fun CallItemFailurePreview() {
             error = "TimeoutException: Connection timed out.",
         )
     )
-    CallItem(call)
+
+    LibraryTheme {
+        CallItem(call)
+    }
 }

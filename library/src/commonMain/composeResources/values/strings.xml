@@ -22,6 +22,8 @@
     <string name="ktor_list_empty">No items.</string>
     <string name="ktor_no_selection">Noting selected.</string>
 
+    <string name="ktor_secure">Secure</string>
+
     <string name="ktor_headers">Headers</string>
     <string name="ktor_body">Body</string>
     <string name="ktor_no_headers">(no headers)</string>
