@@ -67,7 +67,6 @@ internal fun XmlTree(
 
     LaunchedEffect(xml) {
         try {
-            // Parse XML using Ksoup with the XML Parser
             val document: Document = Ksoup.parseXml(xml, "")
             rootElement = document
             error = null
@@ -77,26 +76,22 @@ internal fun XmlTree(
         }
     }
 
-    Box(modifier = modifier) {
-        if (error == null) {
-            rootElement?.let { root ->
-                // SelectionContainer allows users to copy text
-                SelectionContainer {
-                    Column(
-                        modifier = Modifier.verticalScroll(rememberScrollState())
-                            .padding(contentPadding),
-                    ) {
-                        // Render children of the document (usually the root tag)
-                        root.children().forEach { child ->
-                            XmlNodeView(
-                                node = child,
-                                colors = colors,
-                                depth = 0,
-                                isInitiallyExpanded = initialExpanded
-                            )
-                        }
-                    }
-                }
+    val rootElements = rootElement?.children()
+    if (error != null || rootElements.isNullOrEmpty()) return
+
+    SelectionContainer {
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+                .padding(contentPadding),
+        ) {
+            rootElements.forEach { child ->
+                XmlNodeView(
+                    node = child,
+                    colors = colors,
+                    depth = 0,
+                    isInitiallyExpanded = initialExpanded
+                )
             }
         }
     }

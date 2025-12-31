@@ -50,12 +50,12 @@ internal fun Css(
     initialExpanded: Boolean = false,
     onError: (Throwable) -> Unit = {}
 ) {
-    var rootNodes by remember(css) { mutableStateOf<List<CssNode>>(emptyList()) }
+    var nodes by remember(css) { mutableStateOf<List<CssNode>>(emptyList()) }
     var error by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(css) {
         try {
-            rootNodes = CssParser(css).parse()
+            nodes = CssParser(css).parse()
             error = null
         } catch (e: Exception) {
             error = e.message
@@ -63,23 +63,21 @@ internal fun Css(
         }
     }
 
-    Box(modifier = modifier) {
-        if (error == null) {
-            SelectionContainer {
-                Column(
-                    modifier = Modifier
-                        .verticalScroll(rememberScrollState())
-                        .padding(contentPadding),
-                ) {
-                    rootNodes.forEach { node ->
-                        CssNodeView(
-                            node = node,
-                            colors = colors,
-                            depth = 0,
-                            isInitiallyExpanded = initialExpanded
-                        )
-                    }
-                }
+    if (error != null) return
+
+    SelectionContainer {
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+                .padding(contentPadding),
+        ) {
+            nodes.forEach { node ->
+                CssNodeView(
+                    node = node,
+                    colors = colors,
+                    depth = 0,
+                    isInitiallyExpanded = initialExpanded
+                )
             }
         }
     }

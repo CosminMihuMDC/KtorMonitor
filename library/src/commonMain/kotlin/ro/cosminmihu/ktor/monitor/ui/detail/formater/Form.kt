@@ -63,22 +63,21 @@ internal fun FormUrlEncoded(
         }
     }
 
-    Box(modifier = modifier) {
-        if (error == null && rootNodes.isNotEmpty()) {
-            SelectionContainer {
-                Column(
-                    modifier = Modifier.verticalScroll(rememberScrollState())
-                        .padding(contentPadding),
-                ) {
-                    rootNodes.forEach { node ->
-                        FormNodeView(
-                            node = node,
-                            colors = colors,
-                            depth = 0,
-                            isInitiallyExpanded = initialExpanded
-                        )
-                    }
-                }
+    if (error != null || rootNodes.isEmpty()) return
+
+    SelectionContainer {
+        Column(
+            modifier = modifier
+                .verticalScroll(rememberScrollState())
+                .padding(contentPadding),
+        ) {
+            rootNodes.forEach { node ->
+                FormNodeView(
+                    node = node,
+                    colors = colors,
+                    depth = 0,
+                    isInitiallyExpanded = initialExpanded
+                )
             }
         }
     }
