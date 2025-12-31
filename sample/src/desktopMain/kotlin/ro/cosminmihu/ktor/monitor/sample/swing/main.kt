@@ -13,7 +13,9 @@ import javax.swing.SwingUtilities
  * Swing Sample how to use [KtorMonitorPanel].
  */
 fun main() {
-    samples()
+    GlobalScope.launch {
+        samples()
+    }
 
     SwingUtilities.invokeLater {
         val frame = JFrame("Ktor Monitor Sample")

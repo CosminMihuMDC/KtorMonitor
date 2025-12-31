@@ -11,123 +11,152 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
 import io.ktor.http.contentType
-import kotlinx.coroutines.launch
 
 private const val HTTP_BIN_URL = "https://httpbin.org"
 private const val REDIRECT_URL = "https://cosminmihu.ro/"
 
-internal fun samples() {
+internal suspend fun samples() {
     with(httpClient()) {
         // HTTP Methods
-        launch { delete("$HTTP_BIN_URL/delete") }
-        launch { get("$HTTP_BIN_URL/get") }
-        launch { patch("$HTTP_BIN_URL/patch") }
-        launch { post("$HTTP_BIN_URL/post") }
-        launch { put("$HTTP_BIN_URL/put") }
+        runCatching { this@with.delete("$HTTP_BIN_URL/delete") }
+        runCatching { this@with.get("$HTTP_BIN_URL/get") }
+        runCatching { this@with.patch("$HTTP_BIN_URL/patch") }
+        runCatching { this@with.post("$HTTP_BIN_URL/post") }
+        runCatching { this@with.put("$HTTP_BIN_URL/put") }
 
         // Auth
-        launch { get("$HTTP_BIN_URL/basic-auth/user/passwd") }
-        launch { get("$HTTP_BIN_URL/bearer") }
-        launch { get("$HTTP_BIN_URL/digest-auth/auth/user/passwd") }
-        launch { get("$HTTP_BIN_URL/digest-auth/auth/user/passwd/MD5") }
-        launch { get("$HTTP_BIN_URL/digest-auth/auth/user/passwd/MD5/stale_after") }
-        launch { get("$HTTP_BIN_URL/hidden-basic-auth/user/passwd") }
+        runCatching { this@with.get("$HTTP_BIN_URL/basic-auth/user/passwd") }
+        runCatching { this@with.get("$HTTP_BIN_URL/bearer") }
+        runCatching { this@with.get("$HTTP_BIN_URL/digest-auth/auth/user/passwd") }
+        runCatching { this@with.get("$HTTP_BIN_URL/digest-auth/auth/user/passwd/MD5") }
+        runCatching { this@with.get("$HTTP_BIN_URL/digest-auth/auth/user/passwd/MD5/stale_after") }
+        runCatching { this@with.get("$HTTP_BIN_URL/hidden-basic-auth/user/passwd") }
 
         // Status codes
-        launch { delete("$HTTP_BIN_URL/status/200") }
-        launch { get("$HTTP_BIN_URL/status/200") }
-        launch { patch("$HTTP_BIN_URL/status/200") }
-        launch { post("$HTTP_BIN_URL/status/200") }
-        launch { put("$HTTP_BIN_URL/status/200") }
+        runCatching { this@with.delete("$HTTP_BIN_URL/status/200") }
+        runCatching { this@with.get("$HTTP_BIN_URL/status/200") }
+        runCatching { this@with.patch("$HTTP_BIN_URL/status/200") }
+        runCatching { this@with.post("$HTTP_BIN_URL/status/200") }
+        runCatching { this@with.put("$HTTP_BIN_URL/status/200") }
 
         // Request inspection
-        launch { get("$HTTP_BIN_URL/headers") }
-        launch { get("$HTTP_BIN_URL/ip") }
-        launch { get("$HTTP_BIN_URL/user-agent") }
+        runCatching { this@with.get("$HTTP_BIN_URL/headers") }
+        runCatching { this@with.get("$HTTP_BIN_URL/ip") }
+        runCatching { this@with.get("$HTTP_BIN_URL/user-agent") }
 
         // Response inspection
-        launch { get("$HTTP_BIN_URL/cache") }
-        launch { get("$HTTP_BIN_URL/cache/60") }
-        launch { get("$HTTP_BIN_URL/etag/abc") }
-        launch { get("$HTTP_BIN_URL/response-headers?freeform=") }
-        launch { post("$HTTP_BIN_URL/response-headers?freeform=") }
+        runCatching { this@with.get("$HTTP_BIN_URL/cache") }
+        runCatching { this@with.get("$HTTP_BIN_URL/cache/60") }
+        runCatching { this@with.get("$HTTP_BIN_URL/etag/abc") }
+        runCatching { this@with.get("$HTTP_BIN_URL/response-headers?freeform=") }
+        runCatching { this@with.post("$HTTP_BIN_URL/response-headers?freeform=") }
 
         // Response formats
-        launch { get("$HTTP_BIN_URL/brotli") }
-        launch { get("$HTTP_BIN_URL/deflate") }
-        launch { get("$HTTP_BIN_URL/deny") }
-        launch { get("$HTTP_BIN_URL/encoding/utf8") }
-        launch { get("$HTTP_BIN_URL/gzip") }
-        launch { get("$HTTP_BIN_URL/html") }
-        launch { get("$HTTP_BIN_URL/json") }
-        launch { get("$HTTP_BIN_URL/robots.txt") }
-        launch { get("$HTTP_BIN_URL/xml") }
-
-        // Dynamic data
-        launch { get("$HTTP_BIN_URL/base64/SFRUUEJJTiBpcyBhd2Vzb21l") }
-        launch { get("$HTTP_BIN_URL/bytes/1024") }
-        launch { delete("$HTTP_BIN_URL/delay/3") }
-        launch { get("$HTTP_BIN_URL/delay/3") }
-        launch { patch("$HTTP_BIN_URL/delay/3") }
-        launch { post("$HTTP_BIN_URL/delay/3") }
-        launch { put("$HTTP_BIN_URL/delay/3") }
-        launch { get("$HTTP_BIN_URL/drip") }
-        launch { get("$HTTP_BIN_URL/links/10/0") }
-        launch { get("$HTTP_BIN_URL/range/1024") }
-        launch { get("$HTTP_BIN_URL/stream-bytes/1024") }
-        launch { get("$HTTP_BIN_URL/stream/10") }
-        launch { get("$HTTP_BIN_URL/uuid") }
-
-        // Cookies
-        launch { get("$HTTP_BIN_URL/cookies") }
-        launch { get("$HTTP_BIN_URL/cookies/delete") }
-        launch { get("$HTTP_BIN_URL/cookies/set") }
-        launch { get("$HTTP_BIN_URL/cookies/set/name/value") }
+        runCatching { this@with.get("$HTTP_BIN_URL/brotli") }
+        runCatching { this@with.get("$HTTP_BIN_URL/deflate") }
+        runCatching { this@with.get("$HTTP_BIN_URL/deny") }
+        runCatching { this@with.get("$HTTP_BIN_URL/encoding/utf8") }
+        runCatching { this@with.get("$HTTP_BIN_URL/gzip") }
+        runCatching { this@with.get("$HTTP_BIN_URL/html") }
+        runCatching { this@with.get("$HTTP_BIN_URL/json") }
+        runCatching { this@with.get("$HTTP_BIN_URL/robots.txt") }
+        runCatching { this@with.get("$HTTP_BIN_URL/xml") }
+        runCatching { this@with.get("$HTTP_BIN_URL/links/10/0") }
 
         // Images
-        launch { get("$HTTP_BIN_URL/image") }
-        launch { get("$HTTP_BIN_URL/image/jpeg") }
-        launch { get("$HTTP_BIN_URL/image/png") }
-        launch { get("$HTTP_BIN_URL/image/svg") }
-        launch { get("$HTTP_BIN_URL/image/webp") }
+        runCatching { this@with.get("$HTTP_BIN_URL/image") }
+        runCatching { this@with.get("$HTTP_BIN_URL/image/jpeg") }
+        runCatching { this@with.get("$HTTP_BIN_URL/image/png") }
+        runCatching { this@with.get("$HTTP_BIN_URL/image/svg") }
+        runCatching { this@with.get("$HTTP_BIN_URL/image/webp") }
+
+        // Dynamic data
+        runCatching { this@with.get("$HTTP_BIN_URL/base64/SFRUUEJJTiBpcyBhd2Vzb21l") }
+        runCatching { this@with.get("$HTTP_BIN_URL/bytes/1024") }
+        runCatching { this@with.delete("$HTTP_BIN_URL/delay/3") }
+        runCatching { this@with.get("$HTTP_BIN_URL/delay/3") }
+        runCatching { this@with.patch("$HTTP_BIN_URL/delay/3") }
+        runCatching { this@with.post("$HTTP_BIN_URL/delay/3") }
+        runCatching { this@with.put("$HTTP_BIN_URL/delay/3") }
+        runCatching { this@with.get("$HTTP_BIN_URL/drip") }
+        runCatching { this@with.get("$HTTP_BIN_URL/links/10/0") }
+        runCatching { this@with.get("$HTTP_BIN_URL/range/1024") }
+        runCatching { this@with.get("$HTTP_BIN_URL/stream-bytes/1024") }
+        runCatching { this@with.get("$HTTP_BIN_URL/stream/10") }
+        runCatching { this@with.get("$HTTP_BIN_URL/uuid") }
+
+        // Cookies
+        runCatching { this@with.get("$HTTP_BIN_URL/cookies") }
+        runCatching { this@with.get("$HTTP_BIN_URL/cookies/delete") }
+        runCatching { this@with.get("$HTTP_BIN_URL/cookies/set") }
+        runCatching { this@with.get("$HTTP_BIN_URL/cookies/set/name/value") }
+
 
         // Redirects
-        launch { get("$HTTP_BIN_URL/absolute-redirect/3") }
-        launch { delete("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
-        launch { get("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
-        launch { patch("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
-        launch { post("$HTTP_BIN_URL/redirect-to") { parameter("url", REDIRECT_URL) } }
-        launch {
-            put("$HTTP_BIN_URL/redirect-to") {
+        runCatching { this@with.get("$HTTP_BIN_URL/absolute-redirect/3") }
+        runCatching {
+            this@with.delete("$HTTP_BIN_URL/redirect-to") {
+                parameter(
+                    "url",
+                    REDIRECT_URL
+                )
+            }
+        }
+        runCatching {
+            this@with.get("$HTTP_BIN_URL/redirect-to") {
+                parameter(
+                    "url",
+                    REDIRECT_URL
+                )
+            }
+        }
+        runCatching {
+            this@with.patch("$HTTP_BIN_URL/redirect-to") {
+                parameter(
+                    "url",
+                    REDIRECT_URL
+                )
+            }
+        }
+        runCatching {
+            this@with.post("$HTTP_BIN_URL/redirect-to") {
+                parameter(
+                    "url",
+                    REDIRECT_URL
+                )
+            }
+        }
+        runCatching {
+            this@with.put("$HTTP_BIN_URL/redirect-to") {
                 contentType(ContentType.Application.FormUrlEncoded)
                 setBody(FormDataContent(Parameters.build { append("url", REDIRECT_URL) }))
             }
         }
-        launch { get("$HTTP_BIN_URL/redirect/3") }
-        launch { get("$HTTP_BIN_URL/relative-redirect/3") }
+        runCatching { this@with.get("$HTTP_BIN_URL/redirect/3") }
+        runCatching { this@with.get("$HTTP_BIN_URL/relative-redirect/3") }
 
         // Anything
-        launch { delete("$HTTP_BIN_URL/anything") }
-        launch { get("$HTTP_BIN_URL/anything") }
-        launch { patch("$HTTP_BIN_URL/anything") }
-        launch { post("$HTTP_BIN_URL/anything") }
-        launch { put("$HTTP_BIN_URL/anything") }
-        launch { delete("$HTTP_BIN_URL/anything/test") }
-        launch { get("$HTTP_BIN_URL/anything/test") }
-        launch { patch("$HTTP_BIN_URL/anything/test") }
-        launch { post("$HTTP_BIN_URL/anything/test") }
-        launch { put("$HTTP_BIN_URL/anything/test") }
+        runCatching { this@with.delete("$HTTP_BIN_URL/anything") }
+        runCatching { this@with.get("$HTTP_BIN_URL/anything") }
+        runCatching { this@with.patch("$HTTP_BIN_URL/anything") }
+        runCatching { this@with.post("$HTTP_BIN_URL/anything") }
+        runCatching { this@with.put("$HTTP_BIN_URL/anything") }
+        runCatching { this@with.delete("$HTTP_BIN_URL/anything/test") }
+        runCatching { this@with.get("$HTTP_BIN_URL/anything/test") }
+        runCatching { this@with.patch("$HTTP_BIN_URL/anything/test") }
+        runCatching { this@with.post("$HTTP_BIN_URL/anything/test") }
+        runCatching { this@with.put("$HTTP_BIN_URL/anything/test") }
 
         // Other Utilities
-        launch { get("$HTTP_BIN_URL/forms/post") }
+        runCatching { this@with.get("$HTTP_BIN_URL/forms/post") }
 
         // Javascript
-        launch { get("https://code.jquery.com/jquery-3.7.1.min.js") }
+        runCatching { this@with.get("https://code.jquery.com/jquery-3.7.1.min.js") }
 
         // CSS
-        launch { get("https://www.w3schools.com/plus/plans/main.css?v=1.0.1") }
+        runCatching { this@with.get("https://www.w3schools.com/plus/plans/main.css?v=1.0.1") }
 
         // IGNORED
-        launch { get("https://cosminmihu.ro/resume") }
+        runCatching { this@with.get("https://cosminmihu.ro/resume") }
     }
 }
