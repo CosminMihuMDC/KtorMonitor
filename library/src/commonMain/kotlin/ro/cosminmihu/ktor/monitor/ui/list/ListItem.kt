@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -100,9 +101,16 @@ internal fun CallItem(
                     horizontalArrangement = Arrangement.spacedBy(Dimens.Small),
                 ) {
                     Icon(
-                        imageVector = if (call.isSecure) Icons.Filled.Lock else Icons.Filled.LockOpen,
+                        imageVector = when {
+                            call.isSecure -> Icons.Filled.Lock
+                            else -> Icons.Filled.LockOpen
+                        },
                         contentDescription = stringResource(Res.string.ktor_secure),
                         modifier = Modifier.size(Dimens.Medium),
+                        tint = when {
+                            call.isSecure -> LocalContentColor.current
+                            else -> MaterialTheme.colorScheme.error
+                        },
                     )
                     Text(text = call.request.host)
                 }
