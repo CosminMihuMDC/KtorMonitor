@@ -19,6 +19,7 @@ import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.Css
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.FormUrlEncoded
+import ro.cosminmihu.ktor.monitor.ui.detail.formater.Javascript
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.Text
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.XmlTree
 import ro.cosminmihu.ktor.monitor.ui.detail.noBody
@@ -60,6 +61,12 @@ internal fun Body(
                     css = body.raw,
                     modifier = Modifier.fillMaxHeight().codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
+                )
+
+            body.contentFormat == DetailUiState.ContentFormat.JAVASCRIPT && displayMode == DisplayMode.CODE && body.raw != null ->
+                Javascript(
+                    code = body.raw,
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
                 )
 
             body.contentFormat == DetailUiState.ContentFormat.FORM_URLENCODED && displayMode == DisplayMode.CODE && body.raw != null ->
