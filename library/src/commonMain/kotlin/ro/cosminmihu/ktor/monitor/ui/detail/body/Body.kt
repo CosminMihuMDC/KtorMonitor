@@ -1,7 +1,9 @@
 package ro.cosminmihu.ktor.monitor.ui.detail.body
 
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -13,6 +15,7 @@ import coil3.svg.SvgDecoder
 import com.sebastianneubauer.jsontree.JsonTree
 import com.sebastianneubauer.jsontree.defaultLightColors
 import org.jetbrains.compose.resources.stringResource
+import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.Css
 import ro.cosminmihu.ktor.monitor.ui.detail.formater.FormUrlEncoded
@@ -52,40 +55,44 @@ internal fun Body(
                     modifier = Modifier.horizontalScroll(rememberScrollState())
                 )
 
-            body.contentFormat == DetailUiState.ContentFormat.CSS && displayMode == DisplayMode.CODE ->
+            body.contentFormat == DetailUiState.ContentFormat.CSS && displayMode == DisplayMode.CODE && body.raw != null ->
                 Css(
-                    css = body.raw ?: "",
+                    css = body.raw,
                     modifier = Modifier.fillMaxHeight().codeBlock(),
+                    contentPadding = PaddingValues(Dimens.Small),
                 )
 
-            body.contentFormat == DetailUiState.ContentFormat.FORM_URLENCODED && displayMode == DisplayMode.CODE ->
+            body.contentFormat == DetailUiState.ContentFormat.FORM_URLENCODED && displayMode == DisplayMode.CODE && body.raw != null ->
                 FormUrlEncoded(
-                    body = body.raw ?: "",
+                    body = body.raw,
                     modifier = Modifier.fillMaxHeight().codeBlock(),
+                    contentPadding = PaddingValues(Dimens.Small),
                 )
 
-            body.contentFormat == DetailUiState.ContentFormat.JSON && displayMode == DisplayMode.CODE ->
+            body.contentFormat == DetailUiState.ContentFormat.JSON && displayMode == DisplayMode.CODE && body.raw != null ->
                 JsonTree(
-                    json = body.raw ?: "",
+                    json = body.raw,
                     onLoading = {},
                     colors = defaultLightColors.copy(
                         symbolColor = Color(0xFF2E86C1),
                         iconColor = Color(0xFF2E86C1),
                     ),
                     modifier = Modifier.fillMaxHeight().codeBlock(),
+                    contentPadding = PaddingValues(Dimens.Small),
                 )
 
-            body.contentFormat == DetailUiState.ContentFormat.XML && displayMode == DisplayMode.CODE ->
+            body.contentFormat == DetailUiState.ContentFormat.XML && displayMode == DisplayMode.CODE && body.raw != null ->
                 XmlTree(
-                    xml = body.raw ?: "",
+                    xml = body.raw,
                     modifier = Modifier.fillMaxHeight().codeBlock(),
+                    contentPadding = PaddingValues(Dimens.Small),
                 )
 
             body.raw != null && displayMode == DisplayMode.RAW ->
-                Text(text = body.raw)
+                Text(text = body.raw, modifier = Modifier.padding(Dimens.Small))
 
             !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES ->
-                Text(text = body.bytes)
+                Text(text = body.bytes, modifier = Modifier.padding(Dimens.Small))
         }
     }
 }

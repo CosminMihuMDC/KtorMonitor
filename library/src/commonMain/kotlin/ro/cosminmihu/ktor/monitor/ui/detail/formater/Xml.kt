@@ -77,12 +77,15 @@ internal fun XmlTree(
         }
     }
 
-    Box(modifier = modifier.padding(contentPadding)) {
+    Box(modifier = modifier) {
         if (error == null) {
             rootElement?.let { root ->
                 // SelectionContainer allows users to copy text
                 SelectionContainer {
-                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Column(
+                        modifier = Modifier.verticalScroll(rememberScrollState())
+                            .padding(contentPadding),
+                    ) {
                         // Render children of the document (usually the root tag)
                         root.children().forEach { child ->
                             XmlNodeView(

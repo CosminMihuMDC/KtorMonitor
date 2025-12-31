@@ -63,10 +63,13 @@ internal fun FormUrlEncoded(
         }
     }
 
-    Box(modifier = modifier.padding(contentPadding)) {
+    Box(modifier = modifier) {
         if (error == null && rootNodes.isNotEmpty()) {
             SelectionContainer {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Column(
+                    modifier = Modifier.verticalScroll(rememberScrollState())
+                        .padding(contentPadding),
+                ) {
                     rootNodes.forEach { node ->
                         FormNodeView(
                             node = node,

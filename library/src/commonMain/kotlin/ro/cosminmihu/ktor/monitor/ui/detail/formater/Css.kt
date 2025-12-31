@@ -63,10 +63,14 @@ internal fun Css(
         }
     }
 
-    Box(modifier = modifier.padding(contentPadding)) {
+    Box(modifier = modifier) {
         if (error == null) {
             SelectionContainer {
-                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(contentPadding),
+                ) {
                     rootNodes.forEach { node ->
                         CssNodeView(
                             node = node,

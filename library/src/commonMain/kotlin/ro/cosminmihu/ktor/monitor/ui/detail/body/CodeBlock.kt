@@ -13,4 +13,3 @@ import ro.cosminmihu.ktor.monitor.ui.Dimens
 internal fun Modifier.codeBlock(): Modifier =
     this.background(MaterialTheme.colorScheme.surfaceVariant, MaterialTheme.shapes.medium)
         .border(1.dp, MaterialTheme.colorScheme.outline, MaterialTheme.shapes.medium)
-        .padding(Dimens.Small)
