@@ -85,7 +85,7 @@ dokka {
     moduleName = module
     moduleVersion = project.version.toString()
 
-    dokkaSourceSets.commonMain {
+    dokkaSourceSets.configureEach {
         perPackageOption {
             matchingRegex.set("ro.cosminmihu.ktor.monitor.db.sqldelight")
             suppress.set(true)
