@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.time.Year
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -84,6 +85,7 @@ apiValidation {
 dokka {
     moduleName = module
     moduleVersion = project.version.toString()
+    val docsDir = File(rootDir, "docs")
 
     dokkaSourceSets.configureEach {
         perPackageOption {
@@ -98,7 +100,12 @@ dokka {
     }
 
     dokkaPublications.html {
-        outputDirectory.set(File(rootDir, "docs/html"))
+        outputDirectory.set(File(docsDir, "html"))
+    }
+
+    pluginsConfiguration.html {
+        customAssets.from(File(docsDir, "logo-icon.svg"))
+        footerMessage.set("© ${Year.now().value} Cosmin Mihu")
     }
 }
 
