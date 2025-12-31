@@ -23,6 +23,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.durationAsText
 import ro.cosminmihu.ktor.monitor.domain.model.encodedPathAndQuery
 import ro.cosminmihu.ktor.monitor.domain.model.host
 import ro.cosminmihu.ktor.monitor.domain.model.isError
+import ro.cosminmihu.ktor.monitor.domain.model.isHttpError
 import ro.cosminmihu.ktor.monitor.domain.model.isInProgress
 import ro.cosminmihu.ktor.monitor.domain.model.isRedirect
 import ro.cosminmihu.ktor.monitor.domain.model.isSecure
@@ -72,6 +73,7 @@ internal class DetailViewModel(
                     isLoading = call.isInProgress,
                     isRedirect = call.isRedirect,
                     isError = call.isError,
+                    isHttpError = call.isHttpError,
                 ),
                 call = Call(
                     id = call.id,

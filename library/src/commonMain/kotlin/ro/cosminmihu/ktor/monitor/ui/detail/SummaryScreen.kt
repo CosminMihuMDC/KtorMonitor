@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
@@ -39,9 +40,19 @@ internal fun SummaryScreen(summary: DetailUiState.Summary, modifier: Modifier = 
             horizontal = Dimens.Medium
         )
     ) {
-        KeyValue(key = stringResource(Res.string.ktor_summary_url), value = summary.url)
-        KeyValue(key = stringResource(Res.string.ktor_summary_method), value = summary.method)
-        KeyValue(key = stringResource(Res.string.ktor_summary_protocol), value = summary.protocol)
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_url),
+            value = summary.url
+        )
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_method),
+            value = summary.method,
+            valueFontWeight = FontWeight.Bold
+        )
+        KeyValue(
+            key = stringResource(Res.string.ktor_summary_protocol),
+            value = summary.protocol
+        )
         when {
             summary.isLoading ->
                 KeyLoading(key = stringResource(Res.string.ktor_summary_status))
@@ -52,7 +63,12 @@ internal fun SummaryScreen(summary: DetailUiState.Summary, modifier: Modifier = 
             else ->
                 KeyValue(
                     key = stringResource(Res.string.ktor_summary_response_code),
-                    value = summary.responseCode
+                    value = summary.responseCode,
+                    valueFontWeight = FontWeight.Bold,
+                    valueColor = when {
+                        summary.isError || summary.isHttpError -> MaterialTheme.colorScheme.error
+                        else -> Color.Unspecified
+                    },
                 )
         }
         Spacer(modifier = Modifier.padding(Dimens.Small))
@@ -85,7 +101,12 @@ internal fun SummaryScreen(summary: DetailUiState.Summary, modifier: Modifier = 
 }
 
 @Composable
-private fun KeyValue(key: String, value: String) {
+private fun KeyValue(
+    key: String,
+    value: String,
+    valueColor: Color = Color.Unspecified,
+    valueFontWeight: FontWeight = FontWeight.Normal
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -99,6 +120,8 @@ private fun KeyValue(key: String, value: String) {
             text = value,
             modifier = Modifier.weight(0.7f).padding(start = Dimens.Small),
             style = MaterialTheme.typography.bodyMedium,
+            color = valueColor,
+            fontWeight = valueFontWeight,
         )
     }
 }

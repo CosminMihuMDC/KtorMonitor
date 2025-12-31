@@ -29,6 +29,7 @@ internal data class DetailUiState(
         val isLoading: Boolean,
         val isRedirect: Boolean,
         val isError: Boolean,
+        val isHttpError: Boolean,
     )
 
     @Stable

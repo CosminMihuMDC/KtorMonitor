@@ -54,6 +54,14 @@ internal val Call.totalSizeAsText: String?
         return (requestContentLength + responseContentLength).sizeAsText()
     }
 
+internal val Call.isHttpError
+    get() = when (responseCode) {
+        null -> false
+        in 300 until 400 -> false
+        in 200 until 300 -> false
+        else -> true
+    }
+
 internal val SelectCalls.isError
     get() = when {
         !error.isNullOrEmpty() -> true
