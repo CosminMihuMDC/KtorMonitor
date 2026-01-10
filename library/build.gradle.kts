@@ -162,11 +162,9 @@ kotlin {
         }
     }
 
-    jvm("desktop")
+    jvm()
 
     sourceSets {
-        val desktopMain by getting
-
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.android.permisssions)
@@ -212,7 +210,7 @@ kotlin {
             implementation(libs.jsontree)
             implementation(libs.ksoup)
         }
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.cio)

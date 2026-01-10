@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="☕desktop" type="GradleRunConfiguration" factoryName="Gradle">
+  <configuration default="false" name="☕jvm" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="env">
         <map>
@@ -15,7 +15,7 @@
       </option>
       <option name="taskNames">
         <list>
-          <option value="desktopRun" />
+          <option value="jvmRun" />
         </list>
       </option>
       <option name="vmOptions" />

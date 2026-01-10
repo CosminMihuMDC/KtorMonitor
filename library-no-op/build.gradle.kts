@@ -104,7 +104,7 @@ kotlin {
         iosSimulatorArm64(),
     )
 
-    jvm("desktop")
+    jvm()
 
     sourceSets {
         commonMain.dependencies {

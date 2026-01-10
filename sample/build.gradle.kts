@@ -55,11 +55,9 @@ kotlin {
         }
     }
     
-    jvm("desktop")
+    jvm()
     
     sourceSets {
-        val desktopMain by getting
-        
         androidMain.dependencies {
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
@@ -86,7 +84,7 @@ kotlin {
 //            implementation(projects.libraryNoOp)
 //            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.1")
         }
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.cio)
