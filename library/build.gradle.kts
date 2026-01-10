@@ -132,6 +132,16 @@ kotlin {
         freeCompilerArgs.add("-Xexpect-actual-classes") // TODO remove after jetbrains fix
     }
 
+    js {
+        outputModuleName = "KtorMonitor"
+        browser {
+            commonWebpackConfig {
+                outputFileName = "KtorMonitor.js"
+            }
+        }
+        binaries.executable()
+    }
+
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
         outputModuleName = "KtorMonitor"
