@@ -248,7 +248,3 @@ android {
         buildConfig = true
     }
 }
-
-dependencies {
-    debugImplementation(compose.uiTooling)
-}
