@@ -218,7 +218,7 @@ kotlin {
             implementation(libs.slf4j.simple)
         }
 
-        wasmJsMain.dependencies {
+        webMain.dependencies {
             implementation(libs.ktor.client.js)
             implementation(libs.sqldelight.web)
             implementation(npm("sql.js", libs.versions.sqljs.get()))

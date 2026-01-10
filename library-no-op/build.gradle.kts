@@ -111,7 +111,7 @@ kotlin {
             implementation(compose.ui)
             implementation(libs.ktor.client.core)
         }
-        wasmJsMain.dependencies {
+        webMain.dependencies {
             implementation(npm("sql.js", libs.versions.sqljs.get()))
             implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
         }
