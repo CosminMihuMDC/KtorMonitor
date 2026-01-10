@@ -76,9 +76,9 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(projects.library)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.1")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.2")
 //            implementation(projects.libraryNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.1")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.2")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

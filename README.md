@@ -1,6 +1,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/ro.cosminmihu.ktor/ktor-monitor-logging?logo=apachemaven&label=Maven%20Central&link=https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging/)](https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging)
 [![License](https://img.shields.io/github/license/CosminMihuMDC/KtorMonitor?label=License&logo=lintcode&logoColor=white&color=#3DA639)](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/LICENSE)
-![Platforms](https://img.shields.io/badge/Platforms-Android%20+%20iOS%20+%20JVM%20+%20Wasm-brightgreen?logo=bambulab&logoColor=white&color=8d69e0)
+![Platforms](https://img.shields.io/badge/Platforms-Android%20+%20iOS%20+%20JVM%20+%20Wasm%20+%20Js-brightgreen?logo=bambulab&logoColor=white&color=8d69e0)
 [![JetBrains Klibs](https://img.shields.io/badge/JetBrains-klibs-4284F3?logo=jetbrains&logoColor=white)](https://klibs.io/project/CosminMihuMDC/KtorMonitor)
 [![Documentation](https://img.shields.io/badge/Docs-html-brightgreen?logo=readthedocs&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor/html)
 <br>
@@ -17,13 +17,14 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 &emsp;
 <img src="extra/readme/ktormonitor_desktop.gif" width="430" alt="desktop"/>
 &emsp;
-<img src="extra/readme/ktormonitor_wasm.gif" width="430" alt="wasm"/>
+<img src="extra/readme/ktormonitor_web.gif" width="430" alt="web"/>
 
 By default, **```KtorMonitor```**:
 - **android** -> is enabled for ```debug``` builds and disabled for ```release``` builds
 - **ios** -> is enabled for ```debug``` builds and disabled for ```release``` builds
 - **desktop** -> is enabled for all builds
 - **wasm** -> is enabled for all builds
+- **js** -> is enabled for all builds
 
 ## Setup
 
@@ -184,12 +185,12 @@ struct ContentView: View {
 </details>
 
 <details>
-<summary><b>Wasm</b></summary>
+<summary><b>Wasm / Js</b></summary>
 
 ```kotlin
 kotlin {
     sourceSets {
-        wasmJsMain.dependencies {
+        webMain.dependencies {
             implementation(devNpm("copy-webpack-plugin", "9.1.0"))
         }
     }
@@ -217,7 +218,7 @@ config.plugins.push(
 ```
 
 ```kotlin
-ComposeViewport(document.body!!) {
+ComposeViewport {
     App()
 }
 ```

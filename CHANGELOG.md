@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.9.1] - 2025-12-31
+* Add JavaScript target
+
+## [1.9.1] - 2025-12-31
 * Change secure icon
 * Emphasize error in summary 
 * Simplify body preview: IMG, CODE, TXT, HEX
