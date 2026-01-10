@@ -4,12 +4,6 @@ public final class ro/cosminmihu/ktor/monitor/ComposableSingletons$KtorMonitorPa
 	public final fun getLambda$-1421894391$library ()Lkotlin/jvm/functions/Function2;
 }
 
-public final class ro/cosminmihu/ktor/monitor/ComposableSingletons$KtorMonitorWindowKt {
-	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ComposableSingletons$KtorMonitorWindowKt;
-	public fun <init> ()V
-	public final fun getLambda$-234643027$library ()Lkotlin/jvm/functions/Function3;
-}
-
 public final class ro/cosminmihu/ktor/monitor/ContentLength {
 	public static final field $stable I
 	public static final field Default I
@@ -50,7 +44,7 @@ public final class ro/cosminmihu/ktor/monitor/KtorMonitorPanelKt {
 }
 
 public final class ro/cosminmihu/ktor/monitor/KtorMonitorWindowKt {
-	public static final fun KtorMonitorWindow (ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun KtorMonitorWindow (ZZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class ro/cosminmihu/ktor/monitor/RetentionPeriod {
@@ -72,33 +66,38 @@ public final class ro/cosminmihu/ktor/monitor/ui/ComposableSingletons$LoadingKt 
 public final class ro/cosminmihu/ktor/monitor/ui/detail/ComposableSingletons$DetailScreenKt {
 	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ui/detail/ComposableSingletons$DetailScreenKt;
 	public fun <init> ()V
-	public final fun getLambda$-1340440243$library ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$-245963515$library ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$-510791250$library ()Lkotlin/jvm/functions/Function3;
-	public final fun getLambda$459239356$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-883690637$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$248374151$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$56918910$library ()Lkotlin/jvm/functions/Function2;
 }
 
-public final class ro/cosminmihu/ktor/monitor/ui/detail/ComposableSingletons$TransactionKt {
-	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ui/detail/ComposableSingletons$TransactionKt;
+public final class ro/cosminmihu/ktor/monitor/ui/detail/body/ComposableSingletons$BodyKt {
+	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ui/detail/body/ComposableSingletons$BodyKt;
 	public fun <init> ()V
-	public final fun getLambda$-343522679$library ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$371613719$library ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$812548621$library ()Lkotlin/jvm/functions/Function2;
+}
+
+public final class ro/cosminmihu/ktor/monitor/ui/detail/transaction/ComposableSingletons$TransactionKt {
+	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ui/detail/transaction/ComposableSingletons$TransactionKt;
+	public fun <init> ()V
+	public final fun getLambda$1632685945$library ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class ro/cosminmihu/ktor/monitor/ui/list/ComposableSingletons$ListScreenKt {
 	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ui/list/ComposableSingletons$ListScreenKt;
 	public fun <init> ()V
-	public final fun getLambda$-1691309071$library ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-1785685315$library ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$-60843077$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-231084638$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$-842615066$library ()Lkotlin/jvm/functions/Function3;
+	public final fun getLambda$803639910$library ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class ro/cosminmihu/ktor/monitor/ui/list/ComposableSingletons$SearchFieldKt {
 	public static final field INSTANCE Lro/cosminmihu/ktor/monitor/ui/list/ComposableSingletons$SearchFieldKt;
 	public fun <init> ()V
+	public final fun getLambda$-30154021$library ()Lkotlin/jvm/functions/Function2;
 	public final fun getLambda$-350783210$library ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1004738776$library ()Lkotlin/jvm/functions/Function2;
-	public final fun getLambda$1183947924$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$452188053$library ()Lkotlin/jvm/functions/Function2;
+	public final fun getLambda$785893209$library ()Lkotlin/jvm/functions/Function2;
 }
 
 public final class ro/cosminmihu/ktor/monitor/ui/main/ComposableSingletons$MainContentKt {
@@ -106,4 +105,3 @@ public final class ro/cosminmihu/ktor/monitor/ui/main/ComposableSingletons$MainC
 	public fun <init> ()V
 	public final fun getLambda$630903264$library ()Lkotlin/jvm/functions/Function4;
 }
-
