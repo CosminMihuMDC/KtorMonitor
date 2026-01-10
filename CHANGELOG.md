@@ -3,7 +3,10 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.9.1] - 2025-12-31
+## [1.9.3] - 2025-12-31
+* Fix Web build
+
+## [1.9.2] - 2025-12-31 - CANCELED
 * Add JavaScript target
 
 ## [1.9.1] - 2025-12-31
