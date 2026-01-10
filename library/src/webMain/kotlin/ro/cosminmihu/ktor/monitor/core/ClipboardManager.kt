@@ -1,6 +1,7 @@
 package ro.cosminmihu.ktor.monitor.core
 
 import kotlinx.browser.window
+import kotlin.js.ExperimentalWasmJsInterop
 
 internal actual class ClipboardManager {
 
