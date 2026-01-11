@@ -70,6 +70,7 @@ internal actual class NotificationManager : LibraryKoinComponent {
             NotificationManager.IMPORTANCE_DEFAULT
         )
         channel.description = NOTIFICATION_CHANNEL_DESCRIPTION
+        channel.setSound(null, null)
         notificationManager.createNotificationChannel(channel)
     }
 
