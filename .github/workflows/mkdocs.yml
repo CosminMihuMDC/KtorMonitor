@@ -1,4 +1,4 @@
-name: MDocs
+name: MkDocs
 on:
   push:
     branches:

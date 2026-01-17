@@ -54,7 +54,7 @@ nav:
   - 'Overview': index.md
   - 'Getting Started': getting_started.md
   - 'Integration': integration.md
-  - 'API ⏏': docs/html/index.html
+  - 'API ⏏': html/index.html
   - 'Contributing': contributing.md
 
 markdown_extensions:
