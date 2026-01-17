@@ -250,7 +250,7 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 
 Documentation is available at [KtorMonitor Documentation](https://cosminmihumdc.github.io/KtorMonitor).
 <br>
-API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonitor/html).
+API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonitor/api).
 <br>
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>

@@ -1,7 +1,12 @@
 site_name: KtorMonitor
 site_description: 'Powerful tool to monitor Ktor Client requests and responses, making it easier to debug and analyze network communication.'
-site_author: '2026 Cosmin Mihu'
-site_url: https://github.com/CosminMihuMDC/KtorMonitor/
+site_author: 'Cosmin Mihu'
+site_url: https://github.com/CosminMihuMDC/KtorMonitor
+
+repo_name: 'KtorMonitor'
+repo_url: 'https://github.com/CosminMihuMDC/KtorMonitor'
+
+copyright: © 2026 Cosmin Mihu
 
 theme:
 
@@ -47,8 +52,6 @@ extra:
   social:
     - icon: 'simple/github'
       link: 'https://github.com/CosminMihuMDC/KtorMonitor'
-
-copyright: © 2026 Cosmin Mihu
 
 nav:
   - 'Overview': index.md
