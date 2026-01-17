@@ -4,7 +4,7 @@ Add the UI component to your application based on your targeted platform.
 
 * Use ```KtorMonitor``` Composable
 
-```kotlin
+```kotlin hl_lines="3"
 @Composable
 fun Composable() {
     KtorMonitor()
@@ -22,7 +22,7 @@ fun Composable() {
 
 * Use ```KtorMonitorViewController```
 
-```kotlin
+```kotlin hl_lines="1"
 fun MainViewController() = KtorMonitorViewController()
 ```
 
@@ -38,7 +38,7 @@ struct KtorMonitorView: UIViewControllerRepresentable {
 struct ContentView: View {
     var body: some View {
         KtorMonitorView()
-                .ignoresSafeArea()
+            .ignoresSafeArea()
     }
 }
 ```
@@ -47,7 +47,7 @@ struct ContentView: View {
 
 * Use ```KtorMonitorWindow``` Composable
 
-```kotlin
+```kotlin hl_lines="4"
 fun main() = application {
 
     var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
@@ -60,7 +60,7 @@ fun main() = application {
 
 * Use ```KtorMonitorWindow``` Composable with ```KtorMonitorMenuItem```
 
-```kotlin
+```kotlin hl_lines="7"
 fun main() = application {
 
     var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
@@ -83,7 +83,7 @@ fun main() = application {
 
 * Use ```KtorMonitorPanel``` Swing Panel
 
-```kotlin
+```kotlin hl_lines="5"
 fun main() = application {
 
     SwingUtilities.invokeLater {
@@ -99,7 +99,7 @@ fun main() = application {
 
 * Web targets require a few additional webpack steps.
 
-```kotlin
+```kotlin hl_lines="4"
 kotlin {
     sourceSets {
         webMain.dependencies {

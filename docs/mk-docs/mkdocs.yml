@@ -45,8 +45,10 @@ theme:
 
 extra:
   social:
-    - icon: 'fontawesome/brands/github'
+    - icon: 'simple/github'
       link: 'https://github.com/CosminMihuMDC/KtorMonitor'
+
+copyright: © 2026 Cosmin Mihu
 
 nav:
   - 'Overview': index.md
@@ -54,3 +56,14 @@ nav:
   - 'Integration': integration.md
   - 'API ⏏': docs/html/index.html
   - 'Contributing': contributing.md
+
+markdown_extensions:
+  - admonition
+  - footnotes
+  - toc:
+      permalink: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences

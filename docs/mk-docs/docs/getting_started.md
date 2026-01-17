@@ -1,6 +1,6 @@
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
 
-```kotlin
+```kotlin hl_lines="4"
 kotlin {
     sourceSets {
         commonMain.dependencies {
@@ -14,7 +14,7 @@ kotlin {
 
 To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op` variant. This ensures the monitor code is not included in production artifact.
 
-```kotlin
+```kotlin hl_lines="4"
 kotlin {
     sourceSets {
         commonMain.dependencies {
@@ -26,7 +26,7 @@ kotlin {
 
 ### <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Ktor_icon.png" width="30"/> Install Ktor Client Plugin
 
-```kotlin
+```kotlin hl_lines="3-9"
 HttpClient {
 	
     install(KtorMonitorLogging) {  
