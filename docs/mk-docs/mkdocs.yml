@@ -1,0 +1,58 @@
+site_name: KtorMonitor
+site_description: 'Powerful tool to monitor Ktor Client requests and responses, making it easier to debug and analyze network communication.'
+site_author: '2026 Cosmin Mihu'
+site_url: https://cosminmihumdc.github.io/KtorMonitor/mkdocs/
+
+theme:
+
+  name: material
+
+  language: 'en'
+  favicon: 'images/logo-icon.svg'
+  logo: 'images/logo-icon.svg'
+
+  font:
+    text: 'Roboto'
+    code: 'Roboto Mono'
+
+  palette: 
+
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+      primary: deep purple
+      accent: indigo    
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default 
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+      primary: deep purple
+      accent: indigo    
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference
+      primary: deep purple
+      accent: indigo 
+
+extra:
+  social:
+    - icon: 'fontawesome/brands/github'
+      link: 'https://github.com/CosminMihuMDC/KtorMonitor'
+
+nav:
+  - 'Overview': index.md
+  - 'Getting Started': getting_started.md
+  - 'Integration': integration.md
+  # - 'API ⏏': api/index.html
+  # - 'WASM Sample ⏏': sample/index.html
+  - 'Change Log': changelog.md
+  - 'Contributing': contributing.md

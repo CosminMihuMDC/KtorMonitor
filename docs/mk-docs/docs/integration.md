@@ -1,0 +1,151 @@
+## 🧩 Integration
+
+Add the UI component to your application based on your targeted platform.
+
+<details>
+<summary><b>Compose Multiplatform (Common)</b></summary>
+
+* Use ```KtorMonitor``` Composable
+
+```kotlin
+@Composable
+fun Composable() {
+    KtorMonitor()
+}
+```
+</details>
+
+<details>
+<summary><b>Android</b></summary>
+
+- If ```showNotifcation = true``` and **android.permission.POST_NOTIFICATIONS** is granted, the library will display a notification showing a summary of ongoing KTOR activity. Tapping on the notification launches the full ```KtorMonitor```.
+- Apps can optionally use the ```KtorMonitor()``` Composable directly into own Composable code.
+</details>
+
+<details>
+<summary><b>Desktop (Compose)</b></summary>
+
+* Use ```KtorMonitorWindow``` Composable
+
+```kotlin
+fun main() = application {
+
+    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
+    KtorMonitorWindow(
+        onCloseRequest = { showKtorMonitor = false },
+        show = showKtorMonitor
+    )
+
+}
+```
+
+* Use ```KtorMonitorWindow``` Composable with ```KtorMonitorMenuItem```
+
+```kotlin
+fun main() = application {
+
+    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
+    Tray(
+        icon = painterResource(Res.drawable.ic_launcher),
+        menu = {
+            KtorMonitorMenuItem { showKtorMonitor = true }
+        }
+    )
+
+    KtorMonitorWindow(
+        show = showKtorMonitor,
+        onCloseRequest = { showKtorMonitor = false }
+    )
+
+}
+```
+</details>
+
+<details>
+<summary><b>Desktop (Swing)</b></summary>
+
+* Use ```KtorMonitorPanel``` Swing Panel
+
+```kotlin
+fun main() = application {
+
+    SwingUtilities.invokeLater {
+        val frame = JFrame()
+        frame.add(KtorMonitorPanel, BorderLayout.CENTER)
+        frame.isVisible = true
+    }
+
+}
+```
+</details>
+
+<details>
+<summary><b>iOS</b></summary>
+
+* If ```showNotifcation = true``` and notification permission is granted, the library will display a notification showing a summary of ongoing KTOR activity.
+
+* Use ```KtorMonitorViewController```
+
+```kotlin
+fun MainViewController() = KtorMonitorViewController()
+```
+
+```swift
+struct KtorMonitorView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+struct ContentView: View {
+    var body: some View {
+        KtorMonitorView()
+                .ignoresSafeArea()
+    }
+}
+```
+</details>
+
+<details>
+<summary><b>Wasm / Js</b></summary>
+
+* Web targets require a few additional webpack steps.
+
+```kotlin
+kotlin {
+    sourceSets {
+        webMain.dependencies {
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+        }
+    }
+}
+```
+
+```javascript
+// {project}/webpack.config.d/sqljs.js
+config.resolve = {
+    fallback: {
+        fs: false,
+        path: false,
+        crypto: false,
+    }
+};
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+config.plugins.push(
+    new CopyWebpackPlugin({
+        patterns: [
+            '../../node_modules/sql.js/dist/sql-wasm.wasm'
+        ]
+    })
+);
+```
+
+```kotlin
+ComposeViewport {
+    App()
+}
+```
+</details>
