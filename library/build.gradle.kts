@@ -100,11 +100,11 @@ dokka {
     }
 
     dokkaPublications.html {
-        outputDirectory.set(File(docsDir, "html"))
+        outputDirectory.set(File(docsDir, "api"))
     }
 
     pluginsConfiguration.html {
-        customAssets.from(File(docsDir, "logo-icon.svg"))
+        customAssets.from(File(docsDir, "images/logo-icon.svg"))
         footerMessage.set("© ${Year.now().value} Cosmin Mihu")
     }
 }

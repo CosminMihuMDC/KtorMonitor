@@ -24,5 +24,7 @@ jobs:
           path: ~/.cache
           restore-keys: |
             mkdocs-material-
+      - run: rm -rf docs/api
+      - run: ./gradlew clean dokkaGenerate
       - run: pip install mkdocs-material
-      - run: mkdocs gh-deploy --force --config-file docs/mk-docs/mkdocs.yml
+      - run: mkdocs gh-deploy --force --config-file docs/mkdocs.yml
