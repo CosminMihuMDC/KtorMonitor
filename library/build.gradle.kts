@@ -85,7 +85,7 @@ apiValidation {
 dokka {
     moduleName = module
     moduleVersion = project.version.toString()
-    val docsDir = File(rootDir, "docs")
+    val docsDir = File(rootDir, "docs/docs")
 
     dokkaSourceSets.configureEach {
         perPackageOption {
