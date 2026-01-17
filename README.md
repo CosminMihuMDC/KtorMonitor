@@ -28,11 +28,12 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 *   **No-Op Artifact**: Easily disable monitoring in release builds without code changes.
 
 By default, **```KtorMonitor```**:
-- **android** -> is enabled for ```debug``` builds and disabled for ```release``` builds
-- **ios** -> is enabled for ```debug``` builds and disabled for ```release``` builds
-- **desktop** -> is enabled for all builds
-- **wasm** -> is enabled for all builds
-- **js** -> is enabled for all builds
+
+*   **android** -> is enabled for ```debug``` builds and disabled for ```release``` builds
+*   **ios** -> is enabled for ```debug``` builds and disabled for ```release``` builds
+*   **desktop** -> is enabled for all builds
+*   **wasm** -> is enabled for all builds
+*   **js** -> is enabled for all builds
 
 ## 📦 Setup
 

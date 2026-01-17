@@ -1,5 +1,3 @@
-## 📦 Setup
-
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
 
 ```kotlin
