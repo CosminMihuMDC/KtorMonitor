@@ -197,7 +197,7 @@ struct ContentView: View {
 <details>
 <summary><b>Wasm / Js</b></summary>
 
-Web targets require a few additional webpack steps.
+* Web targets require a few additional webpack steps.
 
 ```kotlin
 kotlin {
