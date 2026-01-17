@@ -19,6 +19,14 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 &emsp;
 <img src="extra/readme/ktormonitor_web.gif" width="430" alt="web"/>
 
+## ✨ Features
+
+*   **Comprehensive Logging**: Inspect detailed request and response information including headers, body, and duration.
+*   **Platform Support**: Native support for **Android**, **iOS**, **Desktop (JVM)**, **Wasm**, and **JS**.
+*   **Configurable**: Customize retention periods, content length limits, and notification behavior.
+*   **Security**: redact sensitive headers (e.g., Authorization) automatically.
+*   **No-Op Artifact**: Easily disable monitoring in release builds without code changes.
+
 By default, **```KtorMonitor```**:
 - **android** -> is enabled for ```debug``` builds and disabled for ```release``` builds
 - **ios** -> is enabled for ```debug``` builds and disabled for ```release``` builds
@@ -26,7 +34,7 @@ By default, **```KtorMonitor```**:
 - **wasm** -> is enabled for all builds
 - **js** -> is enabled for all builds
 
-## Setup
+## 📦 Setup
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
 
@@ -40,7 +48,9 @@ kotlin {
 }
 ```
 
-In order to isolate KtorMonitor from release builds, use `ktor-monitor-logging-no-op` variant:
+**For Release Builds (No-Op)**
+
+To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op` variant. This ensures the monitor code is not included in production artifact.
 
 ```kotlin
 kotlin {
@@ -76,10 +86,10 @@ HttpClient {
 
 ## 🧩 Integration
 
-Check out below how to integrate Ktor Monitor for different platforms.
+Add the UI component to your application based on your targeted platform.
 
 <details>
-<summary><b>Compose Multiplatform (all platforms)</b></summary>
+<summary><b>Compose Multiplatform (Common)</b></summary>
 
 * Use ```KtorMonitor``` Composable
 
@@ -99,7 +109,7 @@ fun Composable() {
 </details>
 
 <details>
-<summary><b>Desktop Compose</b></summary>
+<summary><b>Desktop (Compose)</b></summary>
 
 * Use ```KtorMonitorWindow``` Composable
 
@@ -138,7 +148,7 @@ fun main() = application {
 </details>
 
 <details>
-<summary><b>Desktop Swing</b></summary>
+<summary><b>Desktop (Swing)</b></summary>
 
 * Use ```KtorMonitorPanel``` Swing Panel
 
@@ -187,6 +197,8 @@ struct ContentView: View {
 <details>
 <summary><b>Wasm / Js</b></summary>
 
+Web targets require a few additional webpack steps.
+
 ```kotlin
 kotlin {
     sourceSets {
@@ -226,7 +238,7 @@ ComposeViewport {
 
 ## ✍️ Feedback
 
-Feel free to send feedback or [file an issue](https://github.com/CosminMihuMDC/KtorMonitor/issues/new).
+Found a bug or have a feature request? [File an issue](https://github.com/CosminMihuMDC/KtorMonitor/issues/new).
 
 ## 🙌 Acknowledgments
 
