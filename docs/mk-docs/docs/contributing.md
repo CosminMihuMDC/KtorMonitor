@@ -23,7 +23,7 @@ Thanks to JetBrains for Ktor and Kotlin!
 ## 💸 Sponsors
 KtorMonitor is maintained and improved during nights, weekends and whenever team has free time. If you use KtorMonitor in your project, please consider sponsoring us.
 
-You can sponsor us by clicking <span style="color:#bf3989">♥ Sponsor</span> Button.
+You can sponsor us by clicking [<span style="color:#bf3989">♥ Sponsor</span>](https://github.com/sponsors/CosminMihuMDC).
 
 ## 🙏🏻 Credits
 
