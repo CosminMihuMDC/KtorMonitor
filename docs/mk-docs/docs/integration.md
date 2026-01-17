@@ -1,9 +1,6 @@
-## 🧩 Integration
-
 Add the UI component to your application based on your targeted platform.
 
-<details>
-<summary><b>Compose Multiplatform (Common)</b></summary>
+### Compose Multiplatform (Common)
 
 * Use ```KtorMonitor``` Composable
 
@@ -13,74 +10,13 @@ fun Composable() {
     KtorMonitor()
 }
 ```
-</details>
 
-<details>
-<summary><b>Android</b></summary>
+### Android
 
 - If ```showNotifcation = true``` and **android.permission.POST_NOTIFICATIONS** is granted, the library will display a notification showing a summary of ongoing KTOR activity. Tapping on the notification launches the full ```KtorMonitor```.
 - Apps can optionally use the ```KtorMonitor()``` Composable directly into own Composable code.
-</details>
 
-<details>
-<summary><b>Desktop (Compose)</b></summary>
-
-* Use ```KtorMonitorWindow``` Composable
-
-```kotlin
-fun main() = application {
-
-    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
-    KtorMonitorWindow(
-        onCloseRequest = { showKtorMonitor = false },
-        show = showKtorMonitor
-    )
-
-}
-```
-
-* Use ```KtorMonitorWindow``` Composable with ```KtorMonitorMenuItem```
-
-```kotlin
-fun main() = application {
-
-    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
-    Tray(
-        icon = painterResource(Res.drawable.ic_launcher),
-        menu = {
-            KtorMonitorMenuItem { showKtorMonitor = true }
-        }
-    )
-
-    KtorMonitorWindow(
-        show = showKtorMonitor,
-        onCloseRequest = { showKtorMonitor = false }
-    )
-
-}
-```
-</details>
-
-<details>
-<summary><b>Desktop (Swing)</b></summary>
-
-* Use ```KtorMonitorPanel``` Swing Panel
-
-```kotlin
-fun main() = application {
-
-    SwingUtilities.invokeLater {
-        val frame = JFrame()
-        frame.add(KtorMonitorPanel, BorderLayout.CENTER)
-        frame.isVisible = true
-    }
-
-}
-```
-</details>
-
-<details>
-<summary><b>iOS</b></summary>
+### iOS
 
 * If ```showNotifcation = true``` and notification permission is granted, the library will display a notification showing a summary of ongoing KTOR activity.
 
@@ -106,10 +42,60 @@ struct ContentView: View {
     }
 }
 ```
-</details>
 
-<details>
-<summary><b>Wasm / Js</b></summary>
+### Desktop (Compose)
+
+* Use ```KtorMonitorWindow``` Composable
+
+```kotlin
+fun main() = application {
+
+    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
+    KtorMonitorWindow(
+        onCloseRequest = { showKtorMonitor = false },
+        show = showKtorMonitor
+    )
+}
+```
+
+* Use ```KtorMonitorWindow``` Composable with ```KtorMonitorMenuItem```
+
+```kotlin
+fun main() = application {
+
+    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
+    Tray(
+        icon = painterResource(Res.drawable.ic_launcher),
+        menu = {
+            KtorMonitorMenuItem { showKtorMonitor = true }
+        }
+    )
+
+    KtorMonitorWindow(
+        show = showKtorMonitor,
+        onCloseRequest = { showKtorMonitor = false }
+    )
+
+}
+```
+
+### Desktop (Swing)
+
+* Use ```KtorMonitorPanel``` Swing Panel
+
+```kotlin
+fun main() = application {
+
+    SwingUtilities.invokeLater {
+        val frame = JFrame()
+        frame.add(KtorMonitorPanel, BorderLayout.CENTER)
+        frame.isVisible = true
+    }
+
+}
+```
+
+### Wasm / Js
 
 * Web targets require a few additional webpack steps.
 
@@ -148,4 +134,3 @@ ComposeViewport {
     App()
 }
 ```
-</details>

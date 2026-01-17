@@ -12,6 +12,8 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 
 Documentation is available at [KtorMonitor Documentation](https://cosminmihumdc.github.io/KtorMonitor/html).
 <br>
+API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonitor/html).
+<br>
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).

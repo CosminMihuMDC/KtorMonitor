@@ -75,7 +75,6 @@ HttpClient {
         retentionPeriod = RetentionPeriod.OneHour
         maxContentLength = ContentLength.Default
     }
-    
 }
 ```
 
@@ -107,6 +106,35 @@ fun Composable() {
 
 - If ```showNotifcation = true``` and **android.permission.POST_NOTIFICATIONS** is granted, the library will display a notification showing a summary of ongoing KTOR activity. Tapping on the notification launches the full ```KtorMonitor```.
 - Apps can optionally use the ```KtorMonitor()``` Composable directly into own Composable code.
+</details>
+
+<details>
+<summary><b>iOS</b></summary>
+
+* If ```showNotifcation = true``` and notification permission is granted, the library will display a notification showing a summary of ongoing KTOR activity.
+
+* Use ```KtorMonitorViewController```
+
+```kotlin
+fun MainViewController() = KtorMonitorViewController()
+```
+
+```swift
+struct KtorMonitorView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+struct ContentView: View {
+    var body: some View {
+        KtorMonitorView()
+                .ignoresSafeArea()
+    }
+}
+```
 </details>
 
 <details>
@@ -167,35 +195,6 @@ fun main() = application {
 </details>
 
 <details>
-<summary><b>iOS</b></summary>
-
-* If ```showNotifcation = true``` and notification permission is granted, the library will display a notification showing a summary of ongoing KTOR activity.
-
-* Use ```KtorMonitorViewController```
-
-```kotlin
-fun MainViewController() = KtorMonitorViewController()
-```
-
-```swift
-struct KtorMonitorView: UIViewControllerRepresentable {
-    func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController()
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
-}
-
-struct ContentView: View {
-    var body: some View {
-        KtorMonitorView()
-                .ignoresSafeArea()
-    }
-}
-```
-</details>
-
-<details>
 <summary><b>Wasm / Js</b></summary>
 
 * Web targets require a few additional webpack steps.
@@ -251,6 +250,8 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 
 Documentation is available at [KtorMonitor Documentation](https://cosminmihumdc.github.io/KtorMonitor/html).
 <br>
+API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonitor/html).
+<br>
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
@@ -262,7 +263,7 @@ Thanks to JetBrains for Ktor and Kotlin!
 ## 💸 Sponsors
 KtorMonitor is maintained and improved during nights, weekends and whenever team has free time. If you use KtorMonitor in your project, please consider sponsoring us.
 
-You can sponsor us by clicking [<span style="color:#bf3989">♥ Sponsor</span>](https://github.com/sponsors/CosminMihuMDC) Button.
+You can sponsor us by clicking [<span style="color:#bf3989">♥ Sponsor</span>](https://github.com/sponsors/CosminMihuMDC).
 
 ## 🙏🏻 Credits
 

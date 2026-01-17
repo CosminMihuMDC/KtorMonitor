@@ -36,7 +36,6 @@ HttpClient {
         retentionPeriod = RetentionPeriod.OneHour
         maxContentLength = ContentLength.Default
     }
-    
 }
 ```
 
