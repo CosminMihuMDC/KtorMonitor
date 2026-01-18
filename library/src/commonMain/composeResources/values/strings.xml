@@ -27,8 +27,8 @@
     <string name="ktor_headers">Headers</string>
     <string name="ktor_body">Body</string>
     <string name="ktor_no_headers">(no headers)</string>
-    <string name="ktor_no_body">(body is empty)</string>
-    <string name="ktor_body_trimmed">(body trimmed)</string>
+    <string name="ktor_no_body">(empty body)</string>
+    <string name="ktor_body_trimmed">(trimmed body)</string>
 
     <string name="ktor_error">Error</string>
     <string name="ktor_redirect">Redirect</string>
