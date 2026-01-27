@@ -1,6 +1,6 @@
 [![Maven Central](https://img.shields.io/maven-central/v/ro.cosminmihu.ktor/ktor-monitor-logging?logo=apachemaven&label=Maven%20Central&link=https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging/)](https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging)
 [![License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?label=Licence&logo=lintcode&logoColor=white&color=#3DA639)](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/LICENSE)
-[![Platforms](https://img.shields.io/badge/Platforms-Android%20+%20iOS%20+%20JVM%20+%20Wasm%20+%20Js-brightgreen?logo=bambulab&logoColor=white&color=8d69e0)](https://cosminmihumdc.github.io/KtorMonitor)
+[![Platforms](https://img.shields.io/badge/Platforms-Android%20+%20iOS%20+%20JVM%20+%20Wasm%20+%20Js-brightgreen?logo=kotlin&logoColor=white&color=8d69e0)](https://cosminmihumdc.github.io/KtorMonitor)
 [![Slack](https://img.shields.io/badge/Slack-kotlinlang-4A164B?logo=sololearn&logoColor=white)](https://kotlinlang.slack.com/archives/C0AB9GA32H0)
 [![JetBrains Klibs.io](https://img.shields.io/badge/JetBrains-klibs.io-4284F3?logo=jetbrains&logoColor=white)](https://klibs.io/project/CosminMihuMDC/KtorMonitor)
 [![Documentation](https://img.shields.io/badge/Docs-gray?logo=readthedocs&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor)
