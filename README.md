@@ -242,14 +242,17 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 [![Ktor](https://img.shields.io/badge/3.3.3-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
 [![SQLDelight](https://img.shields.io/badge/2.1.0-white?logo=sqlite&logoColor=white&color=003B57)](https://sqldelight.github.io/sqldelight)
 
+Community discussions on Slack — join us in the [#ktormonitor](https://kotlinlang.slack.com/archives/C0AB9GA32H0) channel.
+<br>
 Documentation is available at [KtorMonitor Documentation](https://cosminmihumdc.github.io/KtorMonitor).
 <br>
 API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonitor/api).
 <br>
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>
+<br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
-
+<br>
 Thanks to ChuckerTeam for Chucker!
 <br>
 Thanks to JetBrains for Ktor and Kotlin!
