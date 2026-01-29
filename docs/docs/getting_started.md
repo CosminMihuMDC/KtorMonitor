@@ -4,7 +4,7 @@
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.4")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.5")
         }
     }
 }
@@ -18,7 +18,7 @@ To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op`
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.4")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.5")
         }
     }
 }
