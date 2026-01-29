@@ -142,3 +142,13 @@ compose.desktop {
         }
     }
 }
+
+android {
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+}
+
+dependencies {
+    coreLibraryDesugaring(libs.desugar)
+}

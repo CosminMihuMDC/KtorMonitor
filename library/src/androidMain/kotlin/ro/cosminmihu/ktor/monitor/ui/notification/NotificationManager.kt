@@ -64,14 +64,16 @@ internal actual class NotificationManager : LibraryKoinComponent {
     }
 
     private fun createNotificationChannel(notificationManager: NotificationManager) {
-        val channel = NotificationChannel(
-            NOTIFICATION_CHANNEL_ID,
-            NOTIFICATION_CHANNEL_NAME,
-            NotificationManager.IMPORTANCE_DEFAULT
-        )
-        channel.description = NOTIFICATION_CHANNEL_DESCRIPTION
-        channel.setSound(null, null)
-        notificationManager.createNotificationChannel(channel)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                NOTIFICATION_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
+            channel.description = NOTIFICATION_CHANNEL_DESCRIPTION
+            channel.setSound(null, null)
+            notificationManager.createNotificationChannel(channel)
+        }
     }
 
     private fun createPendingIntent(): PendingIntent? {
@@ -87,7 +89,8 @@ internal actual class NotificationManager : LibraryKoinComponent {
 
     private fun createClearAction(): NotificationCompat.Action {
         val clearTitle = context.getString(R.string.ktor_clear)
-        val clearTransactionsBroadcastIntent = Intent(context, KtorMonitorClearBroadcastReceiver::class.java)
+        val clearTransactionsBroadcastIntent =
+            Intent(context, KtorMonitorClearBroadcastReceiver::class.java)
         val pendingBroadcastIntent =
             PendingIntent.getBroadcast(
                 context,
