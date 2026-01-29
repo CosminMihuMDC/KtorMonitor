@@ -68,6 +68,8 @@ dependencies {
 }
 ```
 
+For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
+
 ### <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Ktor_icon.png" width="30"/> Install Ktor Client Plugin
 
 ```kotlin
@@ -111,6 +113,7 @@ fun Composable() {
 
 - If ```showNotifcation = true``` and **android.permission.POST_NOTIFICATIONS** is granted, the library will display a notification showing a summary of ongoing KTOR activity. Tapping on the notification launches the full ```KtorMonitor```.
 - Apps can optionally use the ```KtorMonitor()``` Composable directly into own Composable code.
+- For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
 </details>
 
 <details>
