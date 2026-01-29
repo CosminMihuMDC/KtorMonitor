@@ -1,28 +1,39 @@
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
 
-```kotlin hl_lines="4"
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.5")
+=== "Kotlin Multiplatform"
+
+    ```kotlin hl_lines="4"
+    kotlin {
+        sourceSets {
+            commonMain.dependencies {
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.5")
+            }
         }
     }
-}
-```
-
-**For Release Builds (No-Op)**
-
-To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op` variant. This ensures the monitor code is not included in production artifact.
-
-```kotlin hl_lines="4"
-kotlin {
-    sourceSets {
-        commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.5")
+    ```
+    
+    **For Release Builds (No-Op)**
+    
+    To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op` variant. This ensures the monitor code is not included in production artifact.
+    
+    ```kotlin hl_lines="4"
+    kotlin {
+        sourceSets {
+            commonMain.dependencies {
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.5")
+            }
         }
     }
-}
-```
+    ```
+
+=== "Android Only"
+    
+    ```kotlin hl_lines="2-3"
+    .dependencies {
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.9.5")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.9.5")
+    }
+    ```
 
 ### <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Ktor_icon.png" width="30"/> Install Ktor Client Plugin
 
