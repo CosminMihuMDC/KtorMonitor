@@ -30,7 +30,7 @@
             android:exported="false" />
 
         <provider
-            android:name="androidx.core.content.FileProvider"
+            android:name=".file.KtorMonitorFileProvider"
             android:authorities="${applicationId}.ktorMonitor.share"
             android:exported="false"
             android:grantUriPermissions="true">
