@@ -15,13 +15,13 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 
 ## ✨ Features
 
-*   🌐**Ktor Network Monitoring**: Real-time interception and logging of all requests and responses sent via [Ktor Client](https://ktor.io/).
+*   🌐**Ktor Network Monitoring**: Real-time interception and logging of [Ktor Client](https://ktor.io/) traffic.
 *   📱**Kotlin Multiplatform (KMP)**: Full support for **Android**, **iOS**, **Desktop (JVM)**, **Wasm**, and **JS**.
 *   🛠️**Highly Configurable**: Customize retention periods, content length limits, and notification behavior.
 *   🔒**Security First**: Redact sensitive headers (e.g., *Authorization*).
 *   📂**Data Export**: Save request/response details to local files for easier debugging or sharing.
-*   🎨**Rich Previews**: Syntax-ready views for *JSON*, *XML*, *HTML*, *CSS*, *Form Data*, *Image* (*JPG*, *PNG*, *SVG*, *GIF*, *WEBP*).
-*   🛡️**Production Safe**: Includes a No-Op version to ensure monitoring code is excluded from your production builds.
+*   🎨**Rich Previews**: Built-in viewers for *JSON*, *XML*, *HTML*, *CSS*, *Form Data*, *Image* (*JPG*, *PNG*, *SVG*, *GIF*, *WEBP*).
+*   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
 
 By default, **```KtorMonitor```**:
 
