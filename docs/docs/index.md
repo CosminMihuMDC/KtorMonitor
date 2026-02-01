@@ -24,8 +24,8 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 
 By default, **```KtorMonitor```**:
 
-*   **android** -> is enabled for ```debug``` builds and disabled for ```release``` builds
-*   **ios** -> is enabled for ```debug``` builds and disabled for ```release``` builds
-*   **desktop** -> is enabled for all builds
-*   **wasm** -> is enabled for all builds
-*   **js** -> is enabled for all builds
+*   **android** → *isActive* for ```debug``` builds and disabled for ```release``` builds
+*   **ios** → *isActive* for ```debug``` builds and disabled for ```release``` builds
+*   **desktop** -> *isActive* for all builds
+*   **wasm** → *isActive* for all builds
+*   **js** → *isActive* for all builds
