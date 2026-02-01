@@ -143,7 +143,7 @@ internal enum class ContentType(
     TEXT_JAVASCRIPT("text/javascript", "JS", 0xFFADD8E6),
     TEXT_VCARD("text/vcard", "VCARD", 0xFFFFA07A),
     TEXT_XML("text/xml", "XML", 0xFFFFD700),
-    TEXT_EVENT_STREAM("text/event-stream", "EVENT", 0xFFA0522D),
+    TEXT_EVENT_STREAM("text/event-stream", "SSE", 0xFFA0522D),
 
     // Video Types
     VIDEO_ANY("video/*", "MP4", 0xFFFFDAB9),
