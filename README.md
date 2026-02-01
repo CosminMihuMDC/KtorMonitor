@@ -21,6 +21,7 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 *   🔒**Security First**: Redact sensitive headers (e.g., *Authorization*).
 *   📂**Data Export**: Save request/response details to local files for easier debugging or sharing.
 *   🎨**Rich Previews**: Built-in viewers for *JSON*, *XML*, *HTML*, *CSS*, *Form Data*, *Image* (*JPG*, *PNG*, *SVG*, *GIF*, *WEBP*).
+*   📡**SSE & WebSockets**: Track one-way streams (*SSE*) and bidirectional traffic (*WebSockets*).
 *   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
 
 By default, **```KtorMonitor```**:

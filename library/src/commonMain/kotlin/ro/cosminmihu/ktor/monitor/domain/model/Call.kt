@@ -59,6 +59,7 @@ internal val Call.isHttpError
         null -> false
         in 300 until 400 -> false
         in 200 until 300 -> false
+        in 100 until 200 -> false
         else -> true
     }
 
@@ -68,5 +69,6 @@ internal val SelectCalls.isError
         responseCode == null -> false
         responseCode in 300 until 400 -> false
         responseCode in 200 until 300 -> false
+        responseCode in 100 until 200 -> false
         else -> true
     }

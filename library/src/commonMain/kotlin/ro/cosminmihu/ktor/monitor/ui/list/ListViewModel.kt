@@ -24,6 +24,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.encodedPathAndQuery
 import ro.cosminmihu.ktor.monitor.domain.model.host
 import ro.cosminmihu.ktor.monitor.domain.model.isError
 import ro.cosminmihu.ktor.monitor.domain.model.isSecure
+import ro.cosminmihu.ktor.monitor.domain.model.isWebsocket
 import ro.cosminmihu.ktor.monitor.domain.model.requestTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.sizeAsText
 import kotlin.time.Duration.Companion.seconds
@@ -87,7 +88,10 @@ internal class ListViewModel(
                 ),
                 response = ListUiState.Response(
                     responseCode = it.responseCode?.toString() ?: "",
-                    contentType = it.responseContentType?.contentType ?: ContentType.UNKNOWN,
+                    contentType = when {
+                        it.isWebsocket -> ContentType.WEB_SOCKET
+                        else -> it.responseContentType?.contentType ?: ContentType.UNKNOWN
+                    },
                     duration = it.durationAsText ?: "",
                     size = it.responseContentLength?.sizeAsText() ?: "",
                     error = it.error ?: "",

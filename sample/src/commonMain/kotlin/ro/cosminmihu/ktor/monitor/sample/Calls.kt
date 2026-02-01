@@ -1,5 +1,7 @@
 package ro.cosminmihu.ktor.monitor.sample
 
+import io.ktor.client.plugins.sse.sse
+import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.client.request.delete
 import io.ktor.client.request.forms.FormDataContent
 import io.ktor.client.request.get
@@ -11,6 +13,12 @@ import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
 import io.ktor.http.Parameters
 import io.ktor.http.contentType
+import io.ktor.websocket.Frame
+import io.ktor.websocket.readText
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
+import kotlin.time.Duration.Companion.seconds
 
 private const val HTTP_BIN_URL = "https://httpbin.org"
 private const val REDIRECT_URL = "https://cosminmihu.ro/"
@@ -158,5 +166,43 @@ internal suspend fun samples() {
 
         // IGNORED
         runCatching { this@with.get("https://cosminmihu.ro/resume") }
+
+        // Web Socket (https://websocketking.com)
+        launch {
+            webSocket(host = "echo.websocket.org") {
+                // Receive
+                launch {
+                    incoming.consumeAsFlow().collect {
+                        if (it is Frame.Text) {
+                            println("Frame received:")
+                            println(it.readText())
+                            println()
+                        }
+                    }
+                }
+
+                // Send
+                (20 downTo 0).forEach {
+                    delay(1.seconds)
+                    send(Frame.Text("Text Frame: $it"))
+                }
+            }
+        }
+
+        // Server-Sent Events (https://websocket.org/tools/websocket-echo-server)
+        launch {
+            sse(
+                scheme = "https",
+                host = "echo.websocket.org",
+                path = ".sse"
+            ) {
+                while (true) {
+                    incoming.collect { event ->
+                        println("Event received:")
+                        println(event)
+                    }
+                }
+            }
+        }
     }
 }

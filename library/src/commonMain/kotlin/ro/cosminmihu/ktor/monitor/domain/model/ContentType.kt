@@ -143,7 +143,7 @@ internal enum class ContentType(
     TEXT_JAVASCRIPT("text/javascript", "JS", 0xFFADD8E6),
     TEXT_VCARD("text/vcard", "VCARD", 0xFFFFA07A),
     TEXT_XML("text/xml", "XML", 0xFFFFD700),
-    TEXT_EVENT_STREAM("text/event-stream", "SSE", 0xFFA0522D),
+    TEXT_EVENT_STREAM("text/event-stream", "SSE", 0xFF2DD4BF),
 
     // Video Types
     VIDEO_ANY("video/*", "MP4", 0xFFFFDAB9),
@@ -172,6 +172,9 @@ internal enum class ContentType(
     MULTIPART_SIGNED("multipart/signed", "SIGN", 0xFFFF4500),
     MULTIPART_ENCRYPTED("multipart/encrypted", "CRYPT", 0xFFFF4500),
     MULTIPART_BYTE_RANGES("multipart/byteranges", "BYTES", 0xFFDAA520),
+
+    // Web Sockets
+    WEB_SOCKET("", "WS", 0xFF3A7A03),
 
     UNKNOWN("", "?", 0xFF808080);
 }

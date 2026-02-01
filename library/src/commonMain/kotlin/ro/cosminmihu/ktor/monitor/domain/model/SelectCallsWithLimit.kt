@@ -2,6 +2,7 @@ package ro.cosminmihu.ktor.monitor.domain.model
 
 import io.ktor.http.URLBuilder
 import io.ktor.http.isSecure
+import io.ktor.http.isWebsocket
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCalls
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCallsWithLimit
 import kotlin.time.Duration.Companion.milliseconds
@@ -33,6 +34,9 @@ internal val SelectCalls.requestTimeAsText
 
 internal val SelectCalls.isSecure
     get() = URLBuilder(url).build().protocol.isSecure()
+
+internal val SelectCalls.isWebsocket
+    get() = URLBuilder(url).build().protocol.isWebsocket()
 
 internal val SelectCalls.host
     get() = URLBuilder(url).build().host

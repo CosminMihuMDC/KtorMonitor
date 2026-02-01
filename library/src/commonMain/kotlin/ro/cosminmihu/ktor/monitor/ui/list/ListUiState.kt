@@ -59,6 +59,6 @@ internal val ListUiState.Call.isError
     get() = when {
         response.responseCode.isBlank() && response.error.isNotBlank() -> true
         isRedirect -> false
-        response.responseCode.isNotBlank() -> response.responseCode.toIntOrNull() !in 200 until 300
+        response.responseCode.isNotBlank() -> response.responseCode.toIntOrNull() !in 100 until 300
         else -> false
     }
