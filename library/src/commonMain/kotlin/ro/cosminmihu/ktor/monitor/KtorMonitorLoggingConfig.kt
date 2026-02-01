@@ -51,14 +51,14 @@ public class KtorMonitorLoggingConfig {
 
     /**
      * The retention period for the logs.
-     * By default it is 1 hour.
+     * By default, it is 1 hour.
      */
     public var retentionPeriod: Duration = RetentionPeriod.OneHour
 
     /**
      * The maximum length of the content that will be logged.
      * After this, body will be truncated.
-     * By default it is [ContentLength.Default].
+     * By default, it is [ContentLength.Default].
      * Use [ContentLength.Full] to log the full content.
      */
     public var maxContentLength: Int = ContentLength.Default
