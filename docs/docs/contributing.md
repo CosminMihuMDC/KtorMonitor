@@ -24,6 +24,9 @@ Some parts of this project are reusing ideas that are originally coming from [Ch
 Thanks to ChuckerTeam for Chucker!
 <br>
 Thanks to JetBrains for Ktor and Kotlin!
+<br>
+<br>
+Medium article: [Ktor Monitor](https://medium.com/@cosmin.mihu/ktormonitor-debug-and-analyze-ktor-client-network-traffic-411c66061baf)
 
 ## 💸 Sponsors
 KtorMonitor is maintained and improved during nights, weekends and whenever team has free time. If you use KtorMonitor in your project, please consider sponsoring us.
