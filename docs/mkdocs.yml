@@ -50,8 +50,12 @@ theme:
 
 extra:
   social:
-    - icon: 'simple/github'
-      link: 'https://github.com/CosminMihuMDC/KtorMonitor'
+    - icon: simple/ktor
+      link: https://ktor.io/docs/
+    - icon: material/coffee
+      link: https://www.buymeacoffee.com/cosminmihu
+    - icon: material/github
+      link: https://github.com/CosminMihuMDC/KtorMonitor
 
 nav:
   - 'Overview': index.md
