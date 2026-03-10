@@ -3,21 +3,24 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.10.0] - TBA
+## [1.10.1] - 2026-03-10
+* iOS: Fix Overriding UNUserNotificationCenterDeletage https://github.com/CosminMihuMDC/KtorMonitor/issues/51
+
+## [1.10.0] - 2026-02-01
 * Support for WebSocket
 * Support for Server-Sent Events
 
-## [1.9.7] - 2025-01-30
+## [1.9.7] - 2026-01-30
 * Fix Library File Provider for Android
 
-## [1.9.6] - 2025-01-29
+## [1.9.6] - 2026-01-29
 * Remove Core Library Desugaring from requirement
 * Create Library File Provider to fix Manifest merger conflict
 
-## [1.9.5] - 2025-01-29
+## [1.9.5] - 2026-01-29
 * Support for Android 24+
 
-## [1.9.4] - 2025-01-20
+## [1.9.4] - 2026-01-20
 * Strings Enhancements
 
 ## [1.9.3] - 2026-01-10
