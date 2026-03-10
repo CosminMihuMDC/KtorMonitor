@@ -1,18 +1,31 @@
 package ro.cosminmihu.ktor.monitor.ui.notification
 
-import platform.UserNotifications.*
+import platform.UserNotifications.UNNotification
+import platform.UserNotifications.UNNotificationPresentationOptionAlert
+import platform.UserNotifications.UNNotificationPresentationOptionBadge
+import platform.UserNotifications.UNNotificationPresentationOptionSound
+import platform.UserNotifications.UNNotificationPresentationOptions
+import platform.UserNotifications.UNNotificationResponse
+import platform.UserNotifications.UNUserNotificationCenter
+import platform.UserNotifications.UNUserNotificationCenterDelegateProtocol
 import platform.darwin.NSObject
 
-internal class NotificationDelegate : NSObject(), UNUserNotificationCenterDelegateProtocol {
+internal class NotificationDelegate(
+    private val appNotificationDelegate: UNUserNotificationCenterDelegateProtocol? = null
+) : NSObject(), UNUserNotificationCenterDelegateProtocol {
 
     override fun userNotificationCenter(
         center: UNUserNotificationCenter,
         willPresentNotification: UNNotification,
         withCompletionHandler: (UNNotificationPresentationOptions) -> Unit
     ) {
-        // This is called when a notification is about to be presented while the app is in the foreground.
-        // Tell the system to display the alert, play the sound, and update the badge.
-        withCompletionHandler(UNNotificationPresentationOptionAlert or UNNotificationPresentationOptionSound or UNNotificationPresentationOptionBadge)
+        val options = UNNotificationPresentationOptionAlert or
+                UNNotificationPresentationOptionSound or
+                UNNotificationPresentationOptionBadge
+
+        appNotificationDelegate
+            ?.userNotificationCenter(center, willPresentNotification, withCompletionHandler)
+            ?: withCompletionHandler(options)
     }
 
     override fun userNotificationCenter(
@@ -20,10 +33,8 @@ internal class NotificationDelegate : NSObject(), UNUserNotificationCenterDelega
         didReceiveNotificationResponse: UNNotificationResponse,
         withCompletionHandler: () -> Unit
     ) {
-        // Handle user interaction with the notification (e.g., tapping on it).
-        println("User interacted with notification: ${didReceiveNotificationResponse.notification.request.identifier}")
-
-        // Call the completion handler when you're done.
-        withCompletionHandler()
+        appNotificationDelegate
+            ?.userNotificationCenter(center, didReceiveNotificationResponse, withCompletionHandler)
+            ?: withCompletionHandler()
     }
 }

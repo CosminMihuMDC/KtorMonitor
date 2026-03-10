@@ -7,7 +7,6 @@ import platform.UserNotifications.UNAuthorizationOptionSound
 import platform.UserNotifications.UNMutableNotificationContent
 import platform.UserNotifications.UNNotificationInterruptionLevel
 import platform.UserNotifications.UNNotificationRequest
-import platform.UserNotifications.UNNotificationSound
 import platform.UserNotifications.UNTimeIntervalNotificationTrigger
 import platform.UserNotifications.UNUserNotificationCenter
 import kotlin.coroutines.resume
@@ -15,7 +14,7 @@ import kotlin.coroutines.resume
 internal actual class NotificationManager {
 
     private val notificationCenter = UNUserNotificationCenter.currentNotificationCenter().apply {
-        setDelegate(NotificationDelegate())
+        setDelegate(NotificationDelegate(appNotificationDelegate = delegate()))
     }
 
     actual suspend fun clear() {
