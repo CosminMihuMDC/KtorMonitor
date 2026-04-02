@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@cashapp/sqldelight-sqljs-worker@2.2.1":
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/@cashapp/sqldelight-sqljs-worker/-/sqldelight-sqljs-worker-2.2.1.tgz#c71776a9dddfc435d4f1e64317a7039d447ea024"
-  integrity sha512-cj/llgS1T94t7rz63fI7pbi+jJx+vQofCT58KyMZb9XVRuoxb4taB5wbbBa4e/iljiuN5XIGGPFx+5PvtVh3LQ==
+"@cashapp/sqldelight-sqljs-worker@2.3.2":
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/@cashapp/sqldelight-sqljs-worker/-/sqldelight-sqljs-worker-2.3.2.tgz#605d9799130dbb40c8db77cd732258b29dbc83fa"
+  integrity sha512-j43u8FCiLCz52rI/+NP4sXNviwaKS59eggvqjPRji8l62SYQEps5IlW1/fMm8s9BH4nbfaGX1YPSbbdThkXt4w==
 
 "@js-joda/core@3.2.0":
   version "3.2.0"
@@ -273,6 +273,11 @@ uri-js@^4.2.2:
   integrity sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==
   dependencies:
     punycode "^2.1.0"
+
+ws@8.18.0:
+  version "8.18.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.0.tgz#0d7505a6eafe2b0e712d232b42279f53bc289bbc"
+  integrity sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==
 
 ws@8.18.3:
   version "8.18.3"
