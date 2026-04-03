@@ -1,0 +1,26 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:ro.cosminmihu.ktor.monitor////PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/index.html
+$dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitor/#androidx.compose.ui.Modifier#kotlin.Boolean/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor.html
+$dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitorLogging/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging.html
+$dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitorMenuItem/androidx.compose.ui.window.MenuScope#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-menu-item.html
+$dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitorPanel/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-panel.html
+$dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitorViewController/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-view-controller.html
+$dokka.location:ro.cosminmihu.ktor.monitor//KtorMonitorWindow/#kotlin.Boolean#kotlin.Boolean#kotlin.Function0[kotlin.Unit]/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-window.html
+$dokka.location:ro.cosminmihu.ktor.monitor/ContentLength///PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-content-length/index.html
+$dokka.location:ro.cosminmihu.ktor.monitor/ContentLength/Default/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-content-length/-default.html
+$dokka.location:ro.cosminmihu.ktor.monitor/ContentLength/Full/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-content-length/-full.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig///PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/index.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/KtorMonitorLoggingConfig/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/-ktor-monitor-logging-config.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/filter/#kotlin.Function1[io.ktor.client.request.HttpRequestBuilder,kotlin.Boolean]/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/filter.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/isActive/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/is-active.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/maxContentLength/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/max-content-length.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/retentionPeriod/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/retention-period.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/sanitizeHeader/#kotlin.String#kotlin.Function1[kotlin.String,kotlin.Boolean]/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/sanitize-header.html
+$dokka.location:ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig/showNotification/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-ktor-monitor-logging-config/show-notification.html
+$dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod///PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/index.html
+$dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/Forever/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/-forever.html
+$dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/OneDay/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/-one-day.html
+$dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/OneHour/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/-one-hour.html
+$dokka.location:ro.cosminmihu.ktor.monitor/RetentionPeriod/OneWeek/#/PointingToDeclaration/ktor-monitor/ro.cosminmihu.ktor.monitor/-retention-period/-one-week.html
+ro.cosminmihu.ktor.monitor
