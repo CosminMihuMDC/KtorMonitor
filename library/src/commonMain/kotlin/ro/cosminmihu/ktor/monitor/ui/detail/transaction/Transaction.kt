@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import io.ktor.utils.io.core.toByteArray
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
@@ -76,7 +75,7 @@ private fun TransactionPreview() {
             body = DetailUiState.Body(
                 image = null,
                 raw = "Hello, World!",
-                bytes = "Hello, World!".toByteArray().toString(),
+                bytes = "Hello, World!".encodeToByteArray().toString(),
                 isTrimmed = false,
                 contentFormat = null
             ),

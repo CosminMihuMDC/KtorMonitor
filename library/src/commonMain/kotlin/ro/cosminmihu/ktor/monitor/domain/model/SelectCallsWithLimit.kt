@@ -1,8 +1,5 @@
 package ro.cosminmihu.ktor.monitor.domain.model
 
-import io.ktor.http.URLBuilder
-import io.ktor.http.isSecure
-import io.ktor.http.isWebsocket
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCalls
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCallsWithLimit
 import kotlin.time.Duration.Companion.milliseconds
@@ -14,7 +11,7 @@ internal val SelectCallsWithLimit.isError
     get() = !error.isNullOrBlank()
 
 internal val SelectCallsWithLimit.encodedPathAndQuery
-    get() = URLBuilder(url).build().encodedPathAndQuery
+    get() = ParsedUrl.parse(url).encodedPathAndQuery
 
 
 internal val SelectCalls.durationAsText
@@ -33,13 +30,13 @@ internal val SelectCalls.requestTimeAsText
     get() = requestTimestamp.formatTime()
 
 internal val SelectCalls.isSecure
-    get() = URLBuilder(url).build().protocol.isSecure()
+    get() = ParsedUrl.parse(url).isSecure
 
 internal val SelectCalls.isWebsocket
-    get() = URLBuilder(url).build().protocol.isWebsocket()
+    get() = ParsedUrl.parse(url).isWebsocket
 
 internal val SelectCalls.host
-    get() = URLBuilder(url).build().host
+    get() = ParsedUrl.parse(url).host
 
 internal val SelectCalls.encodedPathAndQuery
-    get() = URLBuilder(url).build().encodedPathAndQuery
+    get() = ParsedUrl.parse(url).encodedPathAndQuery

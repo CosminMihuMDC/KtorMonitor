@@ -1,7 +1,5 @@
 package ro.cosminmihu.ktor.monitor.domain.model
 
-import io.ktor.http.URLBuilder
-import io.ktor.http.isSecure
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCalls
 import kotlin.time.Duration.Companion.milliseconds
@@ -28,13 +26,13 @@ internal val Call.requestDateTimeAsText
     get() = requestTimestamp.formatDateTimeTime()
 
 internal val Call.isSecure
-    get() = URLBuilder(url).build().protocol.isSecure()
+    get() = ParsedUrl.parse(url).isSecure
 
 internal val Call.host
-    get() = URLBuilder(url).build().host
+    get() = ParsedUrl.parse(url).host
 
 internal val Call.encodedPathAndQuery
-    get() = URLBuilder(url).build().encodedPathAndQuery
+    get() = ParsedUrl.parse(url).encodedPathAndQuery
 
 internal val Call.durationAsText
     get() = responseTimestamp?.minus(requestTimestamp)?.milliseconds?.toComponents { hours, minutes, seconds, nanoseconds ->

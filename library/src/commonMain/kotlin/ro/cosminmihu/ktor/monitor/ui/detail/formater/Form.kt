@@ -35,7 +35,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import io.ktor.http.decodeURLPart
 
 // --------------------------------------------------------------------------------
 // PUBLIC API
@@ -245,9 +244,8 @@ internal object FormParser {
             val rawValue = part.substring(eqIndex + 1)
 
             try {
-                // Use Kotlin's Charsets.UTF_8
-                val key = rawKey.decodeURLPart()
-                val value = rawValue.decodeURLPart()
+                val key = rawKey.decodeUrlEncoded()
+                val value = rawValue.decodeUrlEncoded()
                 key to value
             } catch (_: Exception) {
                 null
@@ -307,4 +305,37 @@ internal object FormParser {
             }
         }
     }
+}
+
+/**
+ * Percent-decode a URL-encoded string (replacing + with space and %XX sequences).
+ */
+private fun String.decodeUrlEncoded(): String {
+    val sb = StringBuilder(length)
+    var i = 0
+    while (i < length) {
+        val c = this[i]
+        when {
+            c == '+' -> {
+                sb.append(' ')
+                i++
+            }
+            c == '%' && i + 2 < length -> {
+                val hex = substring(i + 1, i + 3)
+                val code = hex.toIntOrNull(16)
+                if (code != null) {
+                    sb.append(code.toChar())
+                    i += 3
+                } else {
+                    sb.append(c)
+                    i++
+                }
+            }
+            else -> {
+                sb.append(c)
+                i++
+            }
+        }
+    }
+    return sb.toString()
 }
