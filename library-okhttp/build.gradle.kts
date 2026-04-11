@@ -84,7 +84,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.library)
+            api(projects.core)
             implementation(libs.okhttp)
         }
     }
