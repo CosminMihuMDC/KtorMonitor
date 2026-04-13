@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
@@ -34,11 +36,14 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary_url
 
 @Composable
 internal fun SummaryScreen(summary: DetailUiState.Summary, modifier: Modifier = Modifier) {
+    val summaryScrollState = rememberScrollState()
+
     Column(
         modifier = modifier.padding(
             vertical = Dimens.Small,
             horizontal = Dimens.Medium
         )
+            .verticalScroll(summaryScrollState)
     ) {
         KeyValue(
             key = stringResource(Res.string.ktor_summary_url),
