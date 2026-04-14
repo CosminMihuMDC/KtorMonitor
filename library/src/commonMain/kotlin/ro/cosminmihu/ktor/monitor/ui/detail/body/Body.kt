@@ -2,13 +2,11 @@ package ro.cosminmihu.ktor.monitor.ui.detail.body
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import coil3.ImageLoader
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
@@ -31,10 +29,11 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_body
 @Composable
 internal fun Body(
     body: DetailUiState.Body?,
+    modifier: Modifier = Modifier,
     displayMode: DisplayMode,
     onDisplayMode: (DisplayMode) -> Unit,
 ) {
-    TransactionSection(title = stringResource(Res.string.ktor_body)) {
+    TransactionSection(title = stringResource(Res.string.ktor_body), modifier = modifier) {
         if (body == null || body.noBody) {
             NoBody()
             return@TransactionSection
@@ -60,14 +59,14 @@ internal fun Body(
             body.contentFormat == DetailUiState.ContentFormat.CSS && displayMode == DisplayMode.CODE && body.raw != null ->
                 Css(
                     css = body.raw,
-                    modifier = Modifier.transactionBodyBounds().codeBlock(),
+                    modifier = Modifier.codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
             body.contentFormat == DetailUiState.ContentFormat.FORM_URLENCODED && displayMode == DisplayMode.CODE && body.raw != null ->
                 FormUrlEncoded(
                     body = body.raw,
-                    modifier = Modifier.transactionBodyBounds().codeBlock(),
+                    modifier = Modifier.codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
@@ -79,22 +78,22 @@ internal fun Body(
                         symbolColor = Color(0xFF2E86C1),
                         iconColor = Color(0xFF2E86C1),
                     ),
-                    modifier = Modifier.transactionBodyBounds().codeBlock(),
+                    modifier = Modifier.codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
             body.contentFormat == DetailUiState.ContentFormat.XML && displayMode == DisplayMode.CODE && body.raw != null ->
                 XmlTree(
                     xml = body.raw,
-                    modifier = Modifier.transactionBodyBounds().codeBlock(),
+                    modifier = Modifier.codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
             body.raw != null && displayMode == DisplayMode.RAW ->
-                Text(text = body.raw, modifier = Modifier.transactionBodyBounds().padding(Dimens.Small))
+                Text(text = body.raw, modifier = Modifier.padding(Dimens.Small))
 
             !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES ->
-                Text(text = body.bytes, modifier = Modifier.transactionBodyBounds().padding(Dimens.Small))
+                Text(text = body.bytes, modifier = Modifier.padding(Dimens.Small))
         }
     }
 }

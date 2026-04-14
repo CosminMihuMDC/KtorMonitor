@@ -1,6 +1,8 @@
 package ro.cosminmihu.ktor.monitor.ui.detail.transaction
 
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -41,27 +43,30 @@ internal fun Transaction(
         )
     }
 
-    Column(
-        modifier = modifier.padding(Dimens.Small).verticalScroll(transactionScrollState)
-    ) {
-        if (isLoading) {
-            Loading.Medium()
-            return
-        }
+    BoxWithConstraints {
+        Column(
+            modifier = modifier.padding(Dimens.Small).verticalScroll(transactionScrollState)
+        ) {
+            if (isLoading) {
+                Loading.Medium()
+                return@BoxWithConstraints
+            }
 
-        if (error.isNotBlank()) {
-            Error(error)
-            return
-        }
+            if (error.isNotBlank()) {
+                Error(error)
+                return@BoxWithConstraints
+            }
 
-        Headers(
-            headers = headers
-        )
-        Body(
-            body = body,
-            displayMode = displayMode,
-            onDisplayMode = { displayMode = it }
-        )
+            Headers(
+                headers = headers
+            )
+            Body(
+                body = body,
+                displayMode = displayMode,
+                onDisplayMode = { displayMode = it },
+                modifier = Modifier.heightIn(max = this@BoxWithConstraints.maxHeight)
+            )
+        }
     }
 }
 
