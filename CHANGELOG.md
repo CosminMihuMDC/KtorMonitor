@@ -3,11 +3,14 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [1.10.3] - 2026-04-11
+* Set JVM toolchain language version to 11 for library-no-op
+
 ## [1.10.2] - 2026-04-11
 * Update Gradle Wrapper to 9.4.1 
 * Update AGP to 9.1.1
 * Remove iosX64 target
-* Set JVM toolchain language version to 11
+* Set JVM toolchain language version to 11 for library
 
 ## [1.10.1] - 2026-03-10
 * iOS: Fix Overriding UNUserNotificationCenterDeletage https://github.com/CosminMihuMDC/KtorMonitor/issues/51
