@@ -40,7 +40,7 @@ By default, **```KtorMonitor```**:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.2")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.3")
         }
     }
 }
@@ -54,7 +54,7 @@ To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op`
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.2")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.3")
         }
     }
 }
@@ -66,8 +66,8 @@ kotlin {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.2")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.2")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.3")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.3")
 }
 ```
 
