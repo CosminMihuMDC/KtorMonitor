@@ -235,6 +235,10 @@ kotlin {
             implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
         }
     }
+
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
 }
 
 android {
