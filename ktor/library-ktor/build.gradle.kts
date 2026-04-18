@@ -76,7 +76,7 @@ dokka {
 }
 
 dependencies {
-    dokka(projects.core)
+    dokka(projects.core.library)
 }
 
 kotlin {
