@@ -105,6 +105,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(projects.core.libraryNoOp)
             implementation(libs.ktor.client.core)
         }
     }

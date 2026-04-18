@@ -74,7 +74,7 @@ dokka {
 }
 
 dependencies {
-    dokka(projects.core)
+    dokka(projects.core.library)
 }
 
 kotlin {
@@ -95,7 +95,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.core)
+            api(projects.core.library)
             implementation(libs.okhttp)
         }
     }

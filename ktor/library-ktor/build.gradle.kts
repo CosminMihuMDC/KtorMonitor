@@ -115,7 +115,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.core)
+            api(projects.core.library)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.logging)
         }
