@@ -121,8 +121,9 @@ android {
             versionNameSuffix = ".debug"
         }
 
-        getByName("release") {
+        release {
             isMinifyEnabled = true
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
         }
     }
