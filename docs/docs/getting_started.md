@@ -6,7 +6,7 @@
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.3")
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.11.0")
             }
         }
     }
@@ -20,7 +20,7 @@
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.3")
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.11.0")
             }
         }
     }
@@ -30,8 +30,8 @@
     
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.3")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.3")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.11.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.11.0")
     }
     ```
 
@@ -41,8 +41,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.10.3")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.10.3")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.11.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.11.0")
     }
     ```
 
