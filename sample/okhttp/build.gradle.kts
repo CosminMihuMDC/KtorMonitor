@@ -37,9 +37,9 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.okhttp)
             implementation(projects.okhttp.libraryOkhttp)
-//            implementation("ro.cosminmihu.okhttp3:ktor-monitor-logging:1.10.1")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.10.1")
 //            implementation(projects.okhttp.libraryOkhttpNoOp)
-//            implementation("ro.cosminmihu.okhttp3:ktor-monitor-logging-no-op:1.10.1")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.10.1")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

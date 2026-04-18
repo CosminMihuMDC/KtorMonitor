@@ -41,8 +41,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.okhttp3:ktor-monitor-logging:1.10.3")
-        releaseImplementation("ro.cosminmihu.okhttp3:ktor-monitor-logging-no-op:1.10.3")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.10.3")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.10.3")
     }
     ```
 
