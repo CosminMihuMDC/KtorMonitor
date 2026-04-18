@@ -101,8 +101,8 @@ HttpClient {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.okhttp:ktor-monitor-logging:1.10.3")
-    releaseImplementation("ro.cosminmihu.okhttp:ktor-monitor-logging-no-op:1.10.3")
+    debugImplementation("`ro.cosminmihu.ktor:ktor-monitor-okhttp-interc`eptor:1.10.3")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.10.3")
 }
 ```
 
