@@ -108,7 +108,7 @@ dependencies {
 
 For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
 
-### <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Ktor_icon.png" width="30"/> Install Ktor Client Plugin
+### <img src="https://square.github.io/okhttp/assets/images/icon-square.png" width="30"/> Install OkHttp Interceptor
 
 ```kotlin
 OkHttpClient.Builder()
