@@ -4,15 +4,8 @@ import okhttp3.Request
 import kotlin.time.Duration
 
 /**
- * DSL marker for [KtorMonitorInterceptorConfig].
- */
-@DslMarker
-public annotation class KtorMonitorInterceptorDsl
-
-/**
  * Configuration for [KtorMonitorInterceptor].
  */
-@KtorMonitorInterceptorDsl
 public class KtorMonitorInterceptorConfig {
 
     internal val filters = mutableListOf<(Request) -> Boolean>()

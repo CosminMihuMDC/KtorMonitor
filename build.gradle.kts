@@ -22,6 +22,7 @@ dependencies {
 
 dokka {
     moduleName = "Ktor Monitor"
+    moduleVersion = "1.10.3"
 
     dokkaPublications.html {
         outputDirectory.set(File(docsDir, "api"))
