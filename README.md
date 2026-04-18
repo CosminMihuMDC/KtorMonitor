@@ -33,7 +33,7 @@ By default, **```KtorMonitor```**:
 *   **wasm** → *isActive* for all builds
 *   **js** → *isActive* for all builds
 
-## 📦 Setup (Kotlin Multiplatform)
+## 📦 Setup (Kotlin Multiplatform) for [Ktor Client](https://ktor.io/)
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
 

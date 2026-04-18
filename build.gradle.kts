@@ -13,14 +13,14 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-val docsDir = File(rootDir, "docs/docs")
-
 dependencies {
     dokka(project(":ktor:library-ktor"))
     dokka(project(":okhttp:library-okhttp"))
 }
 
 dokka {
+    val docsDir = File(rootDir, "docs/docs")
+
     moduleName = "Ktor Monitor"
     moduleVersion = "1.10.3"
 
