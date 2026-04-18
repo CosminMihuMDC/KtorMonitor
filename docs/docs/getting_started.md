@@ -26,12 +26,23 @@
     }
     ```
 
-=== "Android Only"
+=== "Ktor - Android Only"
     
     ```kotlin hl_lines="2-3"
     dependencies {
         debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.10.3")
         releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.10.3")
+    }
+    ```
+
+    For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
+
+=== "OkHttp - Android & JVM Only"
+
+    ```kotlin hl_lines="2-3"
+    dependencies {
+        debugImplementation("ro.cosminmihu.okhttp3:ktor-monitor-logging:1.10.3")
+        releaseImplementation("ro.cosminmihu.okhttp3:ktor-monitor-logging-no-op:1.10.3")
     }
     ```
 
