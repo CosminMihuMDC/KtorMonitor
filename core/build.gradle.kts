@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlinx.atomicfu)
+    alias(libs.plugins.dokka)
 }
 
 sqldelight {
@@ -25,6 +26,23 @@ compose.resources {
     publicResClass = true
     generateResClass = always
     packageOfResClass = "ro.cosminmihu.ktor.monitor.ui.resources"
+}
+
+dokka {
+    moduleName = "Ktor Monitor"
+    moduleVersion = project.version.toString()
+
+    dokkaSourceSets.configureEach {
+        perPackageOption {
+            matchingRegex.set("ro.cosminmihu.ktor.monitor.db.sqldelight")
+            suppress.set(true)
+        }
+
+        perPackageOption {
+            matchingRegex.set("ro.cosminmihu.ktor.monitor.ui.resources")
+            suppress.set(true)
+        }
+    }
 }
 
 kotlin {

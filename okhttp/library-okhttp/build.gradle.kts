@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.binary.compatibility.validator)
+    alias(libs.plugins.dokka)
 }
 
 val artifact = "ktor-monitor-logging"
@@ -68,6 +69,15 @@ apiValidation {
         enabled = true
         strictValidation = true
     }
+}
+
+dokka {
+    moduleName = "OkHttp Interceptor"
+    moduleVersion = project.version.toString()
+}
+
+dependencies {
+    dokka(projects.core)
 }
 
 kotlin {

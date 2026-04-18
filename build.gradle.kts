@@ -1,3 +1,5 @@
+import java.time.Year
+
 plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.androidLibrary) apply false
@@ -8,5 +10,25 @@ plugins {
     alias(libs.plugins.kotlinx.atomicfu) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.binary.compatibility.validator) apply false
-    alias(libs.plugins.dokka) apply false
+    alias(libs.plugins.dokka)
+}
+
+val docsDir = File(rootDir, "docs/docs")
+
+dependencies {
+    dokka(project(":ktor:library-ktor"))
+    dokka(project(":okhttp:library-okhttp"))
+}
+
+dokka {
+    moduleName = "Ktor Monitor"
+
+    dokkaPublications.html {
+        outputDirectory.set(File(docsDir, "api"))
+    }
+
+    pluginsConfiguration.html {
+        customAssets.from(File(docsDir, "images/logo-icon.svg"))
+        footerMessage.set("© ${Year.now().value} Cosmin Mihu")
+    }
 }

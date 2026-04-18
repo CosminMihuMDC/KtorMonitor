@@ -1,0 +1,9 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:Ktor Monitor
+ro.cosminmihu.ktor.monitor
+module:Ktor Logging Plugin
+ro.cosminmihu.ktor.monitor
+module:OkHttp Interceptor
+ro.cosminmihu.ktor.monitor
