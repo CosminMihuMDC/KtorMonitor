@@ -9,6 +9,8 @@ plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.sqldelight)
     alias(libs.plugins.kotlinx.atomicfu)
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.binary.compatibility.validator)
     alias(libs.plugins.dokka)
 }
 
@@ -45,6 +47,58 @@ dokka {
         perPackageOption {
             matchingRegex.set("ro.cosminmihu.ktor.monitor.ui.resources")
             suppress.set(true)
+        }
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral()
+
+    signAllPublications()
+
+    val artifact = "ktor-monitor-core"
+    coordinates(group.toString(), artifact, version.toString())
+
+    pom {
+        name.set("Ktor Monitor - Core")
+        description.set("""Ktor Client plugin that provides the capability to log HTTP calls for Ktor Monitor.""".trimMargin())
+        inceptionYear.set("2025")
+        url.set("https://github.com/CosminMihuMDC/KtorMonitor")
+
+        licenses {
+            license {
+                name = "The Apache Software License, Version 2.0"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+            }
+        }
+
+        developers {
+            developer {
+                id = "Cosmin Mihu"
+                name = "Cosmin Mihu"
+                url = "https://www.cosminmihu.ro/"
+            }
+        }
+
+        scm {
+            url = "https://github.com/CosminMihuMDC/KtorMonitor.git"
+            connection = "scm:git:git://github.com/CosminMihuMDC/KtorMonitor.git"
+            developerConnection = "scm:git:git://github.com/CosminMihuMDC/KtorMonitor.git"
+        }
+
+        issueManagement {
+            system = "GitHub Issues"
+            url = "https://github.com/CosminMihuMDC/KtorMonitor/issues"
+        }
+
+        ciManagement {
+            system = "GitHub Actions"
+            url = "https://github.com/CosminMihuMDC/KtorMonitor/actions"
+        }
+
+        distributionManagement {
+            downloadUrl = "https://github.com/CosminMihuMDC/KtorMonitor/releases"
         }
     }
 }
