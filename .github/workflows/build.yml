@@ -57,7 +57,7 @@ jobs:
           xcodebuild build \
           -project sample/ktor/iosApp/iosApp.xcodeproj \
           -configuration Debug \
-          -scheme iosApp \
+          -scheme ios \
           -sdk iphonesimulator \
           -derivedDataPath ./build \
           -verbose
