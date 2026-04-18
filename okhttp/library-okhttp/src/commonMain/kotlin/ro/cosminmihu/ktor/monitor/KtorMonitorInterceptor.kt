@@ -37,7 +37,7 @@ public class KtorMonitorInterceptor() : Interceptor {
 
     init {
         @OptIn(InternalKtorMonitorApi::class)
-        KtorMonitorBridge.setConfig(
+        InternalLibraryBridge.setConfig(
             isActive = config.isActive,
             showNotification = config.showNotification,
             retentionPeriod = config.retentionPeriod,
@@ -46,7 +46,7 @@ public class KtorMonitorInterceptor() : Interceptor {
 
         if (config.isActive && config.retentionPeriod.isPositive()) {
             @OptIn(InternalKtorMonitorApi::class)
-            KtorMonitorBridge.startListening()
+            InternalLibraryBridge.startListening()
         }
     }
 
@@ -95,7 +95,7 @@ public class KtorMonitorInterceptor() : Interceptor {
 
         runBlocking {
             try {
-                KtorMonitorBridge.saveRequest(
+                InternalLibraryBridge.saveRequest(
                     id = id,
                     method = method,
                     url = url,
@@ -116,7 +116,7 @@ public class KtorMonitorInterceptor() : Interceptor {
             response = chain.proceed(request)
         } catch (cause: Throwable) {
             runBlocking {
-                KtorMonitorBridge.saveRequestError(id = id, error = cause)
+                InternalLibraryBridge.saveRequestError(id = id, error = cause)
             }
             throw cause
         }
@@ -150,7 +150,7 @@ public class KtorMonitorInterceptor() : Interceptor {
 
         runBlocking {
             try {
-                KtorMonitorBridge.saveResponse(
+                InternalLibraryBridge.saveResponse(
                     id = id,
                     protocol = protocol,
                     requestTimestamp = requestTimestamp,
@@ -159,7 +159,7 @@ public class KtorMonitorInterceptor() : Interceptor {
                     responseContentType = responseContentType,
                     responseHeaders = responseHeaders,
                 )
-                KtorMonitorBridge.saveResponseBody(
+                InternalLibraryBridge.saveResponseBody(
                     id = id,
                     responseContentLength = responseContentLength,
                     responseBody = truncatedBody,

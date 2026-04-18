@@ -7,7 +7,7 @@ import io.ktor.client.plugins.observer.ResponseObserver
 import io.ktor.client.request.HttpRequestBuilder
 import io.ktor.util.AttributeKey
 import ro.cosminmihu.ktor.monitor.InternalKtorMonitorApi
-import ro.cosminmihu.ktor.monitor.KtorMonitorBridge
+import ro.cosminmihu.ktor.monitor.InternalLibraryBridge
 import ro.cosminmihu.ktor.monitor.SanitizedHeader
 import ro.cosminmihu.ktor.monitor.api.util.ReceiveHook
 import ro.cosminmihu.ktor.monitor.api.util.ResponseHook
@@ -26,7 +26,7 @@ private const val PluginName = "KtorMonitorLogging"
 internal val LoggingPlugin: ClientPlugin<LoggingConfig> =
     createClientPlugin(PluginName, ::LoggingConfig) {
         // Setup library dependency.
-        KtorMonitorBridge.setConfig(
+        InternalLibraryBridge.setConfig(
             isActive = pluginConfig.isActive,
             showNotification = pluginConfig.showNotification,
             retentionPeriod = pluginConfig.retentionPeriod,
@@ -43,10 +43,10 @@ internal val LoggingPlugin: ClientPlugin<LoggingConfig> =
         val sanitizedHeaders: List<SanitizedHeader> = pluginConfig.sanitizedHeaders
 
         // Start listen by recent calls.
-        KtorMonitorBridge.startListening()
+        InternalLibraryBridge.startListening()
 
         // Get library dependencies.
-        val coroutineScope = KtorMonitorBridge.coroutineScope()
+        val coroutineScope = InternalLibraryBridge.coroutineScope()
 
         // Filter out requests that should not be logged.
         fun shouldBeLogged(request: HttpRequestBuilder): Boolean =

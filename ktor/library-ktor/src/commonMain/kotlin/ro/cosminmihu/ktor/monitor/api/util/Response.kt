@@ -5,7 +5,7 @@ import io.ktor.client.statement.readRawBytes
 import io.ktor.http.contentType
 import ro.cosminmihu.ktor.monitor.ContentLength
 import ro.cosminmihu.ktor.monitor.InternalKtorMonitorApi
-import ro.cosminmihu.ktor.monitor.KtorMonitorBridge
+import ro.cosminmihu.ktor.monitor.InternalLibraryBridge
 import ro.cosminmihu.ktor.monitor.SanitizedHeader
 
 @OptIn(InternalKtorMonitorApi::class)
@@ -13,7 +13,7 @@ internal suspend fun logResponseException(
     id: String,
     cause: Throwable,
 ) {
-    KtorMonitorBridge.saveResponseError(
+    InternalLibraryBridge.saveResponseError(
         id = id,
         error = cause,
     )
@@ -28,7 +28,7 @@ internal suspend fun logResponse(
     val headers = response.headers.sanitizedHeaders(sanitizedHeaders)
 
     // Save response.
-    KtorMonitorBridge.saveResponse(
+    InternalLibraryBridge.saveResponse(
         id = id,
         protocol = response.version.toString(),
         requestTimestamp = response.requestTime.timestamp,
@@ -57,7 +57,7 @@ internal suspend fun logResponseBody(
     }
 
     // Save response body.
-    KtorMonitorBridge.saveResponseBody(
+    InternalLibraryBridge.saveResponseBody(
         id = id,
         responseContentLength = responseBody.size.toLong(),
         responseBody = body,

@@ -32,7 +32,7 @@ public annotation class InternalKtorMonitorApi
  * for use by the Ktor plugin module. Do not use directly.
  */
 @InternalKtorMonitorApi
-public object KtorMonitorBridge {
+public object InternalLibraryBridge {
 
     /**
      * Whether the platform is in debug mode.

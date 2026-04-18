@@ -33,6 +33,10 @@ dokka {
     moduleVersion = project.version.toString()
 
     dokkaSourceSets.configureEach {
+        suppressedFiles.from(
+            file("src/commonMain/kotlin/ro/cosminmihu/ktor/monitor/InternalLibraryBridge.kt")
+        )
+
         perPackageOption {
             matchingRegex.set("ro.cosminmihu.ktor.monitor.db.sqldelight")
             suppress.set(true)

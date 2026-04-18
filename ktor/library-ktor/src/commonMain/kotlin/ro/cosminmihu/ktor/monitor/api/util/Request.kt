@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.ContentLength
 import ro.cosminmihu.ktor.monitor.InternalKtorMonitorApi
-import ro.cosminmihu.ktor.monitor.KtorMonitorBridge
+import ro.cosminmihu.ktor.monitor.InternalLibraryBridge
 import ro.cosminmihu.ktor.monitor.SanitizedHeader
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
@@ -19,7 +19,7 @@ internal suspend fun logRequestException(
     id: String,
     cause: Throwable,
 ) {
-    KtorMonitorBridge.saveRequestError(
+    InternalLibraryBridge.saveRequestError(
         id = id,
         error = cause,
     )
@@ -57,7 +57,7 @@ internal suspend fun logRequest(
         }
 
         // Save request.
-        KtorMonitorBridge.saveRequest(
+        InternalLibraryBridge.saveRequest(
             id = id,
             method = method,
             url = url,

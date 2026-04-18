@@ -43,7 +43,7 @@ public class KtorMonitorInterceptorConfig {
      * - desktop   - enabled.
      */
     @OptIn(InternalKtorMonitorApi::class)
-    public var isActive: Boolean = KtorMonitorBridge.isDebug
+    public var isActive: Boolean = InternalLibraryBridge.isDebug
 
     /**
      * Keep track of latest requests and responses into notification.
