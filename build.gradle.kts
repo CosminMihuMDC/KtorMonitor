@@ -15,7 +15,7 @@ plugins {
 
 allprojects {
     group = "ro.cosminmihu.ktor"
-    version = "1.11.0-rc1"
+    version = "1.11.0-rc2"
 }
 
 dependencies {
