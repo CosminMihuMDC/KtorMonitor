@@ -21,11 +21,11 @@ jobs:
       - name: Run unit tests
         run: ./gradlew jvmTest
 
-      - name: Upload test reports
-        uses: actions/upload-artifact@v7
-        with:
-          name: test-reports
-          path: "**/build/reports/tests/"
+#      - name: Upload test reports
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: test-reports
+#          path: "**/build/reports/tests/"
 
   build-android:
     name: Build Android
@@ -38,11 +38,11 @@ jobs:
       - name: Build Android APKs
         run: ./gradlew :sample:ktor:assembleDebug :sample:ktor:assembleRelease :sample:okhttp:assembleDebug :sample:okhttp:assembleRelease
 
-      - name: Upload Android APKs
-        uses: actions/upload-artifact@v7
-        with:
-          name: android-apks
-          path: "**/build/outputs/apk/**/*.apk"
+#      - name: Upload Android APKs
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: android-apks
+#          path: "**/build/outputs/apk/**/*.apk"
 
   build-ios:
     name: Build iOS simulator app
@@ -62,11 +62,11 @@ jobs:
           -derivedDataPath ./build \
           -verbose
 
-      - name: Upload App Folder
-        uses: actions/upload-artifact@v7
-        with:
-          name: iphonesimulator-app
-          path: build/Build/Products/Debug-iphonesimulator/*
+#      - name: Upload App Folder
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: iphonesimulator-app
+#          path: build/Build/Products/Debug-iphonesimulator/*
 
   build-desktop-macos:
     name: Build Desktop macOS
@@ -79,11 +79,11 @@ jobs:
       - name: Build macOS DMGs
         run: ./gradlew :sample:ktor:packageDmg :sample:okhttp:packageDmg
 
-      - name: Upload macOS DMGs
-        uses: actions/upload-artifact@v7
-        with:
-          name: desktop-macos-dmg
-          path: "**/build/compose/binaries/main/dmg/*.dmg"
+#      - name: Upload macOS DMGs
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: desktop-macos-dmg
+#          path: "**/build/compose/binaries/main/dmg/*.dmg"
 
   build-desktop-windows:
     name: Build Desktop Windows
@@ -99,11 +99,11 @@ jobs:
       - name: Build Windows MSIs
         run: ./gradlew :sample:ktor:packageMsi :sample:okhttp:packageMsi
 
-      - name: Upload Windows MSIs
-        uses: actions/upload-artifact@v7
-        with:
-          name: desktop-windows-msi
-          path: "**/build/compose/binaries/main/msi/*.msi"
+#      - name: Upload Windows MSIs
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: desktop-windows-msi
+#          path: "**/build/compose/binaries/main/msi/*.msi"
 
   build-desktop-linux:
     name: Build Desktop Linux
@@ -116,10 +116,10 @@ jobs:
       - name: Build Linux DEBs and RPMs
         run: ./gradlew :sample:ktor:packageDeb :sample:ktor:packageRpm :sample:okhttp:packageDeb :sample:okhttp:packageRpm
 
-      - name: Upload Linux DEBs and RPMs
-        uses: actions/upload-artifact@v7
-        with:
-          name: desktop-linux-deb
-          path: |
-            **/build/compose/binaries/main/deb/*.deb
-            **/build/compose/binaries/main/rpm/*.rpm
+#      - name: Upload Linux DEBs and RPMs
+#        uses: actions/upload-artifact@v7
+#        with:
+#          name: desktop-linux-deb
+#          path: |
+#            **/build/compose/binaries/main/deb/*.deb
+#            **/build/compose/binaries/main/rpm/*.rpm
