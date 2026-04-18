@@ -13,8 +13,10 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-group = "ro.cosminmihu.ktor"
-version = "1.11.0-rc1"
+allprojects {
+    group = "ro.cosminmihu.ktor"
+    version = "1.11.0-rc1"
+}
 
 dependencies {
     dokka(project(":ktor:library-ktor"))

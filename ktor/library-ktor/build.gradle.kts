@@ -9,7 +9,6 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-
 mavenPublishing {
     publishToMavenCentral()
 
