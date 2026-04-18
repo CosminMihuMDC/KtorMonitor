@@ -9,7 +9,7 @@ plugins {
 
 val artifact = "ktor-monitor-logging"
 group = "ro.cosminmihu.okhttp3"
-version = "1.10.1"
+version = "1.10.3"
 
 mavenPublishing {
     publishToMavenCentral()

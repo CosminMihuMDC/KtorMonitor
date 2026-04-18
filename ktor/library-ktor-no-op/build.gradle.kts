@@ -10,7 +10,7 @@ plugins {
 
 val artifact = "ktor-monitor-logging-no-op"
 group = "ro.cosminmihu.ktor"
-version = "1.10.1"
+version = "1.10.3"
 
 mavenPublishing {
     publishToMavenCentral()
@@ -109,6 +109,10 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.ktor.client.core)
         }
+    }
+
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(11)
     }
 }
 
