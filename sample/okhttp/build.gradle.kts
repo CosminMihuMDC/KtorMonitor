@@ -95,7 +95,7 @@ compose.desktop {
         mainClass = "ro.cosminmihu.ktor.monitor.sample.MainKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb, TargetFormat.Rpm)
             packageName = "ro.cosminmihu.ktor.monitor.sample"
             packageVersion = "1.0.0"
         }
