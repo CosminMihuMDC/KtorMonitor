@@ -25,7 +25,7 @@ dokka {
     val docsDir = File(rootDir, "docs/docs")
 
     moduleName = "Ktor Monitor"
-    moduleVersion = "1.10.3"
+    moduleVersion = project.version.toString()
 
     dokkaPublications.html {
         outputDirectory.set(File(docsDir, "api"))
