@@ -1,4 +1,4 @@
-name: Generate Docs - MkDocs & Dokka HTML
+name: Generate DOCS - MkDocs & Dokka HTML
 on:
   push:
     branches:
