@@ -31,6 +31,11 @@ dependencyResolutionManagement {
     }
 }
 
-include(":library")
-include(":library-no-op")
-include(":sample")
+include(":core")
+include(":core-no-op")
+include(":ktor:library-ktor")
+include(":ktor:library-ktor-no-op")
+include(":okhttp:library-okhttp")
+include(":okhttp:library-okhttp-no-op")
+include(":sample:ktor")
+include(":sample:okhttp")

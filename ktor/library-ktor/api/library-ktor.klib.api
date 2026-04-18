@@ -1,0 +1,30 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ro.cosminmihu.ktor:library-ktor>
+final class ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig { // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig|null[0]
+    constructor <init>() // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.<init>|<init>(){}[0]
+
+    final var isActive // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.isActive|{}isActive[0]
+        final fun <get-isActive>(): kotlin/Boolean // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.isActive.<get-isActive>|<get-isActive>(){}[0]
+        final fun <set-isActive>(kotlin/Boolean) // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.isActive.<set-isActive>|<set-isActive>(kotlin.Boolean){}[0]
+    final var maxContentLength // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.maxContentLength|{}maxContentLength[0]
+        final fun <get-maxContentLength>(): kotlin/Int // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.maxContentLength.<get-maxContentLength>|<get-maxContentLength>(){}[0]
+        final fun <set-maxContentLength>(kotlin/Int) // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.maxContentLength.<set-maxContentLength>|<set-maxContentLength>(kotlin.Int){}[0]
+    final var retentionPeriod // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.retentionPeriod|{}retentionPeriod[0]
+        final fun <get-retentionPeriod>(): kotlin.time/Duration // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.retentionPeriod.<get-retentionPeriod>|<get-retentionPeriod>(){}[0]
+        final fun <set-retentionPeriod>(kotlin.time/Duration) // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.retentionPeriod.<set-retentionPeriod>|<set-retentionPeriod>(kotlin.time.Duration){}[0]
+    final var showNotification // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.showNotification|{}showNotification[0]
+        final fun <get-showNotification>(): kotlin/Boolean // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.showNotification.<get-showNotification>|<get-showNotification>(){}[0]
+        final fun <set-showNotification>(kotlin/Boolean) // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.showNotification.<set-showNotification>|<set-showNotification>(kotlin.Boolean){}[0]
+
+    final fun filter(kotlin/Function1<io.ktor.client.request/HttpRequestBuilder, kotlin/Boolean>) // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.filter|filter(kotlin.Function1<io.ktor.client.request.HttpRequestBuilder,kotlin.Boolean>){}[0]
+    final fun sanitizeHeader(kotlin/String = ..., kotlin/Function1<kotlin/String, kotlin/Boolean>) // ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig.sanitizeHeader|sanitizeHeader(kotlin.String;kotlin.Function1<kotlin.String,kotlin.Boolean>){}[0]
+}
+
+final val ro.cosminmihu.ktor.monitor/KtorMonitorLogging // ro.cosminmihu.ktor.monitor/KtorMonitorLogging|{}KtorMonitorLogging[0]
+    final fun <get-KtorMonitorLogging>(): io.ktor.client.plugins.api/ClientPlugin<ro.cosminmihu.ktor.monitor/KtorMonitorLoggingConfig> // ro.cosminmihu.ktor.monitor/KtorMonitorLogging.<get-KtorMonitorLogging>|<get-KtorMonitorLogging>(){}[0]
