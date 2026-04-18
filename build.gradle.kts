@@ -13,6 +13,9 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
+group = "ro.cosminmihu.ktor"
+version = "1.10.3"
+
 dependencies {
     dokka(project(":ktor:library-ktor"))
     dokka(project(":okhttp:library-okhttp"))

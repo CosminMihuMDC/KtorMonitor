@@ -8,15 +8,13 @@ plugins {
     alias(libs.plugins.binary.compatibility.validator)
 }
 
-val artifact = "ktor-monitor-logging-no-op"
-group = "ro.cosminmihu.ktor"
-version = "1.10.3"
 
 mavenPublishing {
     publishToMavenCentral()
 
     signAllPublications()
 
+    val artifact = "ktor-monitor-logging-no-op"
     coordinates(group.toString(), artifact, version.toString())
 
     pom {

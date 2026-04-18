@@ -7,15 +7,12 @@ plugins {
     alias(libs.plugins.binary.compatibility.validator)
 }
 
-val artifact = "ktor-monitor-logging-no-op"
-group = "ro.cosminmihu.okhttp3"
-version = "1.10.3"
-
 mavenPublishing {
     publishToMavenCentral()
 
     signAllPublications()
 
+    val artifact = "ktor-monitor-okhttp-interceptor-no-op"
     coordinates(group.toString(), artifact, version.toString())
 
     pom {

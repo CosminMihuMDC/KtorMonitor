@@ -9,15 +9,13 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-val artifact = "ktor-monitor-logging"
-group = "ro.cosminmihu.ktor"
-version = "1.10.3"
 
 mavenPublishing {
     publishToMavenCentral()
 
     signAllPublications()
 
+    val artifact = "ktor-monitor-logging"
     coordinates(group.toString(), artifact, version.toString())
 
     pom {
