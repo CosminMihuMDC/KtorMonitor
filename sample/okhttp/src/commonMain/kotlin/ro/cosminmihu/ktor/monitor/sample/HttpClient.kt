@@ -7,7 +7,7 @@ import ro.cosminmihu.ktor.monitor.RetentionPeriod
 
 internal fun httpClient(): OkHttpClient =
     OkHttpClient.Builder()
-        .addInterceptor(
+        .addNetworkInterceptor(
             KtorMonitorInterceptor {
                 sanitizeHeader { header -> header == "Authorization" }
                 filter { request -> !request.url.host.contains("cosminmihu.ro") }

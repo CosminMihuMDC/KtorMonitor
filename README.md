@@ -112,7 +112,7 @@ For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.andro
 
 ```kotlin
 OkHttpClient.Builder()
-    .addInterceptor(
+    .addNetworkInterceptor(
         KtorMonitorInterceptor {
             sanitizeHeader { header -> header == "Authorization" }
             filter { request -> !request.url.host.contains("cosminmihu.ro") }

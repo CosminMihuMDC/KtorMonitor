@@ -15,7 +15,7 @@ import kotlin.time.ExperimentalTime
  *
  * ```kotlin
  * OkHttpClient.Builder()
- *     .addInterceptor(
+ *     .addNetworkInterceptor(
  *         KtorMonitorInterceptor {
  *             sanitizeHeader { header -> header == "Authorization" }
  *             isActive = true

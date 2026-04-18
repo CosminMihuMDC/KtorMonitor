@@ -76,7 +76,7 @@
 
     ```kotlin hl_lines="3-9"
     OkHttpClient.Builder()
-        .addInterceptor(
+        .addNetworkInterceptor(
             KtorMonitorInterceptor {
                 sanitizeHeader { header -> header == "Authorization" }
                 filter { request -> !request.url.host.contains("cosminmihu.ro") }
