@@ -128,6 +128,12 @@ kotlin {
             implementation(npm("@cashapp/sqldelight-sqljs-worker", libs.versions.sqldelight.get()))
             implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
         }
+        jsMain.dependencies {
+            implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
+        }
+        wasmJsMain.dependencies {
+            implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
+        }
     }
 }
 
