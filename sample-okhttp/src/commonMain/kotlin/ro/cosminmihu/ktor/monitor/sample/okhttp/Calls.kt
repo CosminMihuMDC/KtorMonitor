@@ -1,11 +1,13 @@
 package ro.cosminmihu.ktor.monitor.sample.okhttp
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
 private const val HTTP_BIN_URL = "https://httpbin.org"
 
-internal fun samples() {
+internal suspend fun samples() = withContext(Dispatchers.IO) {
     val client = httpClient()
 
     // HTTP Methods

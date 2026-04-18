@@ -70,6 +70,7 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+        isCoreLibraryDesugaringEnabled = true
     }
 }
 
@@ -82,12 +83,6 @@ compose.desktop {
             packageName = "ro.cosminmihu.ktor.monitor.sample.okhttp"
             packageVersion = "1.0.0"
         }
-    }
-}
-
-android {
-    compileOptions {
-        isCoreLibraryDesugaringEnabled = true
     }
 }
 

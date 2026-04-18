@@ -10,7 +10,7 @@ plugins {
 }
 
 compose.resources {
-    packageOfResClass = "ro.cosminmihu.ktor.monitor.sample.resources"
+    packageOfResClass = "ro.cosminmihu.ktor.monitor.sample.ktor.resources"
 }
 
 kotlin {
@@ -28,7 +28,7 @@ kotlin {
     wasmJs {
         browser {
             commonWebpackConfig {
-                outputFileName = "composeApp.js"
+                outputFileName = "composeApp.js" // TODO-libs
             }
         }
         binaries.executable()
