@@ -23,11 +23,3 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) and [OkHttp](https://sq
 *   🎨**Rich Previews**: Built-in viewers for *JSON*, *XML*, *HTML*, *CSS*, *Form Data*, *Image* (*JPG*, *PNG*, *SVG*, *GIF*, *WEBP*).
 *   📡**SSE & WebSockets**: Track one-way streams (*SSE*) and bidirectional traffic (*WebSockets*).
 *   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
-
-By default, **```KtorMonitor```**:
-
-*   **android** → *isActive* for ```debug``` builds and disabled for ```release``` builds
-*   **ios** → *isActive* for ```debug``` builds and disabled for ```release``` builds
-*   **desktop** -> *isActive* for all builds
-*   **wasm** → *isActive* for all builds
-*   **js** → *isActive* for all builds

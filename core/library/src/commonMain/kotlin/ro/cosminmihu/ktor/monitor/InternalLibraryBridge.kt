@@ -35,13 +35,6 @@ public annotation class InternalKtorMonitorApi
 public object InternalLibraryBridge {
 
     /**
-     * Whether the platform is in debug mode.
-     */
-    @InternalKtorMonitorApi
-    public val isDebug: Boolean
-        get() = ro.cosminmihu.ktor.monitor.core.PlatformDebug.isDebug
-
-    /**
      * Configure the library.
      */
     @InternalKtorMonitorApi

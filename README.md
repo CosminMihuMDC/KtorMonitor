@@ -25,14 +25,6 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) and [OkHttp](https://sq
 *   📡**SSE & WebSockets**: Track one-way streams (*SSE*) and bidirectional traffic (*WebSockets*).
 *   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
 
-By default, **```KtorMonitor```**:
-
-*   **android** → *isActive* for ```debug``` builds and disabled for ```release``` builds
-*   **ios** → *isActive* for ```debug``` builds and disabled for ```release``` builds
-*   **desktop** -> *isActive* for all builds
-*   **wasm** → *isActive* for all builds
-*   **js** → *isActive* for all builds
-
 ## 📦 Setup (Kotlin Multiplatform) for [Ktor Client](https://ktor.io/)
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>

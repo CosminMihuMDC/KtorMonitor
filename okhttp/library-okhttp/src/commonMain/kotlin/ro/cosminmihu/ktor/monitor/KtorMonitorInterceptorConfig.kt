@@ -31,18 +31,18 @@ public class KtorMonitorInterceptorConfig {
 
     /**
      * Enable or disable the logging of requests and responses.
-     * By default:
-     * - android   - enabled for debug build type and disabled for release build type.
-     * - desktop   - enabled.
+     * By default, enabled:
      */
     @OptIn(InternalKtorMonitorApi::class)
-    public var isActive: Boolean = InternalLibraryBridge.isDebug
+    public var isActive: Boolean = true
 
     /**
      * Keep track of latest requests and responses into notification.
      * By default:
      * - android   - enabled. android.permission.POST_NOTIFICATIONS needs to be granted.
-     * - desktop   - not supported.
+     * - ios       - enabled. Notifications permission needs to be granted.
+     * - desktop   - not supported
+     * - web       - not supported.
      */
     public var showNotification: Boolean = true
 
