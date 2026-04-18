@@ -35,24 +35,12 @@ kotlin {
     }
 
     js {
-        outputModuleName = "KtorMonitor"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "KtorMonitor.js"
-            }
-        }
-        binaries.executable()
+        browser()
     }
 
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {
-        outputModuleName = "KtorMonitor"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "KtorMonitor.js"
-            }
-        }
-        binaries.executable()
+        browser()
     }
 
     androidTarget {
