@@ -16,6 +16,7 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses,
 ## ✨ Features
 
 *   🌐**Ktor Network Monitoring**: Real-time interception and logging of [Ktor Client](https://ktor.io/) traffic.
+*   🌐**OkHttp Network Monitoring**: Real-time interception and logging of [OkHttp](https://square.github.io/okhttp/) traffic.
 *   📱**Kotlin Multiplatform (KMP)**: Full support for **Android**, **iOS**, **Desktop (JVM)**, **Wasm**, and **JS**.
 *   🛠️**Highly Configurable**: Customize retention periods, content length limits, and notification behavior.
 *   🔒**Security First**: Redact sensitive headers (e.g., *Authorization*).
@@ -60,7 +61,7 @@ kotlin {
 }
 ```
 
-## 📦 Setup (Android only)
+## 📦 Setup (Android only) for [Ktor Client](https://ktor.io/)
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
 
@@ -86,6 +87,41 @@ HttpClient {
         maxContentLength = ContentLength.Default
     }
 }
+```
+
+- ```sanitizeHeader``` - sanitize sensitive headers to avoid their values appearing in the logs
+- ```filter``` - filter logs for calls matching a predicate.
+- ```showNotification``` - Keep track of latest requests and responses into notification. Default is **true**. Android and iOS only. Notifications permission needs to be granted.
+- ```retentionPeriod``` - The retention period for the logs. Default is **1h**.
+- ```maxContentLength``` - The maximum length of the content that will be logged. After this, body will be truncated. Default is **250_000**. To log the entire body use ```ContentLength.Full```.
+
+## 📦 Setup (Android & JVM only) for [OkHttp](https://square.github.io/okhttp/)
+
+### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
+
+```kotlin
+dependencies {
+    debugImplementation("ro.cosminmihu.okhttp:ktor-monitor-logging:1.10.3")
+    releaseImplementation("ro.cosminmihu.okhttp:ktor-monitor-logging-no-op:1.10.3")
+}
+```
+
+For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
+
+### <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Ktor_icon.png" width="30"/> Install Ktor Client Plugin
+
+```kotlin
+OkHttpClient.Builder()
+    .addInterceptor(
+        KtorMonitorInterceptor {
+            sanitizeHeader { header -> header == "Authorization" }
+            filter { request -> !request.url.host.contains("cosminmihu.ro") }
+            showNotification = true
+            retentionPeriod = RetentionPeriod.OneHour
+            maxContentLength = ContentLength.Default
+        }
+    )
+    .build()
 ```
 
 - ```sanitizeHeader``` - sanitize sensitive headers to avoid their values appearing in the logs

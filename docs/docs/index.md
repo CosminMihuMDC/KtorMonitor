@@ -10,11 +10,12 @@
 [![GitHub stars](https://img.shields.io/github/stars/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor)
 [![GitHub forks](https://img.shields.io/github/forks/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor/fork)
 
-Powerful tool to monitor [Ktor Client](https://ktor.io/) requests and responses, making it easier to debug and analyze network communication.
+Powerful tool to monitor [Ktor Client](https://ktor.io/) and [OkHttp](https://square.github.io/okhttp/) requests and responses, making it easier to debug and analyze network communication.
 
 ## ✨ Features
 
 *   🌐**Ktor Network Monitoring**: Real-time interception and logging of [Ktor Client](https://ktor.io/) traffic.
+*   🌐**OkHttp Network Monitoring**: Real-time interception and logging of [OkHttp](https://square.github.io/okhttp/) traffic.
 *   📱**Kotlin Multiplatform (KMP)**: Full support for **Android**, **iOS**, **Desktop (JVM)**, **Wasm**, and **JS**.
 *   🛠️**Highly Configurable**: Customize retention periods, content length limits, and notification behavior.
 *   🔒**Security First**: Redact sensitive headers (e.g., *Authorization*).
