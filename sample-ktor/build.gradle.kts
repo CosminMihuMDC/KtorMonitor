@@ -87,6 +87,7 @@ kotlin {
         }
         webMain.dependencies {
             implementation(libs.ktor.client.js)
+            implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
         }
     }
 }
