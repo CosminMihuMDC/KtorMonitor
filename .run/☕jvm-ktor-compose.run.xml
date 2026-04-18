@@ -2,7 +2,7 @@
   <configuration default="false" name="☕jvm-ktor-compose" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$/sample-ktor" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/sample/ktor" />
       <option name="externalSystemIdString" value="GRADLE" />
       <option name="scriptParameters" value="-DmainClass=ro.cosminmihu.ktor.monitor.sample.compose.MainKt --quiet" />
       <option name="taskDescriptions">
