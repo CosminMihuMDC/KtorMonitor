@@ -108,7 +108,7 @@ dependencies {
 
 For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
 
-### <img src="https://square.github.io/okhttp/assets/images/icon-square.png" width="30" style="background:#eee;"/> Install OkHttp Interceptor
+### <img src="https://pw-renderer-production-c.squarecdn.com/6d6a21f1ace5b8a7c93127a6f77087418f6ac596/_svelte/favicon.ico" width="30" style="background:#eee;"/> Install OkHttp Interceptor
 
 ```kotlin
 OkHttpClient.Builder()
