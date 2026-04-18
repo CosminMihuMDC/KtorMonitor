@@ -54,7 +54,6 @@ kotlin {
         iosSimulatorArm64(),
     ).forEach { iosTarget ->
         iosTarget.binaries.framework {
-            baseName = "ComposeApp"
             isStatic = true
             linkerOpts("-lsqlite3")
         }

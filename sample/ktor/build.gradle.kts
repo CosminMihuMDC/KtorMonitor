@@ -47,7 +47,6 @@ kotlin {
         iosTarget.binaries.framework {
             baseName = "KtorMonitorSample"
             isStatic = true
-            linkerOpts("-lsqlite3")
         }
     }
 
