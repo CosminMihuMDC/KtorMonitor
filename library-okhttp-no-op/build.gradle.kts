@@ -7,8 +7,8 @@ plugins {
     alias(libs.plugins.binary.compatibility.validator)
 }
 
-val artifact = "ktor-monitor-okhttp-no-op"
-group = "ro.cosminmihu.ktor"
+val artifact = "ktor-monitor-logging-no-op"
+group = "ro.cosminmihu.okhttp3"
 version = "1.10.1"
 
 mavenPublishing {
@@ -21,7 +21,7 @@ mavenPublishing {
     pom {
         name.set("Ktor Monitor - OkHttp Interceptor (No-Op)")
         description.set("""No-op implementation of the OkHttp Interceptor for Ktor Monitor.""".trimMargin())
-        inceptionYear.set("2025")
+        inceptionYear.set("2026")
         url.set("https://github.com/CosminMihuMDC/KtorMonitor")
 
         licenses {

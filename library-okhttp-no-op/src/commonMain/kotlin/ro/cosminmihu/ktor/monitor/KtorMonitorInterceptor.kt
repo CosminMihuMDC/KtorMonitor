@@ -11,7 +11,7 @@ import kotlin.time.Duration.Companion.hours
  */
 public class KtorMonitorInterceptor : Interceptor {
 
-    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this(KtorMonitorInterceptorConfig().apply(block))
+    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit)
 
     override fun intercept(chain: Interceptor.Chain): Response = chain.proceed(chain.request())
 }

@@ -27,11 +27,13 @@ import kotlin.time.ExperimentalTime
  *     .build()
  * ```
  */
-public class KtorMonitorInterceptor(
-    private val config: KtorMonitorInterceptorConfig = KtorMonitorInterceptorConfig(),
-) : Interceptor {
+public class KtorMonitorInterceptor() : Interceptor {
 
-    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this(KtorMonitorInterceptorConfig().apply(block))
+    private val config: KtorMonitorInterceptorConfig = KtorMonitorInterceptorConfig()
+
+    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this() {
+        config.apply(block)
+    }
 
     init {
         @OptIn(InternalKtorMonitorApi::class)
@@ -139,11 +141,12 @@ public class KtorMonitorInterceptor(
         val responseBodyBytes = responseBodySource?.buffer?.clone()?.readByteArray()
         val responseContentLength = responseBodyBytes?.size?.toLong()
 
-        val truncatedBody = if (responseBodyBytes != null && config.maxContentLength != ContentLength.Full) {
-            responseBodyBytes.take(config.maxContentLength).toByteArray()
-        } else {
-            responseBodyBytes
-        }
+        val truncatedBody =
+            if (responseBodyBytes != null && config.maxContentLength != ContentLength.Full) {
+                responseBodyBytes.take(config.maxContentLength).toByteArray()
+            } else {
+                responseBodyBytes
+            }
 
         runBlocking {
             try {
@@ -160,7 +163,8 @@ public class KtorMonitorInterceptor(
                     id = id,
                     responseContentLength = responseContentLength,
                     responseBody = truncatedBody,
-                    isResponseBodyTruncated = (responseContentLength ?: 0) > config.maxContentLength,
+                    isResponseBodyTruncated = (responseContentLength
+                        ?: 0) > config.maxContentLength,
                 )
             } catch (_: Throwable) {
             }
