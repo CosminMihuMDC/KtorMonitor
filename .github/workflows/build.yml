@@ -16,13 +16,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Run unit tests
         run: ./gradlew jvmTest
 
       - name: Upload test reports
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: test-reports
           path: "**/build/reports/tests/"
@@ -33,13 +33,13 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build Android APKs
         run: ./gradlew :sample:ktor:assembleDebug :sample:ktor:assembleRelease :sample:okhttp:assembleDebug :sample:okhttp:assembleRelease
 
       - name: Upload Android APKs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: android-apks
           path: "**/build/outputs/apk/**/*.apk"
@@ -50,7 +50,7 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build iOS simulator app
         run: |
@@ -63,7 +63,7 @@ jobs:
           -verbose
 
       - name: Upload App Folder
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: iphonesimulator-app
           path: build/Build/Products/Debug-iphonesimulator/*
@@ -74,13 +74,13 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build macOS DMGs
         run: ./gradlew :sample:ktor:packageDmg :sample:okhttp:packageDmg
 
       - name: Upload macOS DMGs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: desktop-macos-dmg
           path: "**/build/compose/binaries/main/dmg/*.dmg"
@@ -91,7 +91,7 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5.0.0
@@ -100,7 +100,7 @@ jobs:
         run: ./gradlew :sample:ktor:packageMsi :sample:okhttp:packageMsi
 
       - name: Upload Windows MSIs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: desktop-windows-msi
           path: "**/build/compose/binaries/main/msi/*.msi"
@@ -111,13 +111,13 @@ jobs:
     needs: test
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Build Linux DEBs and RPMs
         run: ./gradlew :sample:ktor:packageDeb :sample:ktor:packageRpm :sample:okhttp:packageDeb :sample:okhttp:packageRpm
 
       - name: Upload Linux DEBs and RPMs
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: desktop-linux-deb
           path: |
