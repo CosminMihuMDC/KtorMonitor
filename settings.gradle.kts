@@ -33,8 +33,8 @@ dependencyResolutionManagement {
 
 include(":core")
 include(":core-no-op")
-include(":library-ktor")
-include(":library-ktor-no-op")
+include(":ktor:library-ktor")
+include(":ktor:library-ktor-no-op")
 include(":library-okhttp")
 include(":library-okhttp-no-op")
 include(":sample:ktor")
