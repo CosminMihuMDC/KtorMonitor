@@ -25,4 +25,3 @@ import kotlin.time.Duration.Companion.hours
  * ```
  */
 public val KtorMonitorLogging: ClientPlugin<KtorMonitorLoggingConfig> = LoggingPlugin
-
