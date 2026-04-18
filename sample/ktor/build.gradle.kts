@@ -18,7 +18,7 @@ kotlin {
     js {
         browser {
             commonWebpackConfig {
-                outputFileName = "composeApp.js"
+                outputFileName = "KtorMonitorSample.js"
             }
         }
         binaries.executable()
@@ -28,7 +28,7 @@ kotlin {
     wasmJs {
         browser {
             commonWebpackConfig {
-                outputFileName = "composeApp.js" // TODO-libs
+                outputFileName = "KtorMonitorSample.js"
             }
         }
         binaries.executable()
