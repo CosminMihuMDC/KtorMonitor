@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.sample.okhttp
+package ro.cosminmihu.ktor.monitor.sample
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

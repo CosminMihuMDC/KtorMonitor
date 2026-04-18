@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.sample.okhttp
+package ro.cosminmihu.ktor.monitor.sample
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

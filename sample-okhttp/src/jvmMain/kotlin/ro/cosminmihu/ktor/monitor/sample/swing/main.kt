@@ -1,9 +1,9 @@
-package ro.cosminmihu.ktor.monitor.sample.ktor.swing
+package ro.cosminmihu.ktor.monitor.sample.swing
 
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.KtorMonitorPanel
-import ro.cosminmihu.ktor.monitor.sample.ktor.samples
+import ro.cosminmihu.ktor.monitor.sample.samples
 import java.awt.BorderLayout
 import java.awt.Dimension
 import javax.swing.JFrame

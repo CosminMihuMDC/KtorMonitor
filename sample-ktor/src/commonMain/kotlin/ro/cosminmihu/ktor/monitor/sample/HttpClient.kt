@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.sample.ktor
+package ro.cosminmihu.ktor.monitor.sample
 
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.sse.SSE

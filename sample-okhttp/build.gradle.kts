@@ -9,7 +9,7 @@ plugins {
 }
 
 compose.resources {
-    packageOfResClass = "ro.cosminmihu.ktor.monitor.sample.okhttp.resources"
+    packageOfResClass = "ro.cosminmihu.ktor.monitor.sample.resources"
 }
 
 kotlin {
@@ -49,11 +49,11 @@ kotlin {
 }
 
 android {
-    namespace = "ro.cosminmihu.ktor.monitor.sample.okhttp"
+    namespace = "ro.cosminmihu.ktor.monitor.sample"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "ro.cosminmihu.ktor.monitor.sample.okhttp"
+        applicationId = "ro.cosminmihu.ktor.monitor.sample"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
@@ -78,11 +78,11 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "ro.cosminmihu.ktor.monitor.sample.okhttp.MainKt"
+        mainClass = "ro.cosminmihu.ktor.monitor.sample.MainKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "ro.cosminmihu.ktor.monitor.sample.okhttp"
+            packageName = "ro.cosminmihu.ktor.monitor.sample"
             packageVersion = "1.0.0"
         }
     }

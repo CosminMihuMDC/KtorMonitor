@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.sample.okhttp
+package ro.cosminmihu.ktor.monitor.sample
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

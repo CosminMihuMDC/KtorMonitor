@@ -10,7 +10,7 @@ plugins {
 }
 
 compose.resources {
-    packageOfResClass = "ro.cosminmihu.ktor.monitor.sample.ktor.resources"
+    packageOfResClass = "ro.cosminmihu.ktor.monitor.sample.resources"
 }
 
 kotlin {

@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.sample.ktor.compose
+package ro.cosminmihu.ktor.monitor.sample.compose
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -11,10 +11,10 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.KtorMonitorMenuItem
 import ro.cosminmihu.ktor.monitor.KtorMonitorWindow
-import ro.cosminmihu.ktor.monitor.sample.ktor.App
-import ro.cosminmihu.ktor.monitor.sample.ktor.resources.Res
-import ro.cosminmihu.ktor.monitor.sample.ktor.resources.app_name
-import ro.cosminmihu.ktor.monitor.sample.ktor.resources.ic_launcher
+import ro.cosminmihu.ktor.monitor.sample.App
+import ro.cosminmihu.ktor.monitor.sample.resources.Res
+import ro.cosminmihu.ktor.monitor.sample.resources.app_name
+import ro.cosminmihu.ktor.monitor.sample.resources.ic_launcher
 
 /**
  * Compose sample how to use [KtorMonitorWindow] w/o [KtorMonitorMenuItem].

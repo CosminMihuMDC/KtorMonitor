@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.sample.okhttp
+package ro.cosminmihu.ktor.monitor.sample
 
 import okhttp3.OkHttpClient
 import ro.cosminmihu.ktor.monitor.ContentLength
