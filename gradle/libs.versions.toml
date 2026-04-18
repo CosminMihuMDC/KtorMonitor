@@ -32,6 +32,7 @@ kotlinx-serialization = "1.11.0"
 coil = "3.4.0"
 kotlin-atomicfu = "0.32.1"
 maven-publish = "0.36.0"
+navigation-event = "1.1.0-alpha01"
 binary-compatibility-validator = "0.18.1"
 dokka = "2.2.0"
 
@@ -57,7 +58,7 @@ compose-material-icons-extended = { module = "org.jetbrains.compose.material:mat
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavigationSuite" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
-compose-ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "compose-multiplatform" }
+navigation-event = { module = "org.jetbrains.androidx.navigationevent:navigationevent-compose", version.ref = "navigation-event" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }
 kotlinx-coroutines-swing = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
 ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }

@@ -160,7 +160,7 @@ kotlin {
             implementation(libs.compose.adaptive)
             implementation(libs.compose.adaptive.layout)
             implementation(libs.compose.adaptive.navigation)
-            implementation(libs.compose.ui.backhandler)
+            implementation(libs.navigation.event)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.sqldelight.runtime)

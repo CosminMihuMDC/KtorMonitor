@@ -15,24 +15,29 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
+import androidx.navigationevent.NavigationEventInfo
+import androidx.navigationevent.compose.NavigationEventHandler
+import androidx.navigationevent.compose.rememberNavigationEventState
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailRoute
 import ro.cosminmihu.ktor.monitor.ui.list.ListRoute
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 internal fun MainContent(modifier: Modifier = Modifier) {
     val coroutineScope = rememberCoroutineScope()
     val navigator = rememberListDetailPaneScaffoldNavigator<String?>()
 
-    BackHandler(navigator.canNavigateBack()) {
-        coroutineScope.launch {
-            navigator.navigateBack()
+    NavigationEventHandler(
+        state = rememberNavigationEventState(NavigationEventInfo.None),
+        isBackEnabled = navigator.canNavigateBack(),
+        onBackCompleted = {
+            coroutineScope.launch {
+                navigator.navigateBack()
+            }
         }
-    }
+    )
 
     Surface(modifier = modifier) {
         ListDetailPaneScaffold(

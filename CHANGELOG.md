@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.11.0] - TBA
 * Support for OkHttp
+* Replace BackHandler with NavigationEventHandler
 
 ## [1.10.3] - 2026-04-11
 * Set JVM toolchain language version to 11 for library-no-op
