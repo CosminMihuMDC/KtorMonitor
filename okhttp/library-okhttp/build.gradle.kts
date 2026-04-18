@@ -73,6 +73,10 @@ apiValidation {
 kotlin {
     explicitApi()
 
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)

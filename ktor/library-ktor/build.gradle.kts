@@ -74,6 +74,10 @@ apiValidation {
 kotlin {
     explicitApi()
 
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+    }
+
     compilerOptions {
         freeCompilerArgs.add("-Xexpect-actual-classes") // TODO remove after jetbrains fix
     }
