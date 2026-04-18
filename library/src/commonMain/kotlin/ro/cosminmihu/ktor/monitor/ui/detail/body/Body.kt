@@ -2,6 +2,7 @@ package ro.cosminmihu.ktor.monitor.ui.detail.body
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
@@ -24,7 +25,6 @@ import ro.cosminmihu.ktor.monitor.ui.detail.noBody
 import ro.cosminmihu.ktor.monitor.ui.detail.transaction.TransactionSection
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_body
-
 
 @Composable
 internal fun Body(
@@ -59,14 +59,14 @@ internal fun Body(
             body.contentFormat == DetailUiState.ContentFormat.CSS && displayMode == DisplayMode.CODE && body.raw != null ->
                 Css(
                     css = body.raw,
-                    modifier = Modifier.codeBlock(),
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
             body.contentFormat == DetailUiState.ContentFormat.FORM_URLENCODED && displayMode == DisplayMode.CODE && body.raw != null ->
                 FormUrlEncoded(
                     body = body.raw,
-                    modifier = Modifier.codeBlock(),
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
@@ -78,14 +78,14 @@ internal fun Body(
                         symbolColor = Color(0xFF2E86C1),
                         iconColor = Color(0xFF2E86C1),
                     ),
-                    modifier = Modifier.codeBlock(),
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
             body.contentFormat == DetailUiState.ContentFormat.XML && displayMode == DisplayMode.CODE && body.raw != null ->
                 XmlTree(
                     xml = body.raw,
-                    modifier = Modifier.codeBlock(),
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
                     contentPadding = PaddingValues(Dimens.Small),
                 )
 
