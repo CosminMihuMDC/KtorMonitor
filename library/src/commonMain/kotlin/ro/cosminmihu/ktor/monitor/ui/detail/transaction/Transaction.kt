@@ -2,6 +2,8 @@ package ro.cosminmihu.ktor.monitor.ui.detail.transaction
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +29,7 @@ internal fun Transaction(
     error: String,
     modifier: Modifier = Modifier,
 ) {
+    val transactionScrollState = rememberScrollState()
     var displayMode by remember(body) {
         mutableStateOf(
             when {
@@ -39,7 +42,7 @@ internal fun Transaction(
     }
 
     Column(
-        modifier = modifier.padding(Dimens.Small)
+        modifier = modifier.padding(Dimens.Small).verticalScroll(transactionScrollState)
     ) {
         if (isLoading) {
             Loading.Medium()
@@ -57,7 +60,8 @@ internal fun Transaction(
         Body(
             body = body,
             displayMode = displayMode,
-            onDisplayMode = { displayMode = it }
+            onDisplayMode = { displayMode = it },
+            modifier = Modifier.weight(1f)
         )
     }
 }

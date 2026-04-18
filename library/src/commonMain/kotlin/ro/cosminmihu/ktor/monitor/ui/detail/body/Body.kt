@@ -29,10 +29,11 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_body
 @Composable
 internal fun Body(
     body: DetailUiState.Body?,
+    modifier: Modifier = Modifier,
     displayMode: DisplayMode,
     onDisplayMode: (DisplayMode) -> Unit,
 ) {
-    TransactionSection(title = stringResource(Res.string.ktor_body)) {
+    TransactionSection(title = stringResource(Res.string.ktor_body), modifier = modifier) {
         if (body == null || body.noBody) {
             NoBody()
             return@TransactionSection
