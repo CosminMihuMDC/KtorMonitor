@@ -73,6 +73,13 @@ apiValidation {
 dokka {
     moduleName = "Ktor Logging Plugin"
     moduleVersion = project.version.toString()
+
+    dokkaSourceSets.configureEach {
+        externalDocumentationLinks.register("ktor") {
+            url("https://api.ktor.io/")
+            packageListUrl("https://api.ktor.io/package-list")
+        }
+    }
 }
 
 dependencies {
