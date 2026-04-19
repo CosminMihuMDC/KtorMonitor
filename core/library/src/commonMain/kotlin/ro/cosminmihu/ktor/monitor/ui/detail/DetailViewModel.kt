@@ -19,6 +19,7 @@ import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.domain.model.asString
 import ro.cosminmihu.ktor.monitor.domain.model.contentType
+import ro.cosminmihu.ktor.monitor.domain.model.decodeBody
 import ro.cosminmihu.ktor.monitor.domain.model.durationAsText
 import ro.cosminmihu.ktor.monitor.domain.model.encodedPathAndQuery
 import ro.cosminmihu.ktor.monitor.domain.model.host
@@ -86,7 +87,11 @@ internal class DetailViewModel(
                         headers = call.requestHeaders,
                         body = DetailUiState.Body(
                             bytes = call.requestBody?.toBytesString(),
-                            raw = call.requestBody?.asString(),
+                            raw = checkBodyTruncated(
+                                call.isRequestBodyTruncated,
+                                { call.requestBody?.decodeBody(call.requestHeaders) },
+                                call.requestBody?.asString()
+                            ),
                             image = checkBodyTruncated(call.isRequestBodyTruncated) {
                                 bodyImage(call.requestContentType, call.requestBody)
                             },
@@ -105,7 +110,11 @@ internal class DetailViewModel(
                         headers = call.responseHeaders ?: mapOf(),
                         body = DetailUiState.Body(
                             bytes = call.responseBody?.toBytesString(),
-                            raw = call.responseBody?.asString(),
+                            raw = checkBodyTruncated(
+                                call.isResponseBodyTruncated,
+                                { call.responseBody?.decodeBody(call.responseHeaders) },
+                                call.responseBody?.asString()
+                            ),
                             image = checkBodyTruncated(call.isResponseBodyTruncated) {
                                 bodyImage(call.responseContentType, call.responseBody)
                             },
@@ -154,9 +163,17 @@ internal class DetailViewModel(
 }
 
 
-private fun <T> checkBodyTruncated(isTruncated: Boolean?, value: () -> T): T? {
+private suspend fun <T> checkBodyTruncated(isTruncated: Boolean?, value: suspend () -> T): T? {
+    return checkBodyTruncated(isTruncated, value, null)
+}
+
+private suspend fun <T> checkBodyTruncated(
+    isTruncated: Boolean?,
+    value: suspend () -> T,
+    default: T?
+): T? {
     return when (isTruncated) {
-        true -> null
+        true -> default
         else -> value()
     }
 }

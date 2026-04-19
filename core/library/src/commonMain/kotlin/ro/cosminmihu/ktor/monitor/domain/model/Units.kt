@@ -97,3 +97,5 @@ internal fun ByteArray.toBytesString(): String = buildString {
 }
 
 internal fun ByteArray.asString() = decodeToString()
+
+internal fun ByteArray.isGzip() = size >= 2 && this[0] == 0x1f.toByte() && this[1] == 0x8b.toByte()

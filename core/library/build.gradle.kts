@@ -177,6 +177,7 @@ kotlin {
             implementation(libs.kotlinx.atomicfu)
             implementation(libs.jsontree)
             implementation(libs.ksoup)
+            implementation(libs.ktor.utils)
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
