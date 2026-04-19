@@ -59,6 +59,7 @@ jobs:
           -configuration Debug \
           -scheme ios \
           -sdk iphonesimulator \
+          -arch arm64 \
           -derivedDataPath ./build \
           -verbose
 
