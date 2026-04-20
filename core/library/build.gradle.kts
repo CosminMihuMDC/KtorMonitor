@@ -215,7 +215,4 @@ android {
             isMinifyEnabled = false
         }
     }
-    buildFeatures {
-        buildConfig = true
-    }
 }
