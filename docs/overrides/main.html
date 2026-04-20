@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block styles %}
+  {{ super() }}
+  <style>
+    /*
+      Make the shadow host a fixed containing block anchored to the
+      bottom-right corner of the viewport, 60 px above the MkDocs footer.
+      transform: translateZ(0) (no visual shift) triggers the CSS spec rule
+      that makes it the containing block for the fixed children inside the
+      closed Shadow DOM.
+    */
+    #context7-widget {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      transform: translateZ(0);
+    }
+  </style>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script src="https://context7.com/widget.js"
+          data-library="/cosminmihumdc/ktormonitor"
+          data-color="#7c3aed"
+          data-position="bottom-right"
+          data-placeholder="Ask anything about KtorMonitor...">
+  </script>
+{% endblock %}
+

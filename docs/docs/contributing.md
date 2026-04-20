@@ -18,6 +18,8 @@ API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonito
 <br>
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>
+KtorMonitor on [Context7](https://context7.com/cosminmihumdc/ktormonitor).
+<br>
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
 <br>
