@@ -1,0 +1,9 @@
+// Klib ABI Dump
+// Targets: [iosArm64, iosSimulatorArm64, js, wasmJs]
+// Rendering settings:
+// - Signature version: 2
+// - Show manifest properties: true
+// - Show declarations: true
+
+// Library unique name: <ro.cosminmihu.ktor:library-no-op>
+final fun ro.cosminmihu.ktor.monitor/KtorMonitor(androidx.compose.ui/Modifier?, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // ro.cosminmihu.ktor.monitor/KtorMonitor|KtorMonitor(androidx.compose.ui.Modifier?;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]

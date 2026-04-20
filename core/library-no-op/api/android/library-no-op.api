@@ -1,0 +1,4 @@
+public final class ro/cosminmihu/ktor/monitor/KtorMonitorKt {
+	public static final fun KtorMonitor (Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
+}
+

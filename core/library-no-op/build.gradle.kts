@@ -10,6 +10,14 @@ plugins {
     alias(libs.plugins.binary.compatibility.validator)
 }
 
+apiValidation {
+    @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
+    klib {
+        enabled = true
+        strictValidation = true
+    }
+}
+
 mavenPublishing {
     publishToMavenCentral()
 

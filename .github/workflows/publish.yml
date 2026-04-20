@@ -8,8 +8,19 @@ permissions:
   contents: write
 
 jobs:
+  check:
+    name: Api Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run api check
+        run: ./gradlew apiCheck
+
   docs:
     runs-on: macOS-latest
+    needs: check
     steps:
       - uses: actions/checkout@v5
       - name: Configure Git Credentials

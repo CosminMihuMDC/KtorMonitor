@@ -51,6 +51,20 @@ dokka {
     }
 }
 
+apiValidation {
+    @OptIn(kotlinx.validation.ExperimentalBCVApi::class)
+    klib {
+        enabled = true
+        strictValidation = true
+    }
+
+    publicPackages.add("ro.cosminmihu.ktor.monitor")
+    ignoredClasses.add("ro.cosminmihu.ktor.monitor.InternalKtorMonitorApi")
+    ignoredClasses.add("ro.cosminmihu.ktor.monitor.InternalLibraryBridge")
+    ignoredPackages.add("ro.cosminmihu.ktor.monitor.db")
+    ignoredPackages.add("ro.cosminmihu.ktor.monitor.ui")
+}
+
 mavenPublishing {
     publishToMavenCentral()
 

@@ -1,0 +1,16 @@
+public final class ro/cosminmihu/ktor/monitor/KtorMonitorKt {
+	public static final fun KtorMonitor (Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class ro/cosminmihu/ktor/monitor/KtorMonitorMenuItemKt {
+	public static final fun KtorMonitorMenuItem (Landroidx/compose/ui/window/MenuScope;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;I)V
+}
+
+public final class ro/cosminmihu/ktor/monitor/KtorMonitorPanelKt {
+	public static final fun getKtorMonitorPanel ()Ljavax/swing/JLayeredPane;
+}
+
+public final class ro/cosminmihu/ktor/monitor/KtorMonitorWindowKt {
+	public static final fun KtorMonitorWindow (ZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+}
+
