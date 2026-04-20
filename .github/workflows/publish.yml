@@ -19,6 +19,7 @@ jobs:
         run: ./gradlew apiCheck
 
   docs:
+    name: Generate Docs
     runs-on: macOS-latest
     needs: check
     steps:
@@ -43,7 +44,7 @@ jobs:
       - run: mkdocs gh-deploy --force --config-file docs/mkdocs.yml
 
   publish:
-    name: Release build and publish
+    name: Release and Publish
     runs-on: macOS-latest
     needs: docs
     steps:
