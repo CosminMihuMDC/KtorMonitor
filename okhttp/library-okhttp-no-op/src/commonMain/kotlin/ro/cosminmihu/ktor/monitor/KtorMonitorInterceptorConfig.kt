@@ -4,16 +4,15 @@ import okhttp3.Request
 import kotlin.time.Duration
 
 /**
- * DSL marker for [KtorMonitorInterceptorConfig].
- */
-@DslMarker
-public annotation class KtorMonitorInterceptorDsl
-
-/**
  * No-op implementation.
  */
-@KtorMonitorInterceptorDsl
-public class KtorMonitorInterceptorConfig {
+public class KtorMonitorInterceptorConfig() {
+
+    private val config: KtorMonitorInterceptorConfig = KtorMonitorInterceptorConfig()
+
+    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this() {
+        config.apply(block)
+    }
 
     public fun filter(predicate: (Request) -> Boolean) {
         // Not implemented.
