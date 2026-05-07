@@ -1,3 +1,4 @@
+<p align="center">
 [![Maven Central](https://img.shields.io/maven-central/v/ro.cosminmihu.ktor/ktor-monitor-logging?logo=apachemaven&label=Maven%20Central&link=https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging/)](https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging)
 [![License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?label=Licence&logo=lintcode&logoColor=white&color=#3DA639)](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/LICENSE)
 [![Platforms](https://img.shields.io/badge/Platforms-Android%20+%20iOS%20+%20JVM%20+%20Wasm%20+%20Js-brightgreen?logo=kotlin&logoColor=white&color=8d69e0)](https://cosminmihumdc.github.io/KtorMonitor)
@@ -7,6 +8,7 @@
 [![API](https://img.shields.io/badge/API-gray?logo=codersrank&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor/api)
 [![GitHub stars](https://img.shields.io/github/stars/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor)
 [![GitHub forks](https://img.shields.io/github/forks/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor/fork)
+</p>
 
 # <img src="./extra/ktor_monitor_ic_launcher.svg" width="35"/> KtorMonitor
 Powerful tool to monitor [Ktor Client](https://ktor.io/), [OkHttp](https://square.github.io/okhttp/) and [http4k](https://www.http4k.org/) requests and responses, making it easier to debug and analyze network communication.
@@ -274,7 +276,7 @@ fun main() = application {
 kotlin {
     sourceSets {
         webMain.dependencies {
-            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+            implementation(devNpm("copy-webpack-plugin", "14.0.0"))
         }
     }
 }
@@ -317,8 +319,8 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 [![Compose Multiplatform](https://img.shields.io/badge/1.11.0-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
 [![Android](https://img.shields.io/badge/Android%2017-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/about/versions/16)
 [![Ktor](https://img.shields.io/badge/3.4.3-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
-[![OkHttp](https://img.shields.io/badge/4.11.0-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
-[![http4k](https://img.shields.io/badge/6.45.1.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
+[![OkHttp](https://img.shields.io/badge/5.3.2-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
+[![http4k](https://img.shields.io/badge/6.46.0.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
 [![SQLDelight](https://img.shields.io/badge/2.3.2-white?logo=sqlite&logoColor=white&color=003B57)](https://sqldelight.github.io/sqldelight)
 
 Community discussions on Slack — join us in the [#ktormonitor](https://kotlinlang.slack.com/archives/C0AB9GA32H0) channel.
