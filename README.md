@@ -10,7 +10,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor/fork)
 </p>
 
-# <img src="./extra/ktor_monitor_ic_launcher.svg" width="35"/> KtorMonitor
+# <img align="center" src="./extra/ktor_monitor_ic_launcher.svg" width="35"/> KtorMonitor
 Powerful tool to monitor [Ktor Client](https://ktor.io/), [OkHttp](https://square.github.io/okhttp/) and [http4k](https://www.http4k.org/) requests and responses, making it easier to debug and analyze network communication.
 
 <img src="extra/readme/ktormonitor.png" alt="ktormonitor"/>
