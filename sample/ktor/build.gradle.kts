@@ -76,9 +76,9 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(projects.ktor.libraryKtor)
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.1")
 //            implementation(projects.ktor.libraryKtorNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.1")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
