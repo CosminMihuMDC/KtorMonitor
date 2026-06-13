@@ -3,11 +3,14 @@ package ro.cosminmihu.ktor.monitor.domain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
+import ro.cosminmihu.ktor.monitor.domain.model.decodeBody
 
 internal class ExportCallAsTextUseCase {
 
     suspend operator fun invoke(call: Call): String = withContext(Dispatchers.Default) {
         val protocol = call.protocol ?: "HTTP/1.1"
+        val requestBody = call.requestBody?.decodeBody(call.requestHeaders)
+        val responseBody = call.responseBody?.decodeBody(call.responseHeaders)
 
         buildString {
             // Request line + headers
@@ -16,8 +19,7 @@ internal class ExportCallAsTextUseCase {
             appendLine()
 
             // Request body
-            call.requestBody
-                ?.decodeToString()
+            requestBody
                 ?.takeIf { it.isNotBlank() }
                 ?.let { appendLine(it + call.isRequestBodyTruncated.truncatedLabel()) }
             appendLine()
@@ -28,8 +30,7 @@ internal class ExportCallAsTextUseCase {
             appendLine()
 
             // Response body
-            call.responseBody
-                ?.decodeToString()
+            responseBody
                 ?.takeIf { it.isNotBlank() }
                 ?.let { appendLine(it + call.isResponseBodyTruncated.truncatedLabel()) }
             appendLine()
