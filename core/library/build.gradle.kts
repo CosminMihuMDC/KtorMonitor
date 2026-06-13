@@ -69,6 +69,7 @@ apiValidation {
     ignoredClasses.add("ro.cosminmihu.ktor.monitor.domain.model.ClientSource")
     ignoredPackages.add("ro.cosminmihu.ktor.monitor.db")
     ignoredPackages.add("ro.cosminmihu.ktor.monitor.ui")
+    ignoredPackages.add("org.koin.plugin.hints")
 }
 
 mavenPublishing {
