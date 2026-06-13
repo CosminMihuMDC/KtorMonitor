@@ -8,15 +8,15 @@ permissions:
   contents: write
 
 jobs:
-#  check:
-#    name: Api Check
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v6
-#
-#      - name: Run api check
-#        run: ./gradlew apiCheck
+  check:
+    name: Api Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run api check
+        run: ./gradlew apiCheck
 
   docs:
     name: Generate Docs
