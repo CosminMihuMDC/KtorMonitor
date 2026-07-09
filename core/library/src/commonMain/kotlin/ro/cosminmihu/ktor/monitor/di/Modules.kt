@@ -1,5 +1,6 @@
 package ro.cosminmihu.ktor.monitor.di
 
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -44,7 +45,8 @@ internal val databaseModule = module {
 
 internal val coroutineModule = module {
     single {
-        CoroutineScope(Dispatchers.Default + SupervisorJob())
+        val exceptionHandler = CoroutineExceptionHandler { _, _ -> }
+        CoroutineScope(Dispatchers.Default + SupervisorJob() + exceptionHandler)
     }
 }
 

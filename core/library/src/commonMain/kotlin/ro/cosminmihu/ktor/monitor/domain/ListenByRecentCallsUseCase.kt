@@ -3,6 +3,7 @@ package ro.cosminmihu.ktor.monitor.domain
 import app.cash.sqldelight.Query
 import app.cash.sqldelight.async.coroutines.awaitAsList
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
@@ -46,6 +47,10 @@ internal class ListenByRecentCallsUseCase(
                     }
                 }
                 .distinctUntilChanged()
+                .catch {
+                    // Never let a transient DB failure (e.g. a native SQLite open/prepare
+                    // error) escape this flow and crash the host app.
+                }
                 .collectLatest {
                     // Show notification (or actively clear it when the user disabled it).
                     if (setupUseCase.isShowNotification()) {
