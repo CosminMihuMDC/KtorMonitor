@@ -6,7 +6,7 @@
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.1")
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.2")
             }
         }
     }
@@ -20,7 +20,7 @@
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.1")
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.2")
             }
         }
     }
@@ -30,8 +30,8 @@
     
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.1")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.1")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.2")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.2")
     }
     ```
 
@@ -41,8 +41,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.1")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.1")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.2")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.2")
     }
     ```
 
@@ -52,8 +52,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.1")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.1")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.2")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.2")
     }
     ```
 
