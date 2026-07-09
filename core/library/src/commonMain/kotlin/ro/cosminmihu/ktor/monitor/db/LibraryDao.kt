@@ -2,7 +2,9 @@ package ro.cosminmihu.ktor.monitor.db
 
 import app.cash.sqldelight.Query
 import app.cash.sqldelight.coroutines.asFlow
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 import ro.cosminmihu.ktor.monitor.db.sqldelight.LibraryDatabase
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCalls
@@ -20,7 +22,7 @@ internal class LibraryDao(private val database: LibraryDatabase) {
         requestContentLength: Long,
         requestBody: ByteArray?,
         isRequestBodyTruncated: Boolean,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         database.callQueries.saveRequest(
             id,
             method,
@@ -37,7 +39,7 @@ internal class LibraryDao(private val database: LibraryDatabase) {
     suspend fun saveRequest(
         id: String,
         error: Throwable,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         database.callQueries.saveError(
             error.stackTraceToString(),
             id
@@ -52,7 +54,7 @@ internal class LibraryDao(private val database: LibraryDatabase) {
         responseTimestamp: Long,
         responseContentType: String?,
         responseHeaders: Map<String, List<String>>?,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         database.callQueries.saveResponse(
             protocol,
             requestTimestamp,
@@ -69,7 +71,7 @@ internal class LibraryDao(private val database: LibraryDatabase) {
         responseContentLength: Long?,
         responseBody: ByteArray?,
         isResponseBodyTruncated: Boolean,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         database.callQueries.saveResponseBody(
             responseContentLength,
             responseBody,
@@ -83,7 +85,7 @@ internal class LibraryDao(private val database: LibraryDatabase) {
         chunk: ByteArray,
         deltaSize: Long,
         isResponseBodyTruncated: Boolean,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         database.callQueries.appendResponseBody(
             chunk,
             deltaSize,
@@ -95,7 +97,7 @@ internal class LibraryDao(private val database: LibraryDatabase) {
     suspend fun saveResponse(
         id: String,
         error: Throwable,
-    ) {
+    ) = withContext(Dispatchers.IO) {
         database.callQueries.saveError(
             error.stackTraceToString(),
             id
@@ -111,11 +113,11 @@ internal class LibraryDao(private val database: LibraryDatabase) {
     fun getCalls(limit: Long): Flow<Query<SelectCallsWithLimit>> =
         database.callQueries.selectCallsWithLimit(limit).asFlow()
 
-    suspend fun deleteCalls() {
+    suspend fun deleteCalls() = withContext(Dispatchers.IO) {
         database.callQueries.deleteCalls()
     }
 
-    suspend fun deleteCallsBefore(threshold: Long) {
+    suspend fun deleteCallsBefore(threshold: Long) = withContext(Dispatchers.IO) {
         database.callQueries.deleteCallsBefore(threshold)
     }
 }
