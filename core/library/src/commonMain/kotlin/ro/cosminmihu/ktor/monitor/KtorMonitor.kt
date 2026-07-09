@@ -2,7 +2,7 @@ package ro.cosminmihu.ktor.monitor
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import ro.cosminmihu.ktor.monitor.ui.main.MainRoute
+import ro.cosminmihu.ktor.monitor.ui.main.MainUI
 
 /**
  * Ktor Monitor UI entry point.
@@ -12,7 +12,7 @@ public fun KtorMonitor(
     modifier: Modifier = Modifier,
     useKtorMonitorTheme: Boolean = true,
 ) {
-    MainRoute(
+    MainUI(
         modifier = modifier,
         useLibraryTheme = useKtorMonitorTheme,
     )

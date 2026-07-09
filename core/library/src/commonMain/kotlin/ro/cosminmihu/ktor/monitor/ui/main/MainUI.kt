@@ -8,7 +8,7 @@ import ro.cosminmihu.ktor.monitor.di.LibraryKoinContext
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @Composable
-internal fun MainRoute(
+internal fun MainUI(
     modifier: Modifier = Modifier,
     useLibraryTheme: Boolean = true,
 ) {

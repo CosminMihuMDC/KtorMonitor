@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import org.jetbrains.compose.resources.stringResource
-import ro.cosminmihu.ktor.monitor.ui.main.MainRoute
+import ro.cosminmihu.ktor.monitor.ui.main.MainUI
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
 
@@ -34,7 +34,7 @@ public fun KtorMonitorWindow(
         onCloseRequest = onCloseRequest,
         title = stringResource(Res.string.ktor_library_name),
     ) {
-        MainRoute(
+        MainUI(
             modifier = Modifier.fillMaxSize(),
             useLibraryTheme = useLibraryTheme
         )
