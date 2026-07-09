@@ -9,11 +9,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.RestartAlt
-import androidx.compose.material.icons.filled.Warning
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Lock
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.LockOpen
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.RestartAlt
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme

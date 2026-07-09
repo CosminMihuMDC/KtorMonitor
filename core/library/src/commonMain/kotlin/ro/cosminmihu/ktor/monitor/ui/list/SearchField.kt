@@ -3,10 +3,9 @@ package ro.cosminmihu.ktor.monitor.ui.list
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Search
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Close
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme

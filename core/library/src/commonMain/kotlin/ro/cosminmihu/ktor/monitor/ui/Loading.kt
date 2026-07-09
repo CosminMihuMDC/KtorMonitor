@@ -6,8 +6,8 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.HourglassTop
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.HourglassTop
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

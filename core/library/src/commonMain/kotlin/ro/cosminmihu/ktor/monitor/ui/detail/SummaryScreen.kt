@@ -1,6 +1,5 @@
 package ro.cosminmihu.ktor.monitor.ui.detail
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,8 +9,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Warning
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text

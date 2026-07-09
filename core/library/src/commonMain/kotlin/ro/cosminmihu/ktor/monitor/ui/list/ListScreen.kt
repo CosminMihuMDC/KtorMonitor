@@ -17,11 +17,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.SearchOff
-import androidx.compose.material.icons.filled.Warning
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Delete
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Search
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.SearchOff
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
