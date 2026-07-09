@@ -1,103 +1,62 @@
 package ro.cosminmihu.ktor.monitor.ui.main
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.Surface
-import androidx.compose.material3.VerticalDragHandle
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.layout.AnimatedPane
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
-import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
-import androidx.compose.material3.adaptive.layout.PaneExpansionAnchor
-import androidx.compose.material3.adaptive.layout.rememberPaneExpansionState
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.navigationevent.NavigationEventInfo
-import androidx.navigationevent.compose.NavigationEventHandler
-import androidx.navigationevent.compose.rememberNavigationEventState
-import kotlinx.coroutines.launch
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailRoute
 import ro.cosminmihu.ktor.monitor.ui.list.ListRoute
+import ro.cosminmihu.ktor.monitor.ui.nav.Nav
+import ro.cosminmihu.ktor.monitor.ui.nav.backStackConfig
+import ro.cosminmihu.ktor.monitor.ui.nav.rememberListDetailSceneStrategy
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 internal fun MainContent(modifier: Modifier = Modifier) {
-    val coroutineScope = rememberCoroutineScope()
-    val navigator = rememberListDetailPaneScaffoldNavigator<String?>()
-
-    NavigationEventHandler(
-        state = rememberNavigationEventState(NavigationEventInfo.None),
-        isBackEnabled = navigator.canNavigateBack(),
-        onBackCompleted = {
-            coroutineScope.launch {
-                navigator.navigateBack()
-            }
-        }
-    )
+    val backStack = rememberNavBackStack(backStackConfig, Nav.List)
+    val listDetailStrategy = rememberListDetailSceneStrategy()
 
     Surface(modifier = modifier) {
-        ListDetailPaneScaffold(
+        NavDisplay(
             modifier = Modifier.fillMaxSize(),
-            directive = navigator.scaffoldDirective,
-            value = navigator.scaffoldValue,
-            listPane = {
-                AnimatedPane {
+            backStack = backStack,
+            onBack = { backStack.removeLastOrNull() },
+            sceneStrategies = listOf(listDetailStrategy),
+            entryProvider = entryProvider {
+                entry<Nav.List>(
+                    metadata = ListDetailSceneStrategy.listPane(
+                        detailPlaceholder = {
+                            DetailRoute(
+                                id = null,
+                                onBack = {},
+                                modifier = Modifier.fillMaxSize()
+                            )
+                        }
+                    )
+                ) {
                     ListRoute(
                         onClick = { id ->
-                            coroutineScope.launch {
-                                navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, id)
-                            }
+                            backStack.removeAll { it is Nav.Detail }
+                            backStack.add(Nav.Detail(id))
                         },
                         onClear = {
-                            coroutineScope.launch {
-                                navigator.navigateBack()
-                            }
+                            backStack.removeAll { it is Nav.Detail }
                         }
                     )
                 }
-            },
-            detailPane = {
-                val id = navigator.currentDestination?.contentKey
-                AnimatedPane {
+                entry<Nav.Detail>(
+                    metadata = ListDetailSceneStrategy.detailPane()
+                ) { destination ->
                     DetailRoute(
-                        id = id,
-                        onBack = {
-                            coroutineScope.launch {
-                                navigator.navigateBack()
-                            }
-                        }
+                        id = destination.id,
+                        onBack = { backStack.removeLastOrNull() }
                     )
                 }
-            },
-            paneExpansionState = rememberPaneExpansionState(
-                keyProvider = navigator.scaffoldValue,
-                anchors = listOf(
-                    PaneExpansionAnchor.Proportion(0.25f),
-                    PaneExpansionAnchor.Proportion(0.3f),
-                    PaneExpansionAnchor.Proportion(0.35f),
-                    PaneExpansionAnchor.Proportion(0.4f),
-                    PaneExpansionAnchor.Proportion(0.45f),
-                    PaneExpansionAnchor.Proportion(0.5f),
-                    PaneExpansionAnchor.Proportion(0.55f),
-                    PaneExpansionAnchor.Proportion(0.6f),
-                    PaneExpansionAnchor.Proportion(0.65f),
-                    PaneExpansionAnchor.Proportion(0.7f),
-                )
-            ),
-            paneExpansionDragHandle = { state ->
-                val interactionSource = remember { MutableInteractionSource() }
-                VerticalDragHandle(
-                    modifier = Modifier.paneExpansionDraggable(
-                        state = state,
-                        minTouchTargetSize = LocalMinimumInteractiveComponentSize.current,
-                        interactionSource = interactionSource,
-                    ),
-                    interactionSource = interactionSource
-                )
             }
         )
     }
