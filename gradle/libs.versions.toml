@@ -20,7 +20,6 @@ ktor = "3.5.0"
 okhttp = "5.4.0"
 http4k = "6.53.0.0"
 material3AdaptiveNavigationSuite = "1.9.0"
-materialIconsExtended = "1.7.3"
 material3 = "1.11.0-alpha07"
 slf4j = "2.0.18"
 sqldelight = "2.3.2"
@@ -55,7 +54,6 @@ compose-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:a
 compose-components-resources = { module = "org.jetbrains.compose.components:components-resources", version.ref = "compose-multiplatform" }
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
-compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
 compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavigationSuite" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
