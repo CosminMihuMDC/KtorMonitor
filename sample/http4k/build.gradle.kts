@@ -40,9 +40,9 @@ kotlin {
             implementation(libs.http4k.multipart)
             implementation(projects.http4k.libraryHttp4k)
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.2")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.3")
 //            implementation(projects.http4k.libraryHttp4kNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.2")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.3")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
