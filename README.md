@@ -313,12 +313,12 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 
 ## 🙌 Acknowledgments
 
-[![Kotlin](https://img.shields.io/badge/2.3.21-white?logo=kotlin&logoColor=white&color=7F52FF)](http://kotlinlang.org)
-[![Compose Multiplatform](https://img.shields.io/badge/1.11.0-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
+[![Kotlin](https://img.shields.io/badge/2.4.10-white?logo=kotlin&logoColor=white&color=7F52FF)](http://kotlinlang.org)
+[![Compose Multiplatform](https://img.shields.io/badge/1.11.1-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
 [![Android](https://img.shields.io/badge/Android%2017-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/about/versions/16)
-[![Ktor](https://img.shields.io/badge/3.4.3-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
-[![OkHttp](https://img.shields.io/badge/4.11.0-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
-[![http4k](https://img.shields.io/badge/6.45.1.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
+[![Ktor](https://img.shields.io/badge/3.5.1-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
+[![OkHttp](https://img.shields.io/badge/5.4.0-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
+[![http4k](https://img.shields.io/badge/6.55.0.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
 [![SQLDelight](https://img.shields.io/badge/2.3.2-white?logo=sqlite&logoColor=white&color=003B57)](https://sqldelight.github.io/sqldelight)
 
 Community discussions on Slack — join us in the [#ktormonitor](https://kotlinlang.slack.com/archives/C0AB9GA32H0) channel.
