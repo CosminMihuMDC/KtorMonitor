@@ -1,0 +1,433 @@
+# KtorMonitor
+
+> Powerful Kotlin Multiplatform library to monitor **Ktor Client**, **OkHttp**, and **http4k** HTTP traffic in real time. Supports Android, iOS, Desktop (JVM), Wasm, and JS.
+
+**AI Skill (step-by-step integration guide):** [`ai/skill.md`](ai/skill.md)
+
+- **Latest version**: `1.14.4`
+- **Group**: `ro.cosminmihu.ktor`
+- **Maven Central**: https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging
+- **Documentation**: https://cosminmihumdc.github.io/KtorMonitor
+- **Source**: https://github.com/CosminMihuMDC/KtorMonitor
+
+---
+
+## Key Features
+
+- Real-time interception of Ktor Client, OkHttp, and http4k traffic
+- Full Kotlin Multiplatform support: Android, iOS, Desktop JVM, Wasm, JS
+- Configurable: retention period, max content length, header sanitization, request filtering
+- Security: redact sensitive headers (e.g., `Authorization`)
+- Rich body viewers: JSON, XML, HTML, CSS, YAML, Markdown, Form Data, Images (JPG/PNG/SVG/GIF/WEBP), HexViewer
+- SSE (Server-Sent Events) and WebSocket monitoring
+- Data export to files
+- Push notification summary of active requests (Android & iOS)
+- Production-safe: no-op variants for release builds
+
+---
+
+## Dependency Setup
+
+### Ktor Client — Kotlin Multiplatform
+
+```kotlin
+// build.gradle.kts
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            // debug / development
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
+        }
+    }
+}
+```
+
+**Release builds** — use the no-op variant to exclude all monitoring code from production:
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+        }
+    }
+}
+```
+
+### Ktor Client — Android only
+
+```kotlin
+// build.gradle.kts (app module)
+dependencies {
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+}
+```
+
+> **Note:** For `minSdk < 26`, enable [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring).
+
+### OkHttp — Android & JVM
+
+```kotlin
+dependencies {
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.4")
+}
+```
+
+> **Note:** For `minSdk < 26`, enable [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring).
+
+### http4k — Android & JVM
+
+```kotlin
+dependencies {
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.4")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.4")
+}
+```
+
+> **Note:** For `minSdk < 26`, enable [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring).
+
+---
+
+## Plugin / Interceptor / Filter Installation
+
+### Ktor Client Plugin
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorLogging
+import ro.cosminmihu.ktor.monitor.RetentionPeriod
+import ro.cosminmihu.ktor.monitor.ContentLength
+
+val client = HttpClient {
+    install(KtorMonitorLogging) {
+        // Redact sensitive headers — their values are replaced with "***"
+        sanitizeHeader { header -> header == "Authorization" }
+
+        // Skip logging for specific requests
+        filter { request -> !request.url.host.contains("example.com") }
+
+        // Show a system notification with a live request summary (Android & iOS only)
+        showNotification = true
+
+        // How long to keep logged calls. Options:
+        //   RetentionPeriod.OneMinute, ThirtyMinutes, OneHour, TwoHours,
+        //   OneDay, OneWeek — default is OneHour
+        retentionPeriod = RetentionPeriod.OneHour
+
+        // Max bytes of the body to capture. Default = 250_000.
+        // Use ContentLength.Full to capture the entire body (caution with large responses).
+        maxContentLength = ContentLength.Default
+    }
+}
+```
+
+### OkHttp Interceptor
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorInterceptor
+import ro.cosminmihu.ktor.monitor.RetentionPeriod
+import ro.cosminmihu.ktor.monitor.ContentLength
+
+val okHttpClient = OkHttpClient.Builder()
+    .addNetworkInterceptor(
+        KtorMonitorInterceptor {
+            sanitizeHeader { header -> header == "Authorization" }
+            filter { request -> !request.url.host.contains("example.com") }
+            showNotification = true
+            retentionPeriod = RetentionPeriod.OneHour
+            maxContentLength = ContentLength.Default
+        }
+    )
+    .build()
+```
+
+### http4k Filter
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorFilter
+import ro.cosminmihu.ktor.monitor.RetentionPeriod
+import ro.cosminmihu.ktor.monitor.ContentLength
+
+val app = KtorMonitorFilter {
+    sanitizeHeader { header -> header == "Authorization" }
+    filter { request -> !request.uri.host.contains("example.com") }
+    showNotification = true          // Android only for http4k
+    retentionPeriod = RetentionPeriod.OneHour
+    maxContentLength = ContentLength.Default
+}.then(JavaHttpClient())
+```
+
+---
+
+## Configuration Reference
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `sanitizeHeader` | `(String) -> Boolean` | — | Returns `true` for headers whose values should be replaced with `***` |
+| `filter` | `(HttpRequestBuilder/Request) -> Boolean` | — | Returns `true` for requests to **skip** (not log) |
+| `showNotification` | `Boolean` | `true` | Show a system notification (Android & iOS only; requires notification permission) |
+| `retentionPeriod` | `RetentionPeriod` | `OneHour` | How long captured calls are retained in the local database |
+| `maxContentLength` | `ContentLength` | `Default` (250 000 bytes) | Truncates body after this many bytes; use `ContentLength.Full` to disable truncation |
+
+### RetentionPeriod values
+
+```kotlin
+RetentionPeriod.OneMinute
+RetentionPeriod.ThirtyMinutes
+RetentionPeriod.OneHour      // default
+RetentionPeriod.TwoHours
+RetentionPeriod.OneDay
+RetentionPeriod.OneWeek
+```
+
+### ContentLength values
+
+```kotlin
+ContentLength.Default   // 250_000 bytes (default)
+ContentLength.Full      // no limit — captures the entire body
+```
+
+---
+
+## UI Integration
+
+### Compose Multiplatform (All targets)
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitor
+
+@Composable
+fun App() {
+    KtorMonitor()
+}
+```
+
+### Android
+
+The library automatically launches a `KtorMonitor` Activity when the user taps the notification. You can also embed the Composable directly:
+
+```kotlin
+// In any Composable:
+KtorMonitor()
+```
+
+Grant `android.permission.POST_NOTIFICATIONS` at runtime for notification support.
+
+### iOS
+
+**Kotlin side** (shared module):
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorViewController
+
+fun MainViewController() = KtorMonitorViewController()
+```
+
+**Swift side** (SwiftUI):
+
+```swift
+struct KtorMonitorView: UIViewControllerRepresentable {
+    func makeUIViewController(context: Context) -> UIViewController {
+        MainViewControllerKt.MainViewController()
+    }
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+}
+
+struct ContentView: View {
+    var body: some View {
+        KtorMonitorView()
+            .ignoresSafeArea()
+    }
+}
+```
+
+### Desktop — Compose Window
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorWindow
+import ro.cosminmihu.ktor.monitor.KtorMonitorMenuItem
+
+fun main() = application {
+    var showKtorMonitor by rememberSaveable { mutableStateOf(false) }
+
+    // Optional: system tray item
+    Tray(
+        icon = painterResource(Res.drawable.ic_launcher),
+        menu = {
+            KtorMonitorMenuItem { showKtorMonitor = true }
+        }
+    )
+
+    KtorMonitorWindow(
+        show = showKtorMonitor,
+        onCloseRequest = { showKtorMonitor = false }
+    )
+
+    Window(onCloseRequest = ::exitApplication) {
+        App()
+    }
+}
+```
+
+### Desktop — Swing Panel
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorPanel
+
+fun main() {
+    SwingUtilities.invokeLater {
+        val frame = JFrame("Ktor Monitor")
+        frame.add(KtorMonitorPanel, BorderLayout.CENTER)
+        frame.isVisible = true
+    }
+}
+```
+
+### Wasm / JS (Browser)
+
+Add webpack dependency:
+
+```kotlin
+// build.gradle.kts
+kotlin {
+    sourceSets {
+        webMain.dependencies {
+            implementation(devNpm("copy-webpack-plugin", "9.1.0"))
+        }
+    }
+}
+```
+
+Create `webpack.config.d/sqljs.js`:
+
+```javascript
+config.resolve = {
+    fallback: { fs: false, path: false, crypto: false }
+};
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+config.plugins.push(
+    new CopyWebpackPlugin({
+        patterns: ['../../node_modules/sql.js/dist/sql-wasm.wasm']
+    })
+);
+```
+
+Entry point:
+
+```kotlin
+fun main() {
+    ComposeViewport(document.body!!) {
+        App()
+    }
+}
+```
+
+---
+
+## Production Safety
+
+Every library module has an ABI-equivalent **no-op** counterpart. Swap to it in release builds so monitoring code — and its transitive dependencies — is **never** shipped to end users.
+
+| Debug artifact | Release (no-op) artifact |
+|---|---|
+| `ktor-monitor-logging` | `ktor-monitor-logging-no-op` |
+| `ktor-monitor-okhttp-interceptor` | `ktor-monitor-okhttp-interceptor-no-op` |
+| `ktor-monitor-http4k-filter` | `ktor-monitor-http4k-filter-no-op` |
+| `ktor-monitor-core` | `ktor-monitor-core-no-op` |
+
+---
+
+## Supported Platforms & Targets
+
+| Platform | Ktor Plugin | OkHttp Interceptor | http4k Filter |
+|---|:---:|:---:|:---:|
+| Android (minSdk 24) | ✅ | ✅ | ✅ |
+| iOS (arm64 + sim arm64) | ✅ | ❌ | ❌ |
+| Desktop JVM | ✅ | ✅ | ✅ |
+| Wasm/JS (browser) | ✅ | ❌ | ❌ |
+| JS (browser) | ✅ | ❌ | ❌ |
+
+---
+
+## Common Patterns & Tips
+
+### Exclude internal/analytics hosts from monitoring
+
+```kotlin
+install(KtorMonitorLogging) {
+    filter { request ->
+        val host = request.url.host
+        host.contains("analytics.example.com") || host.contains("crashlytics.com")
+    }
+}
+```
+
+### Capture full body (large downloads / uploads)
+
+```kotlin
+install(KtorMonitorLogging) {
+    maxContentLength = ContentLength.Full
+}
+```
+
+### Extend retention to one week
+
+```kotlin
+install(KtorMonitorLogging) {
+    retentionPeriod = RetentionPeriod.OneWeek
+}
+```
+
+### OkHttp — important: use `addNetworkInterceptor`, not `addInterceptor`
+
+```kotlin
+// CORRECT — sees raw network traffic including redirects, caching decisions
+OkHttpClient.Builder()
+    .addNetworkInterceptor(KtorMonitorInterceptor { ... })
+    .build()
+
+// WRONG — misses some traffic; prefer addNetworkInterceptor
+OkHttpClient.Builder()
+    .addInterceptor(KtorMonitorInterceptor { ... })
+    .build()
+```
+
+### Android Core Library Desugaring (minSdk < 26)
+
+```kotlin
+// build.gradle.kts (app module)
+android {
+    compileOptions {
+        isCoreLibraryDesugaringEnabled = true
+    }
+}
+dependencies {
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+}
+```
+
+---
+
+## Architecture Notes (for contributors / advanced usage)
+
+- **Storage**: SQLDelight async (`generateAsync = true`) — always call mutations from a `suspend` context or via `InternalLibraryBridge.coroutineScope().launch { }`.
+- **Threading**: DB writes are fire-and-forget on the library's Koin-provided coroutine scope. Never call `runBlocking` inside an interceptor.
+- **OkHttp body**: read via `Response.peekBody(maxContentLength)` — the original body stream is not consumed.
+- **http4k body**: read via `Body.payload.duplicate()` — the original `ByteBuffer` is preserved.
+- **Ktor hooks**: `HttpSendPipeline.Monitoring`, `HttpReceivePipeline.State`, `HttpResponsePipeline.Receive`, and a `ResponseObserver`.
+- **Web**: requires `sql.js` wasm artifact copied via webpack (see Wasm/JS section above).
+- **iOS**: links against system `sqlite3` (`linkerOpts("-lsqlite3")`).
+
+---
+
+## Resources
+
+- **Documentation**: https://cosminmihumdc.github.io/KtorMonitor
+- **API reference**: https://cosminmihumdc.github.io/KtorMonitor/api
+- **GitHub**: https://github.com/CosminMihuMDC/KtorMonitor
+- **Maven Central**: https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging
+- **Slack**: [#ktormonitor](https://kotlinlang.slack.com/archives/C0AB9GA32H0) on kotlinlang.slack.com
+- **klibs.io**: https://klibs.io/project/CosminMihuMDC/KtorMonitor
+- **Context7**: https://context7.com/cosminmihumdc/ktormonitor

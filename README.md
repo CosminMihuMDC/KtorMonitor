@@ -5,6 +5,7 @@
 [![JetBrains Klibs.io](https://img.shields.io/badge/JetBrains-klibs.io-4284F3?logo=jetbrains&logoColor=white)](https://klibs.io/project/CosminMihuMDC/KtorMonitor)
 [![Documentation](https://img.shields.io/badge/Docs-gray?logo=readthedocs&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor)
 [![API](https://img.shields.io/badge/API-gray?logo=codersrank&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor/api)
+[![AI Skill](https://img.shields.io/badge/AI%20Skill-gray?logo=anthropic&logoColor=white)](ai/skill.md)
 [![GitHub stars](https://img.shields.io/github/stars/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor)
 [![GitHub forks](https://img.shields.io/github/forks/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor/fork)
 
@@ -330,6 +331,8 @@ API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonito
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>
 KtorMonitor on [Context7](https://context7.com/cosminmihumdc/ktormonitor).
+<br>
+AI Skill (for Copilot, Claude, Cursor, ChatGPT and others) is available at [ai/skill.md](ai/skill.md).
 <br>
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
