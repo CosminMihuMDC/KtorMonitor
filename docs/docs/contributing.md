@@ -22,7 +22,7 @@ KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/
 <br>
 KtorMonitor on [Context7](https://context7.com/cosminmihumdc/ktormonitor).
 <br>
-AI Skill (for Copilot, Claude, Cursor, ChatGPT and others) is available at [ai/skill.md](ai/skill.md).
+AI Skill (for Copilot, Claude, Cursor, ChatGPT and others) is available at [skill.md](https://github.com/CosminMihuMDC/KtorMonitor/tree/main/.agents/skills/ktormonitor).
 <br>
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
