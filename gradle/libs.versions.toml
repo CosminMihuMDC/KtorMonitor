@@ -16,9 +16,9 @@ junit = "4.13.2"
 kotlin = "2.4.10"
 kotlinx-coroutines = "1.11.0"
 ksoup = "0.2.6"
-ktor = "3.5.1"
-okhttp = "5.4.0"
-http4k = "6.56.0.0"
+ktor = "3.5.2"
+okhttp = "5.5.0"
+http4k = "6.57.2.0"
 material3AdaptiveNavigationSuite = "1.9.0"
 material3 = "1.11.0-alpha07"
 slf4j = "2.0.18"
@@ -26,7 +26,7 @@ sqldelight = "2.3.2"
 sqljs = "1.11.0"
 webpack = "9.1.0"
 koin = "4.2.2"
-koin-plugin = "1.0.2"
+koin-plugin = "1.1.0"
 kotlinx-datetime = "0.8.0"
 kotlinx-serialization = "1.11.0"
 coil = "3.5.0"
@@ -85,6 +85,7 @@ sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sq
 sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-annotations = { module = "io.insert-koin:koin-annotations", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }

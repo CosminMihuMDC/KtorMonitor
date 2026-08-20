@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.koin.core.annotation.InjectedParam
 import ro.cosminmihu.ktor.monitor.core.ClipboardManager
 import ro.cosminmihu.ktor.monitor.core.ShareManager
 import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
@@ -44,7 +45,7 @@ private const val NO_DATA = "-"
 private const val SHARE_FILE_NAME = "ktormonitor.http"
 
 internal class DetailViewModel(
-    id: String,
+    @InjectedParam id: String,
     getCallUseCase: GetCallUseCase,
     private val exportCallUrlUseCase: ExportCallUrlUseCase,
     private val exportCallRequestAsCurlUseCase: ExportCallRequestAsCurlUseCase,
