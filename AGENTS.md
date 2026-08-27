@@ -37,9 +37,16 @@ Multiplatform UI for inspecting requests and responses.
 | `okhttp/library-okhttp-no-op`     | KMP (Android + JVM)        | No-op mirror of `library-okhttp`.                                       |
 | `http4k/library-http4k`           | KMP (Android + JVM)        | `KtorMonitorFilter` for http4k; depends on `core/library`.              |
 | `http4k/library-http4k-no-op`     | KMP (Android + JVM)        | No-op mirror of `library-http4k`.                                       |
-| `sample/ktor`                     | Compose Multiplatform app  | Demo for Ktor monitor (Android, iOS, JVM, JS, Wasm).                    |
-| `sample/okhttp`                   | Compose Multiplatform app  | Demo for OkHttp monitor (Android + JVM).                                |
-| `sample/http4k`                   | Compose Multiplatform app  | Demo for http4k monitor (Android + JVM).                                |
+| `sample/ktor/shared`              | KMP shared module          | Shared business/UI code for Ktor sample.                                 |
+| `sample/ktor/androidApp`          | Android application        | Android app for Ktor sample.                                             |
+| `sample/ktor/jvmApp`              | JVM desktop application    | Desktop app for Ktor sample.                                             |
+| `sample/ktor/webApp`              | KMP web app module         | JS + Wasm browser targets for Ktor sample.                               |
+| `sample/okhttp/shared`            | KMP shared module          | Shared business/UI code for OkHttp sample.                               |
+| `sample/okhttp/androidApp`        | Android application        | Android app for OkHttp sample.                                           |
+| `sample/okhttp/jvmApp`            | JVM desktop application    | Desktop app for OkHttp sample.                                           |
+| `sample/http4k/shared`            | KMP shared module          | Shared business/UI code for http4k sample.                               |
+| `sample/http4k/androidApp`        | Android application        | Android app for http4k sample.                                           |
+| `sample/http4k/jvmApp`            | JVM desktop application    | Desktop app for http4k sample.                                           |
 | `docs/`                           | MkDocs Material            | Documentation site, including generated Dokka API docs in `docs/api/`.  |
 
 Type-safe project accessors are enabled (`enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")`); reference modules as `projects.core.library`, `projects.ktor.libraryKtor`, `projects.http4k.libraryHttp4k`, etc.
@@ -66,11 +73,11 @@ A wrapper is included; always use `./gradlew`. JVM toolchain is **Java 11** for 
 | Full build                            | `./gradlew build`                                                     |
 | All checks (lint + tests + apiCheck)  | `./gradlew check`                                                     |
 | JVM unit tests (run in CI)            | `./gradlew jvmTest`                                                   |
-| Android sample APKs (debug + release) | `./gradlew :sample:ktor:assembleDebug :sample:okhttp:assembleDebug :sample:http4k:assembleDebug` |
-| Desktop sample run (JVM)              | `./gradlew :sample:ktor:run` / `:sample:okhttp:run` / `:sample:http4k:run`                      |
-| Desktop installer (current OS)        | `./gradlew :sample:ktor:packageDmg` (mac) / `packageMsi` / `packageDeb` |
-| Web (JS) dev server                   | `./gradlew :sample:ktor:jsBrowserDevelopmentRun`                      |
-| Wasm dev server                       | `./gradlew :sample:ktor:wasmJsBrowserDevelopmentRun`                  |
+| Android sample APKs (debug + release) | `./gradlew :sample:ktor:androidApp:assembleDebug :sample:okhttp:androidApp:assembleDebug :sample:http4k:androidApp:assembleDebug` |
+| Desktop sample run (JVM)              | `./gradlew :sample:ktor:jvmApp:run` / `:sample:okhttp:jvmApp:run` / `:sample:http4k:jvmApp:run` |
+| Desktop installer (current OS)        | `./gradlew :sample:ktor:jvmApp:packageDmg` (mac) / `packageMsi` / `packageDeb` |
+| Web (JS) dev server                   | `./gradlew :sample:ktor:webApp:jsBrowserDevelopmentRun`               |
+| Wasm dev server                       | `./gradlew :sample:ktor:webApp:wasmJsBrowserDevelopmentRun`           |
 | iOS                                   | Open `sample/ktor/iosApp/iosApp.xcodeproj` in Xcode and run.          |
 | ABI check (binary-compatibility)      | `./gradlew apiCheck`                                                  |
 | ABI dump (after intentional changes)  | `./gradlew apiDump`                                                   |

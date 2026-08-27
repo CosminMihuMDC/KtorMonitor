@@ -2,15 +2,15 @@
   <configuration default="false" name="☕jvm-http4k-compose" type="GradleRunConfiguration" factoryName="Gradle">
     <ExternalSystemSettings>
       <option name="executionName" />
-      <option name="externalProjectPath" value="$PROJECT_DIR$/sample/http4k" />
+      <option name="externalProjectPath" value="$PROJECT_DIR$/sample/http4k/jvmApp" />
       <option name="externalSystemIdString" value="GRADLE" />
-      <option name="scriptParameters" value="-DmainClass=ro.cosminmihu.ktor.monitor.sample.compose.MainKt --quiet" />
+      <option name="scriptParameters" value="--quiet" />
       <option name="taskDescriptions">
         <list />
       </option>
       <option name="taskNames">
         <list>
-          <option value="jvmRun" />
+          <option value="runCompose" />
         </list>
       </option>
       <option name="vmOptions" />

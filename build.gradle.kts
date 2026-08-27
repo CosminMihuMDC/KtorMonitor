@@ -6,8 +6,8 @@ plugins {
     alias(libs.plugins.composeMultiplatform) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlinMultiplatform) apply false
+    alias(libs.plugins.kotlinJvm) apply false
     alias(libs.plugins.sqldelight) apply false
-    alias(libs.plugins.kotlinx.atomicfu) apply false
     alias(libs.plugins.koin.compiler) apply false
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.binary.compatibility.validator) apply false
@@ -20,9 +20,9 @@ allprojects {
 }
 
 dependencies {
-    dokka(project(":ktor:library-ktor"))
-    dokka(project(":okhttp:library-okhttp"))
-    dokka(project(":http4k:library-http4k"))
+    dokka(projects.ktor.libraryKtor)
+    dokka(projects.okhttp.libraryOkhttp)
+    dokka(projects.http4k.libraryHttp4k)
 }
 
 dokka {

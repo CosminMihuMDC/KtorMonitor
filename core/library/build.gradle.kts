@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,7 +7,6 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.sqldelight)
-    alias(libs.plugins.kotlinx.atomicfu)
     alias(libs.plugins.koin.compiler)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.binary.compatibility.validator)
@@ -140,9 +138,17 @@ kotlin {
         browser()
     }
 
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+    android {
+        namespace = "ro.cosminmihu.ktor.monitor"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        androidResources {
+            enable = true
+        }
+
+        localDependencySelection {
+            selectBuildTypeFrom.set(listOf("debug", "release"))
         }
     }
 
@@ -220,20 +226,3 @@ kotlin {
     }
 }
 
-android {
-    namespace = "ro.cosminmihu.ktor.monitor"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
-
-    defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-        }
-    }
-}

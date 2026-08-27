@@ -108,20 +108,20 @@ Always use the Gradle wrapper:
 
 ```bash
 # Desktop (JVM)
-./gradlew :sample:ktor:run
-./gradlew :sample:okhttp:run
-./gradlew :sample:http4k:run
+./gradlew :sample:ktor:jvmApp:run
+./gradlew :sample:okhttp:jvmApp:run
+./gradlew :sample:http4k:jvmApp:run
 
 # Web — JS dev server
-./gradlew :sample:ktor:jsBrowserDevelopmentRun
+./gradlew :sample:ktor:webApp:jsBrowserDevelopmentRun
 
 # Web — Wasm dev server
-./gradlew :sample:ktor:wasmJsBrowserDevelopmentRun
+./gradlew :sample:ktor:webApp:wasmJsBrowserDevelopmentRun
 
 # Android debug APKs
-./gradlew :sample:ktor:assembleDebug
-./gradlew :sample:okhttp:assembleDebug
-./gradlew :sample:http4k:assembleDebug
+./gradlew :sample:ktor:androidApp:assembleDebug
+./gradlew :sample:okhttp:androidApp:assembleDebug
+./gradlew :sample:http4k:androidApp:assembleDebug
 ```
 
 For **iOS**, open `sample/ktor/iosApp/iosApp.xcodeproj` in Xcode and run from there.
