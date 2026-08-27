@@ -22,10 +22,6 @@ kotlin {
         namespace = "ro.cosminmihu.ktor.monitor.sample.ktor.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
-
-        localDependencySelection {
-            selectBuildTypeFrom.set(listOf("debug", "release"))
-        }
     }
 
     listOf(

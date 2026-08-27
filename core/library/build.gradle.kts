@@ -146,10 +146,6 @@ kotlin {
         androidResources {
             enable = true
         }
-
-        localDependencySelection {
-            selectBuildTypeFrom.set(listOf("debug", "release"))
-        }
     }
 
     listOf(

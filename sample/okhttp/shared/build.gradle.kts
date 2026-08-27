@@ -13,17 +13,11 @@ kotlin {
         namespace = "ro.cosminmihu.ktor.monitor.sample.okhttp.shared"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
-
-        localDependencySelection {
-            selectBuildTypeFrom.set(listOf("debug", "release"))
-        }
     }
 
     jvm()
 
     sourceSets {
-        androidMain.dependencies {
-        }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
