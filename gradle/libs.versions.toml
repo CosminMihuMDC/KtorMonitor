@@ -35,6 +35,7 @@ maven-publish = "0.37.0"
 navigation3 = "1.1.1"
 binary-compatibility-validator = "0.18.1"
 dokka = "2.2.0"
+buildkonfig = "0.22.0"
 
 [libraries]
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
@@ -111,3 +112,4 @@ kotlinx-atomicfu = { id = "org.jetbrains.kotlinx.atomicfu", version.ref = "kotli
 maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
 binary-compatibility-validator = { id = "org.jetbrains.kotlinx.binary-compatibility-validator", version.ref = "binary-compatibility-validator" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }

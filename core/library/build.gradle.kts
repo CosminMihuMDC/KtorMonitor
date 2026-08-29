@@ -12,6 +12,19 @@ plugins {
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.binary.compatibility.validator)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.buildkonfig)
+}
+
+buildkonfig {
+    packageName = "ro.cosminmihu.ktor.monitor.core"
+
+    defaultConfigs {
+        buildConfigField(
+            com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING,
+            "LIBRARY_VERSION",
+            project.version.toString(),
+        )
+    }
 }
 
 sqldelight {

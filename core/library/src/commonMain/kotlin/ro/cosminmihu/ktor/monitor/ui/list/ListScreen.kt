@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -48,6 +49,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
+import ro.cosminmihu.ktor.monitor.core.BuildKonfig
 import ro.cosminmihu.ktor.monitor.core.URL
 import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
@@ -104,13 +106,24 @@ internal fun ListScreen(
                 TopAppBar(
                     title = {
                         Column {
-                            Text(
-                                text = stringResource(Res.string.ktor_library_name),
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier.clickable { uriHandler.openUri(URL.GITHUB_REPO) },
-                                maxLines = 2,
-                                overflow = TextOverflow.Ellipsis
-                            )
+                            Row(verticalAlignment = Alignment.Bottom) {
+                                Text(
+                                    text = stringResource(Res.string.ktor_library_name),
+                                    fontWeight = FontWeight.Bold,
+                                    modifier = Modifier.clickable { uriHandler.openUri(URL.GITHUB_REPO) },
+                                    maxLines = 2,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+
+                                Text(
+                                    text = "v${BuildKonfig.LIBRARY_VERSION}",
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(start = Dimens.ExtraSmall),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
+                                )
+                            }
 
                             uiState.clientSource?.let { source ->
                                 val (label, url) = when (source) {
