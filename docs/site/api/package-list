@@ -3,6 +3,8 @@ $dokka.linkExtension:html
 
 module:Ktor Monitor
 ro.cosminmihu.ktor.monitor
+module:http4k Filter
+ro.cosminmihu.ktor.monitor
 module:Ktor Logging Plugin
 ro.cosminmihu.ktor.monitor
 module:OkHttp Interceptor

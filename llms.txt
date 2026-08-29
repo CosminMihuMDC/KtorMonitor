@@ -4,7 +4,7 @@
 
 **AI Skill (step-by-step integration guide):** [`ai/skill.md`](ai/skill.md)
 
-- **Latest version**: `1.14.4`
+- **Latest version**: `1.15.0`
 - **Group**: `ro.cosminmihu.ktor`
 - **Maven Central**: https://search.maven.org/artifact/ro.cosminmihu.ktor/ktor-monitor-logging
 - **Documentation**: https://cosminmihumdc.github.io/KtorMonitor
@@ -36,7 +36,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             // debug / development
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
         }
     }
 }
@@ -48,7 +48,7 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
         }
     }
 }
@@ -59,8 +59,8 @@ kotlin {
 ```kotlin
 // build.gradle.kts (app module)
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
 }
 ```
 
@@ -70,8 +70,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.15.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.15.0")
 }
 ```
 
@@ -81,8 +81,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.4")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.15.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.15.0")
 }
 ```
 

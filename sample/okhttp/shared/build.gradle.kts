@@ -29,9 +29,9 @@ kotlin {
             implementation(libs.okhttp)
             implementation(projects.okhttp.libraryOkhttp)
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.15.0")
 //            implementation(projects.okhttp.libraryOkhttpNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.4")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.15.0")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)

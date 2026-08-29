@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="images/logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,8 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+  
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -40,6 +41,24 @@
 
 
     
+  <style>
+    /*
+      Make the shadow host a fixed containing block anchored to the
+      bottom-right corner of the viewport, 60 px above the MkDocs footer.
+      transform: translateZ(0) (no visual shift) triggers the CSS spec rule
+      that makes it the containing block for the fixed children inside the
+      closed Shadow DOM.
+    */
+    #context7-widget {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      transform: translateZ(0);
+    }
+  </style>
+
     
       
     
@@ -521,26 +540,19 @@
 <a href="https://cosminmihumdc.github.io/KtorMonitor/api"><img alt="API" src="https://img.shields.io/badge/API-gray?logo=codersrank&amp;logoColor=white" /></a>
 <a href="https://github.com/CosminMihuMDC/KtorMonitor"><img alt="GitHub stars" src="https://img.shields.io/github/stars/CosminMihuMDC/KtorMonitor" /></a>
 <a href="https://github.com/CosminMihuMDC/KtorMonitor/fork"><img alt="GitHub forks" src="https://img.shields.io/github/forks/CosminMihuMDC/KtorMonitor" /></a></p>
-<p>Powerful tool to monitor <a href="https://ktor.io/">Ktor Client</a> and <a href="https://square.github.io/okhttp/">OkHttp</a> requests and responses, making it easier to debug and analyze network communication.</p>
+<p>Powerful tool to monitor <a href="https://ktor.io/">Ktor Client</a>, <a href="https://square.github.io/okhttp/">OkHttp</a> and <a href="https://www.http4k.org/">http4k</a> requests and responses, making it easier to debug and analyze network communication.</p>
 <h2 id="features">✨ Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h2>
 <ul>
 <li>🌐<strong>Ktor Network Monitoring</strong>: Real-time interception and logging of <a href="https://ktor.io/">Ktor Client</a> traffic.</li>
 <li>🌐<strong>OkHttp Network Monitoring</strong>: Real-time interception and logging of <a href="https://square.github.io/okhttp/">OkHttp</a> traffic.</li>
+<li>🌐<strong>http4k Network Monitoring</strong>: Real-time interception and logging of <a href="https://www.http4k.org/">http4k</a> traffic.</li>
 <li>📱<strong>Kotlin Multiplatform (KMP)</strong>: Full support for <strong>Android</strong>, <strong>iOS</strong>, <strong>Desktop (JVM)</strong>, <strong>Wasm</strong>, and <strong>JS</strong>.</li>
 <li>🛠️<strong>Highly Configurable</strong>: Customize retention periods, content length limits, and notification behavior.</li>
 <li>🔒<strong>Security First</strong>: Redact sensitive headers (e.g., <em>Authorization</em>).</li>
 <li>📂<strong>Data Export</strong>: Save request/response details to local files for easier debugging or sharing.</li>
-<li>🎨<strong>Rich Previews</strong>: Built-in viewers for <em>JSON</em>, <em>XML</em>, <em>HTML</em>, <em>CSS</em>, <em>Form Data</em>, <em>Image</em> (<em>JPG</em>, <em>PNG</em>, <em>SVG</em>, <em>GIF</em>, <em>WEBP</em>).</li>
+<li>🎨<strong>Rich Previews</strong>: Built-in viewers for <em>JSON</em>, <em>XML</em>, <em>HTML</em>, <em>CSS</em>, <em>YAML</em>, <em>MARKDOWN</em>, <em>Form Data</em>, <em>Image</em> (<em>JPG</em>, <em>PNG</em>, <em>SVG</em>, <em>GIF</em>, <em>WEBP</em>).</li>
 <li>📡<strong>SSE &amp; WebSockets</strong>: Track one-way streams (<em>SSE</em>) and bidirectional traffic (<em>WebSockets</em>).</li>
 <li>🛡️<strong>Production Safe</strong>: No-Op version to ensure monitoring code is excluded from your production builds.</li>
-</ul>
-<p>By default, <strong><code>KtorMonitor</code></strong>:</p>
-<ul>
-<li><strong>android</strong> → <em>isActive</em> for <code>debug</code> builds and disabled for <code>release</code> builds</li>
-<li><strong>ios</strong> → <em>isActive</em> for <code>debug</code> builds and disabled for <code>release</code> builds</li>
-<li><strong>desktop</strong> -&gt; <em>isActive</em> for all builds</li>
-<li><strong>wasm</strong> → <em>isActive</em> for all builds</li>
-<li><strong>js</strong> → <em>isActive</em> for all builds</li>
 </ul>
 
 
@@ -636,8 +648,16 @@
       <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+  
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
+  <script src="https://context7.com/widget.js"
+          data-library="/cosminmihumdc/ktormonitor"
+          data-color="#7c3aed"
+          data-position="bottom-right"
+          data-placeholder="Ask anything about KtorMonitor...">
+  </script>
+
   </body>
 </html>

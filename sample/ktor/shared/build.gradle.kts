@@ -59,9 +59,9 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(projects.ktor.libraryKtor)
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
 //            implementation(projects.ktor.libraryKtorNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
         }
         webMain.dependencies {
             implementation(libs.ktor.client.js)

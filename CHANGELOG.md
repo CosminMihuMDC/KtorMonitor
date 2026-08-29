@@ -3,7 +3,11 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.14.4] - 2026-07-15
+## [1.15.0] - 2026-08-29
+* Set JVM target and JVM toolchain to 17 for published modules (improves runtime compatibility)
+* Add `llms.txt` and AI skill docs
+
+## [1.14.3] - 2026-07-15
 * https://github.com/CosminMihuMDC/KtorMonitor/issues/59
 * https://github.com/CosminMihuMDC/KtorMonitor/issues/60
 

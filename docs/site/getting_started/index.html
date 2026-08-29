@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../images/logo-icon.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -33,7 +33,8 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+  
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -42,6 +43,24 @@
 
 
     
+  <style>
+    /*
+      Make the shadow host a fixed containing block anchored to the
+      bottom-right corner of the viewport, 60 px above the MkDocs footer.
+      transform: translateZ(0) (no visual shift) triggers the CSS spec rule
+      that makes it the containing block for the fixed children inside the
+      closed Shadow DOM.
+    */
+    #context7-widget {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      width: 0;
+      height: 0;
+      transform: translateZ(0);
+    }
+  </style>
+
     
       
     
@@ -364,21 +383,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-ktor-client-plugin" class="md-nav__link">
+  <a href="#install-ktor-monitor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install Ktor Client Plugin
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-okhttp-interceptor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install OkHttp Interceptor
+        📦 Install Ktor Monitor
       
     </span>
   </a>
@@ -510,21 +518,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-ktor-client-plugin" class="md-nav__link">
+  <a href="#install-ktor-monitor" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install Ktor Client Plugin
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-okhttp-interceptor" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install OkHttp Interceptor
+        📦 Install Ktor Monitor
       
     </span>
   </a>
@@ -554,13 +551,13 @@
   <h1>Getting Started</h1>
 
 <h3 id="_1"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/><a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Kotlin Multiplatform</label><label for="__tabbed_1_2">Ktor - Android</label><label for="__tabbed_1_3">OkHttp - Android &amp; JVM Only</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Ktor - Kotlin Multiplatform</label><label for="__tabbed_1_2">Ktor - Android</label><label for="__tabbed_1_3">OkHttp - Android &amp; JVM</label><label for="__tabbed_1_4">http4k - Android &amp; JVM</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">kotlin</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">sourceSets</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="n">commonMain</span><span class="p">.</span><span class="na">dependencies</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="hll"><span class="w">            </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="hll"><span class="w">            </span><span class="n">implementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0"</span><span class="p">)</span>
 </span><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">}</span>
@@ -570,7 +567,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">kotlin</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">sourceSets</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="n">commonMain</span><span class="p">.</span><span class="na">dependencies</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="hll"><span class="w">            </span><span class="n">implementation</span><span class="p">(</span><span class="s">&quot;ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="hll"><span class="w">            </span><span class="n">implementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0"</span><span class="p">)</span>
 </span><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="p">}</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="p">}</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">}</span>
@@ -578,33 +575,44 @@
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="hll"><span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="hll"><span class="w">    </span><span class="n">releaseImplementation</span><span class="p">(</span><span class="s">&quot;ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="hll"><span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0"</span><span class="p">)</span>
+</span><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="hll"><span class="w">    </span><span class="n">releaseImplementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0"</span><span class="p">)</span>
 </span><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
 </code></pre></div>
 <p>For <strong><em>Android minSdk &lt; 26</em></strong>, <a href="https://developer.android.com/studio/write/java8-support#library-desugaring">Core Library Desugaring</a> is required.</p>
 </div>
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="hll"><span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">&quot;ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="hll"><span class="w">    </span><span class="n">releaseImplementation</span><span class="p">(</span><span class="s">&quot;ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.4&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="hll"><span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.15.0"</span><span class="p">)</span>
+</span><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="hll"><span class="w">    </span><span class="n">releaseImplementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.15.0"</span><span class="p">)</span>
 </span><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</code></pre></div>
+<p>For <strong><em>Android minSdk &lt; 26</em></strong>, <a href="https://developer.android.com/studio/write/java8-support#library-desugaring">Core Library Desugaring</a> is required.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="hll"><span class="w">    </span><span class="n">debugImplementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.15.0"</span><span class="p">)</span>
+</span><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="hll"><span class="w">    </span><span class="n">releaseImplementation</span><span class="p">(</span><span class="s">"ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.15.0"</span><span class="p">)</span>
+</span><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
 </code></pre></div>
 <p>For <strong><em>Android minSdk &lt; 26</em></strong>, <a href="https://developer.android.com/studio/write/java8-support#library-desugaring">Core Library Desugaring</a> is required.</p>
 </div>
 </div>
 </div>
-<h3 id="install-ktor-client-plugin"><img src="https://resources.jetbrains.com/storage/products/company/brand/logos/Ktor_icon.png" width="30"/> Install Ktor Client Plugin<a class="headerlink" href="#install-ktor-client-plugin" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">HttpClient</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="hll"><span class="w">    </span><span class="n">install</span><span class="p">(</span><span class="n">KtorMonitorLogging</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
-</span><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="hll"><span class="w">        </span><span class="n">sanitizeHeader</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Authorization&quot;</span><span class="w"> </span><span class="p">}</span><span class="w">  </span>
-</span><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="hll"><span class="w">        </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">!</span><span class="n">request</span><span class="p">.</span><span class="na">url</span><span class="p">.</span><span class="na">host</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;cosminmihu.ro&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">  </span>
-</span><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="hll"><span class="w">        </span><span class="n">showNotification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span>
-</span><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="hll"><span class="w">        </span><span class="n">retentionPeriod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetentionPeriod</span><span class="p">.</span><span class="na">OneHour</span>
-</span><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="hll"><span class="w">        </span><span class="n">maxContentLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentLength</span><span class="p">.</span><span class="na">Default</span>
-</span><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="hll"><span class="w">    </span><span class="p">}</span>
-</span><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">}</span>
+<h3 id="install-ktor-monitor">📦 Install Ktor Monitor<a class="headerlink" href="#install-ktor-monitor" title="Permanent link">&para;</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Ktor Client Plugin</label><label for="__tabbed_2_2">OkHttp Interceptor</label><label for="__tabbed_2_3">http4k Filter</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">HttpClient</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="hll"><span class="w">    </span><span class="n">install</span><span class="p">(</span><span class="n">KtorMonitorLogging</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
+</span><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="hll"><span class="w">        </span><span class="n">sanitizeHeader</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"Authorization"</span><span class="w"> </span><span class="p">}</span><span class="w">  </span>
+</span><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="hll"><span class="w">        </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">!</span><span class="n">request</span><span class="p">.</span><span class="na">url</span><span class="p">.</span><span class="na">host</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"cosminmihu.ro"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span><span class="w">  </span>
+</span><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="hll"><span class="w">        </span><span class="n">showNotification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="w">  </span>
+</span><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="hll"><span class="w">        </span><span class="n">retentionPeriod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetentionPeriod</span><span class="p">.</span><span class="na">OneHour</span>
+</span><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="hll"><span class="w">        </span><span class="n">maxContentLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentLength</span><span class="p">.</span><span class="na">Default</span>
+</span><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="hll"><span class="w">    </span><span class="p">}</span>
+</span><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="p">}</span>
 </code></pre></div>
 <ul>
 <li><code>sanitizeHeader</code> - sanitize sensitive headers to avoid their values appearing in the logs</li>
@@ -613,18 +621,19 @@
 <li><code>retentionPeriod</code> - The retention period for the logs. Default is <strong>1h</strong>.</li>
 <li><code>maxContentLength</code> - The maximum length of the content that will be logged. After this, body will be truncated. Default is <strong>250_000</strong>. To log the entire body use <code>ContentLength.Full</code>.</li>
 </ul>
-<h3 id="install-okhttp-interceptor"><img src="https://square.github.io/okhttp/assets/images/icon-square.png" width="30"/> Install OkHttp Interceptor<a class="headerlink" href="#install-okhttp-interceptor" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">OkHttpClient</span><span class="p">.</span><span class="na">Builder</span><span class="p">()</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="p">.</span><span class="na">addNetworkInterceptor</span><span class="p">(</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">        </span><span class="n">KtorMonitorInterceptor</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">            </span><span class="n">sanitizeHeader</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">&quot;Authorization&quot;</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">            </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">!</span><span class="n">request</span><span class="p">.</span><span class="na">url</span><span class="p">.</span><span class="na">host</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">&quot;cosminmihu.ro&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">            </span><span class="n">showNotification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">            </span><span class="n">retentionPeriod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetentionPeriod</span><span class="p">.</span><span class="na">OneHour</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">            </span><span class="n">maxContentLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentLength</span><span class="p">.</span><span class="na">Default</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="p">)</span>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">OkHttpClient</span><span class="p">.</span><span class="na">Builder</span><span class="p">()</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="p">.</span><span class="na">addNetworkInterceptor</span><span class="p">(</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="hll"><span class="w">        </span><span class="n">KtorMonitorInterceptor</span><span class="w"> </span><span class="p">{</span>
+</span><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="hll"><span class="w">            </span><span class="n">sanitizeHeader</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"Authorization"</span><span class="w"> </span><span class="p">}</span>
+</span><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="hll"><span class="w">            </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">!</span><span class="n">request</span><span class="p">.</span><span class="na">url</span><span class="p">.</span><span class="na">host</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"cosminmihu.ro"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</span><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="hll"><span class="w">            </span><span class="n">showNotification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="hll"><span class="w">            </span><span class="n">retentionPeriod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetentionPeriod</span><span class="p">.</span><span class="na">OneHour</span>
+</span><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="hll"><span class="w">            </span><span class="n">maxContentLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentLength</span><span class="p">.</span><span class="na">Default</span>
+</span><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="hll"><span class="w">        </span><span class="p">}</span>
+</span><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="p">)</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
 </code></pre></div>
 <ul>
 <li><code>sanitizeHeader</code> - sanitize sensitive headers to avoid their values appearing in the logs</li>
@@ -633,6 +642,26 @@
 <li><code>retentionPeriod</code> - The retention period for the logs. Default is <strong>1h</strong>.</li>
 <li><code>maxContentLength</code> - The maximum length of the content that will be logged. After this, body will be truncated. Default is <strong>250_000</strong>. To log the entire body use <code>ContentLength.Full</code>.</li>
 </ul>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="hll"><span class="n">KtorMonitorFilter</span><span class="w"> </span><span class="p">{</span>
+</span><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="hll"><span class="w">    </span><span class="n">sanitizeHeader</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">header</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"Authorization"</span><span class="w"> </span><span class="p">}</span>
+</span><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="hll"><span class="w">    </span><span class="n">filter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">!</span><span class="n">request</span><span class="p">.</span><span class="na">uri</span><span class="p">.</span><span class="na">host</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"cosminmihu.ro"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+</span><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="hll"><span class="w">    </span><span class="n">showNotification</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</span><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="hll"><span class="w">    </span><span class="n">retentionPeriod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RetentionPeriod</span><span class="p">.</span><span class="na">OneHour</span>
+</span><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="hll"><span class="w">    </span><span class="n">maxContentLength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ContentLength</span><span class="p">.</span><span class="na">Default</span>
+</span><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}.</span><span class="na">then</span><span class="p">(</span><span class="n">JavaHttpClient</span><span class="p">())</span>
+</code></pre></div>
+<ul>
+<li><code>sanitizeHeader</code> - sanitize sensitive headers to avoid their values appearing in the logs</li>
+<li><code>filter</code> - filter logs for calls matching a predicate.</li>
+<li><code>showNotification</code> - Keep track of latest requests and responses into notification. Default is <strong>true</strong>. Android only. Notifications permission needs to be granted.</li>
+<li><code>retentionPeriod</code> - The retention period for the logs. Default is <strong>1h</strong>.</li>
+<li><code>maxContentLength</code> - The maximum length of the content that will be logged. After this, body will be truncated. Default is <strong>250_000</strong>. To log the entire body use <code>ContentLength.Full</code>.</li>
+</ul>
+</div>
+</div>
+</div>
 
 
 
@@ -727,8 +756,16 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+  
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
+  <script src="https://context7.com/widget.js"
+          data-library="/cosminmihumdc/ktormonitor"
+          data-color="#7c3aed"
+          data-position="bottom-right"
+          data-placeholder="Ask anything about KtorMonitor...">
+  </script>
+
   </body>
 </html>

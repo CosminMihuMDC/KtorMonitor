@@ -1,6 +1,6 @@
 ---
 name: ktormonitor
-version: 1.14.4
+version: 1.15.0
 description: >
   KtorMonitor is a Kotlin Multiplatform library for real-time HTTP traffic monitoring.
   It supports Ktor Client, OkHttp, and http4k on Android, iOS, Desktop JVM, Wasm, and JS.
@@ -54,7 +54,7 @@ When a developer asks to:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
         }
     }
 }
@@ -66,7 +66,7 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
         }
     }
 }
@@ -77,8 +77,8 @@ kotlin {
 ```kotlin
 // build.gradle.kts (app module)
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.14.4")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
 }
 ```
 
@@ -86,8 +86,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.15.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.15.0")
 }
 ```
 
@@ -95,8 +95,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.14.4")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.15.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.15.0")
 }
 ```
 
