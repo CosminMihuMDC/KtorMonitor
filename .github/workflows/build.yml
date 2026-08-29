@@ -36,7 +36,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Build Android APKs
-        run: ./gradlew :sample:ktor:assembleDebug :sample:ktor:assembleRelease :sample:okhttp:assembleDebug :sample:okhttp:assembleRelease
+        run: ./gradlew :sample:ktor:androidApp:assembleDebug :sample:ktor:androidApp:assembleRelease :sample:okhttp:androidApp:assembleDebug :sample:okhttp:androidApp:assembleRelease :sample:http4k:androidApp:assembleDebug :sample:http4k:androidApp:assembleRelease
 
 #      - name: Upload Android APKs
 #        uses: actions/upload-artifact@v7
@@ -78,7 +78,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Build macOS DMGs
-        run: ./gradlew :sample:ktor:packageDmg :sample:okhttp:packageDmg
+        run: ./gradlew :sample:ktor:jvmApp:packageDmg :sample:okhttp:jvmApp:packageDmg :sample:http4k:jvmApp:packageDmg
 
 #      - name: Upload macOS DMGs
 #        uses: actions/upload-artifact@v7
@@ -98,7 +98,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5.0.0
 
       - name: Build Windows MSIs
-        run: ./gradlew :sample:ktor:packageMsi :sample:okhttp:packageMsi
+        run: ./gradlew :sample:ktor:jvmApp:packageMsi :sample:okhttp:jvmApp:packageMsi :sample:http4k:jvmApp:packageMsi
 
 #      - name: Upload Windows MSIs
 #        uses: actions/upload-artifact@v7
@@ -115,7 +115,7 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Build Linux DEBs and RPMs
-        run: ./gradlew :sample:ktor:packageDeb :sample:ktor:packageRpm :sample:okhttp:packageDeb :sample:okhttp:packageRpm
+        run: ./gradlew :sample:ktor:jvmApp:packageDeb :sample:ktor:jvmApp:packageRpm :sample:okhttp:jvmApp:packageDeb :sample:okhttp:jvmApp:packageRpm :sample:http4k:jvmApp:packageDeb :sample:http4k:jvmApp:packageRpm
 
 #      - name: Upload Linux DEBs and RPMs
 #        uses: actions/upload-artifact@v7
