@@ -95,7 +95,7 @@ HttpClient {
 
 ```kotlin
 dependencies {
-    debugImplementation("`ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.14.4")
     releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.14.4")
 }
 ```
@@ -175,7 +175,7 @@ fun Composable() {
 <details>
 <summary><b>Android</b></summary>
 
-- If ```showNotifcation = true``` and **android.permission.POST_NOTIFICATIONS** is granted, the library will display a notification showing a summary of ongoing KTOR activity. Tapping on the notification launches the full ```KtorMonitor```.
+- If ```showNotification = true``` and **android.permission.POST_NOTIFICATIONS** is granted, the library will display a notification showing a summary of ongoing KTOR activity. Tapping on the notification launches the full ```KtorMonitor```.
 - Apps can optionally use the ```KtorMonitor()``` Composable directly into own Composable code.
 - For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
 </details>
@@ -183,7 +183,7 @@ fun Composable() {
 <details>
 <summary><b>iOS</b></summary>
 
-* If ```showNotifcation = true``` and notification permission is granted, the library will display a notification showing a summary of ongoing KTOR activity.
+* If ```showNotification = true``` and notification permission is granted, the library will display a notification showing a summary of ongoing KTOR activity.
 
 * Use ```KtorMonitorViewController```
 

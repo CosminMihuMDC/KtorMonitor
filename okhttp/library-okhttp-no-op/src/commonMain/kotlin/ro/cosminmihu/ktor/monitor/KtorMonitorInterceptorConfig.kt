@@ -7,11 +7,8 @@ import kotlin.time.Duration
  * No-op implementation.
  */
 public class KtorMonitorInterceptorConfig() {
-
-    private val config: KtorMonitorInterceptorConfig = KtorMonitorInterceptorConfig()
-
     public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this() {
-        config.apply(block)
+        apply(block)
     }
 
     public fun filter(predicate: (Request) -> Boolean) {
