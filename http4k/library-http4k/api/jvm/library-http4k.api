@@ -1,6 +1,8 @@
 public final class ro/cosminmihu/ktor/monitor/KtorMonitorFilter : org/http4k/core/Filter {
 	public fun <init> ()V
 	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Lro/cosminmihu/ktor/monitor/KtorMonitorFilterConfig;)V
+	public synthetic fun <init> (Lro/cosminmihu/ktor/monitor/KtorMonitorFilterConfig;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public synthetic fun invoke (Ljava/lang/Object;)Ljava/lang/Object;
 	public fun invoke (Lkotlin/jvm/functions/Function1;)Lkotlin/jvm/functions/Function1;
 }

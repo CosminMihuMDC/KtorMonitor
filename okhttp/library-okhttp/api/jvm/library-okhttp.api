@@ -1,6 +1,8 @@
 public final class ro/cosminmihu/ktor/monitor/KtorMonitorInterceptor : okhttp3/Interceptor {
 	public fun <init> ()V
 	public fun <init> (Lkotlin/jvm/functions/Function1;)V
+	public fun <init> (Lro/cosminmihu/ktor/monitor/KtorMonitorInterceptorConfig;)V
+	public synthetic fun <init> (Lro/cosminmihu/ktor/monitor/KtorMonitorInterceptorConfig;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
 	public fun intercept (Lokhttp3/Interceptor$Chain;)Lokhttp3/Response;
 }
 
