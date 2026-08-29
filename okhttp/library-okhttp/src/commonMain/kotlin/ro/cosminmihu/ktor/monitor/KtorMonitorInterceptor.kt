@@ -37,13 +37,13 @@ import kotlin.time.ExperimentalTime
  *     .build()
  * ```
  */
-public class KtorMonitorInterceptor() : Interceptor {
+public class KtorMonitorInterceptor(
+    private val config: KtorMonitorInterceptorConfig = KtorMonitorInterceptorConfig(),
+) : Interceptor {
 
-    private val config: KtorMonitorInterceptorConfig = KtorMonitorInterceptorConfig()
-
-    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this() {
-        config.apply(block)
-    }
+    public constructor(block: KtorMonitorInterceptorConfig.() -> Unit) : this(
+        KtorMonitorInterceptorConfig().apply(block)
+    )
 
     init {
         @OptIn(InternalKtorMonitorApi::class)

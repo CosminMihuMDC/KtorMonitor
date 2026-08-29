@@ -24,13 +24,13 @@ import kotlin.time.ExperimentalTime
  * }.then(JavaHttpClient())
  * ```
  */
-public class KtorMonitorFilter() : Filter {
+public class KtorMonitorFilter(
+    private val config: KtorMonitorFilterConfig = KtorMonitorFilterConfig(),
+) : Filter {
 
-    private val config: KtorMonitorFilterConfig = KtorMonitorFilterConfig()
-
-    public constructor(block: KtorMonitorFilterConfig.() -> Unit) : this() {
-        config.apply(block)
-    }
+    public constructor(block: KtorMonitorFilterConfig.() -> Unit) : this(
+        KtorMonitorFilterConfig().apply(block)
+    )
 
     init {
         @OptIn(InternalKtorMonitorApi::class)
