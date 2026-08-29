@@ -32,13 +32,29 @@ internal suspend fun logRequest(
     request: HttpRequestBuilder,
     coroutineScope: CoroutineScope,
     sanitizedHeaders: List<SanitizedHeader>,
-): OutgoingContent {
-    val content = request.body as OutgoingContent
+): OutgoingContent? {
+    val content = request.body as? OutgoingContent
 
     // Headers.
     val url = request.url.toString()
     val method = request.method.value
     val headers = request.headers.sanitizedHeaders(sanitizedHeaders)
+    if (content == null) {
+        // Some requests still carry domain objects at this pipeline stage.
+        InternalLibraryBridge.saveRequest(
+            id = id,
+            method = method,
+            url = url,
+            requestTimestamp = Clock.System.now().toEpochMilliseconds(),
+            requestHeaders = headers,
+            requestContentType = request.headers["Content-Type"],
+            requestContentLength = 0L,
+            requestBody = null,
+            isRequestBodyTruncated = false,
+        )
+        return null
+    }
+
     val contentLength = content.contentLength ?: 0
     val contentType = content.contentType?.toString()
 
