@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -96,7 +97,11 @@ kotlin {
         iosSimulatorArm64(),
     )
 
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
@@ -106,5 +111,9 @@ kotlin {
             implementation(npm("sql.js", libs.versions.sqljs.get()))
             implementation(devNpm("copy-webpack-plugin", libs.versions.webpack.get()))
         }
+    }
+
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }

@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
@@ -79,7 +81,7 @@ kotlin {
     explicitApi()
 
     jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(11)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 
     android {
@@ -88,7 +90,11 @@ kotlin {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
 
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {

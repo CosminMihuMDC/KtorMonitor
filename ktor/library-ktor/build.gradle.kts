@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -88,7 +89,7 @@ kotlin {
     explicitApi()
 
     jvmToolchain {
-        languageVersion = JavaLanguageVersion.of(11)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 
     compilerOptions {
@@ -115,7 +116,11 @@ kotlin {
         iosSimulatorArm64(),
     )
 
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
