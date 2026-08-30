@@ -35,7 +35,7 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/), [OkHttp](https://squar
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.16.0")
         }
     }
 }
@@ -49,7 +49,7 @@ To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op`
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.16.0")
         }
     }
 }
@@ -61,8 +61,8 @@ kotlin {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.15.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.15.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.16.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.16.0")
 }
 ```
 
@@ -95,8 +95,8 @@ HttpClient {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.15.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.15.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.16.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.16.0")
 }
 ```
 
@@ -130,8 +130,8 @@ OkHttpClient.Builder()
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.15.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.15.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.16.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.16.0")
 }
 ```
 
