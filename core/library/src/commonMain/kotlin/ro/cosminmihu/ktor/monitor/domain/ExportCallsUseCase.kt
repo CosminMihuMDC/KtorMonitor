@@ -3,7 +3,6 @@ package ro.cosminmihu.ktor.monitor.domain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import ro.cosminmihu.ktor.monitor.core.BuildKonfig
 import ro.cosminmihu.ktor.monitor.db.LibraryDao
@@ -16,7 +15,11 @@ internal enum class CallsExportFormat(
     val extension: String,
     val mimeType: String,
 ) {
-    Json(extension = "json", mimeType = "application/json")
+    Json(extension = "json", mimeType = "application/json"),
+    Text(extension = "txt", mimeType = "text/plain"),
+    Curl(extension = "sh", mimeType = "text/plain"),
+    Wget(extension = "sh", mimeType = "text/plain"),
+    Url(extension = "txt", mimeType = "text/plain"),
 }
 
 internal data class CallsExportResult(
@@ -27,6 +30,10 @@ internal data class CallsExportResult(
 
 internal class ExportCallsUseCase(
     private val dao: LibraryDao,
+    private val exportCallUrlUseCase: ExportCallUrlUseCase,
+    private val exportCallRequestAsCurlUseCase: ExportCallRequestAsCurlUseCase,
+    private val exportCallRequestAsWgetUseCase: ExportCallRequestAsWgetUseCase,
+    private val exportCallAsTextUseCase: ExportCallAsTextUseCase,
 ) {
 
     suspend operator fun invoke(
@@ -47,6 +54,30 @@ internal class ExportCallsUseCase(
                 fileName = fileName,
                 mimeType = format.mimeType,
                 content = exportAsJson(calls),
+            )
+
+            CallsExportFormat.Text -> CallsExportResult(
+                fileName = fileName,
+                mimeType = format.mimeType,
+                content = exportAsText(calls),
+            )
+
+            CallsExportFormat.Curl -> CallsExportResult(
+                fileName = fileName,
+                mimeType = format.mimeType,
+                content = exportAsCurl(calls),
+            )
+
+            CallsExportFormat.Wget -> CallsExportResult(
+                fileName = fileName,
+                mimeType = format.mimeType,
+                content = exportAsWget(calls),
+            )
+
+            CallsExportFormat.Url -> CallsExportResult(
+                fileName = fileName,
+                mimeType = format.mimeType,
+                content = exportAsUrlList(calls),
             )
         }
     }
@@ -84,6 +115,38 @@ internal class ExportCallsUseCase(
         )
 
         return Json.encodeToString(payload)
+    }
+
+    private suspend fun exportAsText(calls: List<Call>): String {
+        val sections = mutableListOf<String>()
+        for (call in calls) {
+            sections += exportCallAsTextUseCase(call).trimEnd()
+        }
+        return sections.joinToString(separator = "\n\n---\n\n")
+    }
+
+    private suspend fun exportAsCurl(calls: List<Call>): String {
+        val commands = mutableListOf<String>()
+        for (call in calls) {
+            commands += exportCallRequestAsCurlUseCase(call)
+        }
+        return commands.joinToString(separator = "\n\n")
+    }
+
+    private suspend fun exportAsWget(calls: List<Call>): String {
+        val commands = mutableListOf<String>()
+        for (call in calls) {
+            commands += exportCallRequestAsWgetUseCase(call)
+        }
+        return commands.joinToString(separator = "\n\n")
+    }
+
+    private suspend fun exportAsUrlList(calls: List<Call>): String {
+        val urls = mutableListOf<String>()
+        for (call in calls) {
+            urls += exportCallUrlUseCase(call)
+        }
+        return urls.joinToString(separator = "\n")
     }
 }
 

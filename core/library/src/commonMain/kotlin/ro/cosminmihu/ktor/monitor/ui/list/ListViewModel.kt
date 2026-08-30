@@ -193,7 +193,7 @@ internal class ListViewModel(
             if (selectedIds.isEmpty()) return@launch
 
             deleteCallsUseCase(selectedIds)
-            clearSelection()
+            clearSelectedCalls()
         }
     }
 
@@ -229,10 +229,17 @@ internal class ListViewModel(
         _selectedCallIds.value = visibleIds
     }
 
-    fun exportSelectedCalls() {
+    fun exportSelectedCalls(type: ListUiState.BulkShareType) {
         viewModelScope.launch {
             val selectedIds = uiState.value.selectedCallIds.toList()
-            val export = exportCallsUseCase(selectedIds, CallsExportFormat.Json) ?: return@launch
+            val format = when (type) {
+                ListUiState.BulkShareType.Json -> CallsExportFormat.Json
+                ListUiState.BulkShareType.Text -> CallsExportFormat.Text
+                ListUiState.BulkShareType.Curl -> CallsExportFormat.Curl
+                ListUiState.BulkShareType.Wget -> CallsExportFormat.Wget
+                ListUiState.BulkShareType.Url -> CallsExportFormat.Url
+            }
+            val export = exportCallsUseCase(selectedIds, format) ?: return@launch
             shareManager.shareAsFile(
                 content = export.content,
                 name = export.fileName,

@@ -15,6 +15,14 @@ internal data class ListUiState(
     val isSelectionMode: Boolean = false,
     val selectedCallIds: Set<String> = emptySet(),
 ) {
+    enum class BulkShareType {
+        Json,
+        Text,
+        Curl,
+        Wget,
+        Url,
+    }
+
     data class Call(
         val id: String,
         val isSecure: Boolean,

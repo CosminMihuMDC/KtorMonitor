@@ -19,8 +19,7 @@ ksoup = "0.2.6"
 ktor = "3.5.2"
 okhttp = "5.5.0"
 http4k = "6.58.0.0"
-material3AdaptiveNavigationSuite = "1.9.0"
-material3 = "1.11.0-alpha07"
+material3 = "1.12.0-alpha03"
 slf4j = "2.0.18"
 sqldelight = "2.3.2"
 sqljs = "1.11.0"
@@ -57,7 +56,7 @@ compose-components-resources = { module = "org.jetbrains.compose.components:comp
 compose-foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose-multiplatform" }
 compose-runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose-multiplatform" }
 compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
-compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavigationSuite" }
+compose-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3" }
 compose-ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose-multiplatform" }
 navigation3-ui = { module = "org.jetbrains.androidx.navigation3:navigation3-ui", version.ref = "navigation3" }
 compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose-multiplatform" }

@@ -8,6 +8,8 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,14 +21,21 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
 import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Delete
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Downloading
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Close
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.FileDownload
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Laptop
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Link
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Search
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.SearchOff
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Share
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.TouchApp
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -77,6 +86,11 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_prefix
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_selected
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_curl
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_json
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_text
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_url
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_wget
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -91,7 +105,7 @@ internal fun ListScreen(
     clearSelectedCalls: () -> Unit,
     toggleSelection: (String) -> Unit,
     selectAllVisible: () -> Unit,
-    exportSelectedCalls: () -> Unit,
+    exportSelectedCalls: (ListUiState.BulkShareType) -> Unit,
     deleteSelectedCalls: () -> Unit,
     onCallClick: (String) -> Unit,
     toggleMethod: (String) -> Unit,
@@ -105,6 +119,7 @@ internal fun ListScreen(
 ) {
     val uriHandler = LocalUriHandler.current
     var showSearchBar by rememberSaveable { mutableStateOf(false) }
+    var isShareMenuExpanded by rememberSaveable { mutableStateOf(false) }
     val searchFocusRequester = remember { FocusRequester() }
 
     LaunchedEffect(showSearchBar) {
@@ -196,12 +211,55 @@ internal fun ListScreen(
                             }
 
                             if (uiState.canBulkExport) {
-                                IconButton(onClick = exportSelectedCalls) {
-                                    Icon(
-                                        imageVector = Icons.Filled.Share,
-                                        contentDescription = stringResource(Res.string.ktor_share_selection),
-                                        tint = MaterialTheme.colorScheme.primary,
-                                    )
+                                Box {
+                                    IconButton(onClick = { isShareMenuExpanded = true }) {
+                                        Icon(
+                                            imageVector = Icons.Filled.Share,
+                                            contentDescription = stringResource(Res.string.ktor_share_selection),
+                                            tint = MaterialTheme.colorScheme.primary,
+                                        )
+                                    }
+                                    DropdownMenu(
+                                        expanded = isShareMenuExpanded,
+                                        onDismissRequest = { isShareMenuExpanded = false },
+                                    ) {
+                                        ListUiState.BulkShareType.entries.forEach { type ->
+                                            DropdownMenuItem(
+                                                text = {
+                                                    Row(
+                                                        horizontalArrangement = Arrangement.spacedBy(Dimens.Small),
+                                                    ) {
+                                                        val label = stringResource(
+                                                            when (type) {
+                                                                ListUiState.BulkShareType.Json -> Res.string.ktor_share_selection_as_json
+                                                                ListUiState.BulkShareType.Text -> Res.string.ktor_share_selection_as_text
+                                                                ListUiState.BulkShareType.Curl -> Res.string.ktor_share_selection_as_curl
+                                                                ListUiState.BulkShareType.Wget -> Res.string.ktor_share_selection_as_wget
+                                                                ListUiState.BulkShareType.Url -> Res.string.ktor_share_selection_as_url
+                                                            }
+                                                        )
+
+                                                        Icon(
+                                                            imageVector = when (type) {
+                                                                ListUiState.BulkShareType.Json -> Icons.Default.FileDownload
+                                                                ListUiState.BulkShareType.Text -> Icons.AutoMirrored.Filled.Article
+                                                                ListUiState.BulkShareType.Curl -> Icons.Default.Laptop
+                                                                ListUiState.BulkShareType.Wget -> Icons.Default.Downloading
+                                                                ListUiState.BulkShareType.Url -> Icons.Default.Link
+                                                            },
+                                                            contentDescription = label,
+                                                            tint = MaterialTheme.colorScheme.primary,
+                                                        )
+                                                        Text(text = label)
+                                                    }
+                                                },
+                                                onClick = {
+                                                    exportSelectedCalls(type)
+                                                    isShareMenuExpanded = false
+                                                },
+                                            )
+                                        }
+                                    }
                                 }
 
                                 IconButton(onClick = deleteSelectedCalls) {
@@ -386,7 +444,7 @@ private fun ListScreenPreview() {
             clearSelectedCalls = {},
             toggleSelection = {},
             selectAllVisible = {},
-            exportSelectedCalls = {},
+            exportSelectedCalls = { _ -> },
             deleteSelectedCalls = {},
             onCallClick = {},
             toggleMethod = {},

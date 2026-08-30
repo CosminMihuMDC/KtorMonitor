@@ -35,7 +35,12 @@
     <string name="ktor_copy_as_wget">Copy as wget</string>
     <string name="ktor_copy_as_text">Copy as text</string>
     <string name="ktor_share_as_text">Share as file</string>
-    <string name="ktor_share_selection">Export selected as JSON</string>
+    <string name="ktor_share_selection">Share selected</string>
+    <string name="ktor_share_selection_as_json">Share as JSON</string>
+    <string name="ktor_share_selection_as_text">Share as text</string>
+    <string name="ktor_share_selection_as_curl">Share as cURL</string>
+    <string name="ktor_share_selection_as_wget">Share as wget</string>
+    <string name="ktor_share_selection_as_url">Share URL list</string>
     <string name="ktor_clear_selection">Clear selection</string>
     <string name="ktor_delete_selection">Delete selected</string>
     <string name="ktor_selection_selected">%1$d selected of %2$d total</string>
