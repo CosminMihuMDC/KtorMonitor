@@ -4,19 +4,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [1.15.0] - 2026-08-29
-* Set JVM target and JVM toolchain to 17 for published modules (improves runtime compatibility)
-* Add `llms.txt` and AI skill docs
+### Changed
+* Set JVM target and JVM toolchain to 17 for published modules (improves runtime compatibility).
 
-## [1.14.3] - 2026-07-15
-* https://github.com/CosminMihuMDC/KtorMonitor/issues/59
-* https://github.com/CosminMihuMDC/KtorMonitor/issues/60
+### Added
+* Add `llms.txt` and AI skill docs.
+
+## [1.14.4] - 2026-07-15
+### Fixed
+* Fixes for [#59](https://github.com/CosminMihuMDC/KtorMonitor/issues/59).
+* Fixes for [#60](https://github.com/CosminMihuMDC/KtorMonitor/issues/60).
 
 ## [1.14.3] - 2026-07-09
-* Fixes 1.14.3
+### Fixed
+* Stability fixes for the 1.14.x line.
 
-## [1.14.2] - 2026-07-09 - CANCELED
-* Remove material-icons-extended dependency #64
-* Fix StrictMode DiskWriteViolation from response logging #63
+## [1.14.2] - 2026-07-09
+### Changed
+* Remove `material-icons-extended` dependency ([#64](https://github.com/CosminMihuMDC/KtorMonitor/issues/64)).
+
+### Fixed
+* Fix StrictMode DiskWriteViolation from response logging ([#63](https://github.com/CosminMihuMDC/KtorMonitor/issues/63)).
 
 ## [1.14.1] - 2026-06-13
 * Enhance Share as file for gzip body
@@ -156,6 +164,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * Enable iOS edge to edge
 * Add KtorMonitorViewController for iOS
 
-## [1.0.0] - 2025-02-9
+## [1.0.0] - 2025-02-09
 * Initial release
 * Targets: Android, iOS, Desktop.
