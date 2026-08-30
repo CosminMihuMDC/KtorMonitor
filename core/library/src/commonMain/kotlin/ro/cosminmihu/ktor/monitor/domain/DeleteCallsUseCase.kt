@@ -8,8 +8,8 @@ internal class DeleteCallsUseCase(
     private val notificationManager: NotificationManager,
 ) {
 
-    suspend operator fun invoke() {
-        dao.deleteCalls()
+    suspend operator fun invoke(ids: Collection<String>) {
+        dao.deleteCalls(ids)
         notificationManager.clear()
     }
 }

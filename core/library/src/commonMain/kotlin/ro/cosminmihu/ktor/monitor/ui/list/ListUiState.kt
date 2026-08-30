@@ -11,6 +11,9 @@ internal data class ListUiState(
     val availableMethods: Set<String> = emptySet(),
     val availableHosts: Set<String> = emptySet(),
     val availableContentTypes: Set<ContentType> = emptySet(),
+    val totalCallsCount: Int = 0,
+    val isSelectionMode: Boolean = false,
+    val selectedCallIds: Set<String> = emptySet(),
 ) {
     data class Call(
         val id: String,
@@ -74,6 +77,12 @@ internal data class ListUiState(
         }
     }
 }
+
+internal val ListUiState.selectedCount
+    get() = selectedCallIds.size
+
+internal val ListUiState.canBulkExport
+    get() = selectedCallIds.isNotEmpty()
 
 internal val ListUiState.isLoading
     get() = calls == null

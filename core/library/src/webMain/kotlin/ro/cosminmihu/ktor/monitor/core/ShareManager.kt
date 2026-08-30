@@ -18,10 +18,11 @@ internal actual class ShareManager {
         content: String,
         name: String,
         title: String?,
+        mimeType: String,
     ) {
         val string = content.toJsString()
         val blobParts = listOf(string).toJsArray() as JsArray<JsAny?>
-        val blob = Blob(blobParts, BlobPropertyBag("text/plain"))
+        val blob = Blob(blobParts, BlobPropertyBag(mimeType))
         val url = URL.createObjectURL(blob)
 
         val a = document.createElement("a") as HTMLAnchorElement

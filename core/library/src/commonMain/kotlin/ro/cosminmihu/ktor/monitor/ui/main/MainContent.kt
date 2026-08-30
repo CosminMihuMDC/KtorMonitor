@@ -43,9 +43,6 @@ internal fun MainContent(modifier: Modifier = Modifier) {
                         onClick = { id ->
                             backStack.removeAll { it is Nav.Detail }
                             backStack.add(Nav.Detail(id))
-                        },
-                        onClear = {
-                            backStack.removeAll { it is Nav.Detail }
                         }
                     )
                 }

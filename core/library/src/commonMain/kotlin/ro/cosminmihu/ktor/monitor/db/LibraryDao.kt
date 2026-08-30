@@ -110,11 +110,18 @@ internal class LibraryDao(private val database: LibraryDatabase) {
     fun getCall(id: String): Flow<Query<Call>> =
         database.callQueries.selectCall(id).asFlow()
 
+    suspend fun getCalls(ids: Collection<String>): List<Call> = withContext(ioDispatcher()) {
+        if (ids.isEmpty()) return@withContext emptyList()
+        database.callQueries.selectCallsByIds(ids).executeAsList()
+    }
+
     fun getCalls(limit: Long): Flow<Query<SelectCallsWithLimit>> =
         database.callQueries.selectCallsWithLimit(limit).asFlow()
 
-    suspend fun deleteCalls() = withContext(ioDispatcher()) {
-        database.callQueries.deleteCalls()
+
+    suspend fun deleteCalls(ids: Collection<String>) = withContext(ioDispatcher()) {
+        if (ids.isEmpty()) return@withContext
+        database.callQueries.deleteCallsByIds(ids)
     }
 
     suspend fun deleteCallsBefore(threshold: Long) = withContext(ioDispatcher()) {

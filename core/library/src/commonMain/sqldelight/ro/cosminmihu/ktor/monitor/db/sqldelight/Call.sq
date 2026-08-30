@@ -55,8 +55,11 @@ SELECT id, method, url, requestTimestamp, responseCode, responseTimestamp, respo
 selectCall:
 SELECT id, method, url, protocol, requestTimestamp, requestHeaders, requestContentType, requestContentLength, requestBody, isRequestBodyTruncated, responseCode, responseTimestamp, responseContentType, responseHeaders, responseContentLength, responseBody, isResponseBodyTruncated, error FROM call WHERE id = ?;
 
-deleteCalls:
-DELETE FROM call;
+selectCallsByIds:
+SELECT id, method, url, protocol, requestTimestamp, requestHeaders, requestContentType, requestContentLength, requestBody, isRequestBodyTruncated, responseCode, responseTimestamp, responseContentType, responseHeaders, responseContentLength, responseBody, isResponseBodyTruncated, error FROM call WHERE id IN ?;
+
+deleteCallsByIds:
+DELETE FROM call WHERE id IN ?;
 
 deleteCallsBefore:
 DELETE FROM call WHERE requestTimestamp < ?;

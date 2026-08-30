@@ -20,8 +20,11 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
 import ro.cosminmihu.ktor.monitor.ui.icons.Icons
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Delete
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Close
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Search
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.SearchOff
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Share
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.TouchApp
 import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -56,17 +59,24 @@ import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
 import ro.cosminmihu.ktor.monitor.ui.notification.NotificationPermissionBanner
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_clean
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_clear_selection
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_close
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_error
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_launcher
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_warning_off
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_delete_selection
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select_all
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_remove
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_http4k
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_ktor
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_none
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_okhttp
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_prefix
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_selected
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -76,7 +86,13 @@ internal fun ListScreen(
     toggleOnlyError: () -> Unit,
     setSearchQuery: (String) -> Unit,
     clearSearchQuery: () -> Unit,
-    deleteCalls: () -> Unit,
+    enterSelectionMode: () -> Unit,
+    clearSelection: () -> Unit,
+    clearSelectedCalls: () -> Unit,
+    toggleSelection: (String) -> Unit,
+    selectAllVisible: () -> Unit,
+    exportSelectedCalls: () -> Unit,
+    deleteSelectedCalls: () -> Unit,
     onCallClick: (String) -> Unit,
     toggleMethod: (String) -> Unit,
     toggleResponseCodeRange: (ListUiState.Filter.ResponseCodeRange) -> Unit,
@@ -160,6 +176,54 @@ internal fun ListScreen(
                     actions = {
                         if (uiState.isEmpty) return@TopAppBar
 
+                        if (uiState.isSelectionMode) {
+                            if (uiState.canBulkExport) {
+                                IconButton(onClick = clearSelectedCalls) {
+                                    Icon(
+                                        imageVector = vectorResource(Res.drawable.ktor_selection_remove),
+                                        contentDescription = stringResource(Res.string.ktor_clear_selection),
+                                        tint = MaterialTheme.colorScheme.primary,
+                                    )
+                                }
+                            } else {
+                                IconButton(onClick = selectAllVisible) {
+                                    Icon(
+                                        imageVector = vectorResource(Res.drawable.ktor_select_all),
+                                        contentDescription = stringResource(Res.string.ktor_select_all),
+                                        tint = MaterialTheme.colorScheme.primary,
+                                    )
+                                }
+                            }
+
+                            if (uiState.canBulkExport) {
+                                IconButton(onClick = exportSelectedCalls) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Share,
+                                        contentDescription = stringResource(Res.string.ktor_share_selection),
+                                        tint = MaterialTheme.colorScheme.primary,
+                                    )
+                                }
+
+                                IconButton(onClick = deleteSelectedCalls) {
+                                    Icon(
+                                        imageVector = Icons.Filled.Delete,
+                                        contentDescription = stringResource(Res.string.ktor_delete_selection),
+                                        tint = MaterialTheme.colorScheme.primary,
+                                    )
+                                }
+                            }
+
+                            IconButton(onClick = clearSelection) {
+                                Icon(
+                                    imageVector = Icons.Filled.Close,
+                                    contentDescription = stringResource(Res.string.ktor_close),
+                                    tint = MaterialTheme.colorScheme.primary,
+                                )
+                            }
+
+                            return@TopAppBar
+                        }
+
                         IconButton(
                             onClick = toggleOnlyError
                         ) {
@@ -191,20 +255,29 @@ internal fun ListScreen(
                             )
                         }
                         IconButton(
-                            onClick = {
-                                deleteCalls()
-                                resetFilter()
-                                showSearchBar = false
-                            }
+                            onClick = enterSelectionMode,
                         ) {
                             Icon(
-                                imageVector = Icons.Filled.Delete,
-                                contentDescription = stringResource(Res.string.ktor_clean),
+                                imageVector = Icons.Filled.TouchApp,
+                                contentDescription = stringResource(Res.string.ktor_select),
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
                     },
                 )
+
+                if (uiState.isSelectionMode) {
+                    Text(
+                        text = stringResource(
+                            Res.string.ktor_selection_selected,
+                            uiState.selectedCount,
+                            uiState.totalCallsCount,
+                        ),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(Dimens.Small)
+                    )
+                }
 
                 AnimatedVisibility(visible = showSearchBar) {
                     Surface {
@@ -261,10 +334,6 @@ internal fun ListScreen(
                 }
 
                 uiState.calls != null -> {
-                    var selectedItemId: String? by rememberSaveable {
-                        mutableStateOf(null)
-                    }
-
                     val listState = rememberLazyListState()
                     VerticalScrollbarBox(
                         state = listState,
@@ -283,14 +352,13 @@ internal fun ListScreen(
                                     modifier = Modifier
                                         .animateItem()
                                         .clickable {
-                                            selectedItemId = item.id
-                                            onCallClick(item.id)
+                                            when (uiState.isSelectionMode) {
+                                                true -> toggleSelection(item.id)
+                                                false -> onCallClick(item.id)
+                                            }
                                         }
                                         .background(
-                                            when (selectedItemId) {
-                                                item.id -> MaterialTheme.colorScheme.surfaceVariant
-                                                else -> MaterialTheme.colorScheme.surface
-                                            }
+                                            if (item.id in uiState.selectedCallIds) MaterialTheme.colorScheme.surfaceVariant else MaterialTheme.colorScheme.surface
                                         )
                                 )
                                 HorizontalDivider()
@@ -313,7 +381,13 @@ private fun ListScreenPreview() {
             toggleOnlyError = {},
             setSearchQuery = {},
             clearSearchQuery = {},
-            deleteCalls = {},
+            enterSelectionMode = {},
+            clearSelection = {},
+            clearSelectedCalls = {},
+            toggleSelection = {},
+            selectAllVisible = {},
+            exportSelectedCalls = {},
+            deleteSelectedCalls = {},
             onCallClick = {},
             toggleMethod = {},
             toggleResponseCodeRange = {},

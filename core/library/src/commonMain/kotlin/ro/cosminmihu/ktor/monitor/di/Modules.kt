@@ -20,6 +20,7 @@ import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallUrlUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.ListenByRecentCallsUseCase
@@ -77,4 +78,5 @@ internal val domainModule = module {
     factory<ExportCallRequestAsCurlUseCase>()
     factory<ExportCallRequestAsWgetUseCase>()
     factory<ExportCallAsTextUseCase>()
+    factory<ExportCallsUseCase>()
 }

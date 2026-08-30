@@ -10,6 +10,7 @@ internal actual class ShareManager {
         content: String,
         name: String,
         title: String?,
+        mimeType: String,
     ) {
         val dialog = FileDialog(
             null as Frame?,

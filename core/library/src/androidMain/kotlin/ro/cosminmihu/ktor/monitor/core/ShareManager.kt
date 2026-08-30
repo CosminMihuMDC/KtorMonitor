@@ -17,6 +17,7 @@ internal actual class ShareManager : LibraryKoinComponent {
         content: String,
         name: String,
         title: String?,
+        mimeType: String,
     ) {
         val file = withContext(Dispatchers.IO) {
             val directory = File(context.cacheDir, SHARE_DIRECTORY).apply { mkdirs() }
@@ -27,7 +28,7 @@ internal actual class ShareManager : LibraryKoinComponent {
         val shareUri = FileProvider.getUriForFile(context, authority, file)
 
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
-            type = MIME_TYPE_TEXT
+            type = mimeType
             putExtra(Intent.EXTRA_STREAM, shareUri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             if (title != null) {
@@ -48,6 +49,5 @@ internal actual class ShareManager : LibraryKoinComponent {
     private companion object {
         private const val SHARE_DIRECTORY = "ktormonitor"
         private const val FILE_PROVIDER_SUFFIX = "ktorMonitor.share"
-        private const val MIME_TYPE_TEXT = "text/plain"
     }
 }
