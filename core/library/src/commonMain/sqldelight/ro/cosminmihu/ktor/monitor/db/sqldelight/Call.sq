@@ -63,3 +63,4 @@ DELETE FROM call WHERE id IN ?;
 
 deleteCallsBefore:
 DELETE FROM call WHERE requestTimestamp < ?;
+

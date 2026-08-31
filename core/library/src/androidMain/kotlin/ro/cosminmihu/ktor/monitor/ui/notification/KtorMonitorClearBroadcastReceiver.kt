@@ -7,7 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.core.component.get
 import ro.cosminmihu.ktor.monitor.di.LibraryKoinComponent
-import ro.cosminmihu.ktor.monitor.domain.DeleteCallsUseCase
+import ro.cosminmihu.ktor.monitor.domain.DeleteAllCallsUseCase
 
 internal class KtorMonitorClearBroadcastReceiver : BroadcastReceiver(), LibraryKoinComponent {
 
@@ -16,7 +16,7 @@ internal class KtorMonitorClearBroadcastReceiver : BroadcastReceiver(), LibraryK
         intent: Intent,
     ) {
         get<CoroutineScope>().launch {
-            get<DeleteCallsUseCase>()()
+            get<DeleteAllCallsUseCase>()()
         }
     }
 }

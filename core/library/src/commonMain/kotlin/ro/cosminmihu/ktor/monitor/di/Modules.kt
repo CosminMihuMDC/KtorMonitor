@@ -15,6 +15,7 @@ import ro.cosminmihu.ktor.monitor.db.LibraryDao
 import ro.cosminmihu.ktor.monitor.db.createDatabase
 import ro.cosminmihu.ktor.monitor.db.createDatabaseDriver
 import ro.cosminmihu.ktor.monitor.domain.ConfigUseCase
+import ro.cosminmihu.ktor.monitor.domain.DeleteAllCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.DeleteCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
@@ -70,6 +71,7 @@ internal val domainModule = module {
     factory<GetCallsUseCase>()
     factory<GetCallUseCase>()
     factory<DeleteCallsUseCase>()
+    factory<DeleteAllCallsUseCase>()
 
     factory<ClipboardManager>()
     factory<ShareManager>()
