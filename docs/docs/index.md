@@ -14,7 +14,7 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/), [OkHttp](https://squar
 
 ## 🌍 Live Demo
 
-Try the live web demo: [cosminmihu.ro/static/apps/ktormonitor/web/](https://cosminmihu.ro/static/apps/ktormonitor/web/)
+Try the live web demo: [DEMO](https://cosminmihu.ro/static/apps/ktormonitor/web/)
 
 ## ✨ Features
 
