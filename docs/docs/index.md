@@ -12,6 +12,10 @@
 
 Powerful tool to monitor [Ktor Client](https://ktor.io/), [OkHttp](https://square.github.io/okhttp/) and [http4k](https://www.http4k.org/) requests and responses, making it easier to debug and analyze network communication.
 
+## 🌍 Live Demo
+
+Try the live web demo: [cosminmihu.ro/static/apps/ktormonitor/web/](https://cosminmihu.ro/static/apps/ktormonitor/web/)
+
 ## ✨ Features
 
 *   🌐**Ktor Network Monitoring**: Real-time interception and logging of [Ktor Client](https://ktor.io/) traffic.

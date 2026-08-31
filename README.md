@@ -14,6 +14,10 @@ Powerful tool to monitor [Ktor Client](https://ktor.io/), [OkHttp](https://squar
 
 <img src="extra/readme/ktormonitor.png" alt="ktormonitor"/>
 
+## 🌍 Live Demo
+
+Try the live web demo: [cosminmihu.ro/static/apps/ktormonitor/web/](https://cosminmihu.ro/static/apps/ktormonitor/web/)
+
 ## ✨ Features
 
 *   🌐**Ktor Network Monitoring**: Real-time interception and logging of [Ktor Client](https://ktor.io/) traffic.
