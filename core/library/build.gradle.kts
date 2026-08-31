@@ -78,8 +78,8 @@ apiValidation {
     publicPackages.add("ro.cosminmihu.ktor.monitor")
     ignoredClasses.add("ro.cosminmihu.ktor.monitor.InternalKtorMonitorApi")
     ignoredClasses.add("ro.cosminmihu.ktor.monitor.InternalLibraryBridge")
-    ignoredClasses.add("ro.cosminmihu.ktor.monitor.domain.model.ClientSource")
     ignoredPackages.add("ro.cosminmihu.ktor.monitor.db")
+    ignoredPackages.add("ro.cosminmihu.ktor.monitor.domain")
     ignoredPackages.add("ro.cosminmihu.ktor.monitor.ui")
     ignoredPackages.add("org.koin.plugin.hints")
 }
