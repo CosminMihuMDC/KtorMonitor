@@ -2,6 +2,8 @@ package ro.cosminmihu.ktor.monitor.domain
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 import ro.cosminmihu.ktor.monitor.domain.model.decodeBody
 
@@ -9,8 +11,8 @@ internal class ExportCallAsTextUseCase {
 
     suspend operator fun invoke(call: Call): String = withContext(Dispatchers.Default) {
         val protocol = call.protocol ?: "HTTP/1.1"
-        val requestBody = call.requestBody?.decodeBody(call.requestHeaders)
-        val responseBody = call.responseBody?.decodeBody(call.responseHeaders)
+        val requestBody = call.requestBody?.decodeBody(call.requestHeaders)?.prettyPrintJsonOrSelf()
+        val responseBody = call.responseBody?.decodeBody(call.responseHeaders)?.prettyPrintJsonOrSelf()
 
         buildString {
             // Request line + headers
@@ -46,3 +48,11 @@ private fun Map<String, List<String>>.appendHeaderBlock(out: StringBuilder) {
 }
 
 private fun Boolean?.truncatedLabel() = if (this == true) " (truncated)" else ""
+
+private val prettyJson = Json { prettyPrint = true; isLenient = true; ignoreUnknownKeys = true }
+
+private fun String.prettyPrintJsonOrSelf(): String = try {
+    prettyJson.encodeToString(JsonElement.serializer(), prettyJson.parseToJsonElement(this))
+} catch (_: Exception) {
+    this
+}
