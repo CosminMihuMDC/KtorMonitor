@@ -6,7 +6,7 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 
 [![Kotlin](https://img.shields.io/badge/2.4.10-white?logo=kotlin&logoColor=white&color=7F52FF)](http://kotlinlang.org)
 [![Compose Multiplatform](https://img.shields.io/badge/1.12.0-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
-[![Android](https://img.shields.io/badge/Android%2017-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/guide/topics/manifest/uses-sdk-element)
+[![Android](https://img.shields.io/badge/Android%2017-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/about/versions/17)
 [![Ktor](https://img.shields.io/badge/3.5.2-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
 [![OkHttp](https://img.shields.io/badge/5.5.0-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
 [![http4k](https://img.shields.io/badge/6.59.0.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
