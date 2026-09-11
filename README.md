@@ -5,7 +5,7 @@
 [![JetBrains Klibs.io](https://img.shields.io/badge/JetBrains-klibs.io-4284F3?logo=jetbrains&logoColor=white)](https://klibs.io/project/CosminMihuMDC/KtorMonitor)
 [![Documentation](https://img.shields.io/badge/Docs-gray?logo=readthedocs&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor)
 [![API](https://img.shields.io/badge/API-gray?logo=codersrank&logoColor=white)](https://cosminmihumdc.github.io/KtorMonitor/api)
-[![AI Skill](https://img.shields.io/badge/AI%20Skill-gray?logo=anthropic&logoColor=white)](ai/skill.md)
+[![AI Skill](https://img.shields.io/badge/AI%20Skill-gray?logo=anthropic&logoColor=white)](.agents/skills/ktormonitor/skill.md)
 [![GitHub stars](https://img.shields.io/github/stars/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor)
 [![GitHub forks](https://img.shields.io/github/forks/CosminMihuMDC/KtorMonitor)](https://github.com/CosminMihuMDC/KtorMonitor/fork)
 
@@ -319,11 +319,11 @@ Found a bug or have a feature request? [File an issue](https://github.com/Cosmin
 ## 🙌 Acknowledgments
 
 [![Kotlin](https://img.shields.io/badge/2.4.10-white?logo=kotlin&logoColor=white&color=7F52FF)](http://kotlinlang.org)
-[![Compose Multiplatform](https://img.shields.io/badge/1.11.1-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
-[![Android](https://img.shields.io/badge/Android%2017-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/about/versions/16)
-[![Ktor](https://img.shields.io/badge/3.5.1-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
-[![OkHttp](https://img.shields.io/badge/5.4.0-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
-[![http4k](https://img.shields.io/badge/6.55.0.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
+[![Compose Multiplatform](https://img.shields.io/badge/1.12.0-white?logo=jetpackcompose&logoColor=white&color=4284F3)](https://www.jetbrains.com/lp/compose-multiplatform)
+[![Android](https://img.shields.io/badge/Android%2017-white?logo=android&logoColor=white&color=34A853)](https://developer.android.com/guide/topics/manifest/uses-sdk-element)
+[![Ktor](https://img.shields.io/badge/3.5.2-white?logo=ktor&logoColor=white&color=087CFA)](https://ktor.io)
+[![OkHttp](https://img.shields.io/badge/5.5.0-white?logo=square&logoColor=white&color=003B57)](https://square.github.io/okhttp/)
+[![http4k](https://img.shields.io/badge/6.59.0.0-white?logo=httpie&logoColor=white&color=087CFA)](https://www.http4k.org/)
 [![SQLDelight](https://img.shields.io/badge/2.3.2-white?logo=sqlite&logoColor=white&color=003B57)](https://sqldelight.github.io/sqldelight)
 
 Community discussions on Slack — join us in the [#ktormonitor](https://kotlinlang.slack.com/archives/C0AB9GA32H0) channel.
@@ -336,7 +336,7 @@ KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/
 <br>
 KtorMonitor on [Context7](https://context7.com/cosminmihumdc/ktormonitor).
 <br>
-AI Skill (for Copilot, Claude, Cursor, ChatGPT and others) is available at [skill.md](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/.agents/skills/ktormonitor/skill.md).
+AI Skill (for Copilot, Claude, Cursor, ChatGPT and others) is available at [skill.md](.agents/skills/ktormonitor/skill.md).
 <br>
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
@@ -358,3 +358,4 @@ You can sponsor us by clicking [<span style="color:#bf3989">♥ Sponsor</span>](
 ## 🙏🏻 Credits
 
 KtorMonitor is brought to you by these [contributors](https://github.com/CosminMihuMDC/KtorMonitor/graphs/contributors).
+
