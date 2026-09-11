@@ -18,6 +18,7 @@ internal data class ListUiState(
     enum class BulkShareType {
         Json,
         Text,
+        Markdown,
         Curl,
         Wget,
         Url,

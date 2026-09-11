@@ -9,14 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import ro.cosminmihu.ktor.monitor.ui.icons.Icons
-import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.ArrowBackIos
-import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Downloading
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.FileDownload
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Laptop
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Link
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Share
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -40,6 +32,15 @@ import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.ArrowBackIos
+import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Downloading
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Markdown
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.FileDownload
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Laptop
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Link
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Share
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_back
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_as_curl
@@ -49,6 +50,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy_url
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_more
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_request
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_as_markdown
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_as_text
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_summary
 
@@ -223,12 +225,14 @@ private fun ExportCall(
                             val type = stringResource(
                                 when (it) {
                                     DetailUiState.FileShareType.Text -> Res.string.ktor_share_as_text
+                                    DetailUiState.FileShareType.Markdown -> Res.string.ktor_share_as_markdown
                                 }
                             )
                             Icon(
                                 imageVector =
                                     when (it) {
                                         DetailUiState.FileShareType.Text -> Icons.Default.FileDownload
+                                        DetailUiState.FileShareType.Markdown -> Icons.Default.Markdown
                                     },
                                 contentDescription = type,
                                 tint = MaterialTheme.colorScheme.primary

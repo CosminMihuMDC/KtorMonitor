@@ -11,31 +11,17 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
-import ro.cosminmihu.ktor.monitor.ui.icons.Icons
-import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Delete
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Downloading
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Close
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.FileDownload
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Laptop
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Link
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Search
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.SearchOff
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Share
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.TouchApp
-import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -66,31 +52,47 @@ import ro.cosminmihu.ktor.monitor.core.URL
 import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
+import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
+import ro.cosminmihu.ktor.monitor.ui.icons.Icons
+import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Close
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Delete
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Downloading
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.FileDownload
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Laptop
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Link
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Markdown
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Search
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.SearchOff
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Share
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.TouchApp
+import ro.cosminmihu.ktor.monitor.ui.icons.filled.Warning
 import ro.cosminmihu.ktor.monitor.ui.notification.NotificationPermissionBanner
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_clear_selection
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_close
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_delete_selection
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_error
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_launcher
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_warning_off
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_delete_selection
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select_all
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_remove
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_selected
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_curl
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_json
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_markdown
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_text
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_url
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_wget
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_http4k
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_ktor
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_none
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_okhttp
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_source_prefix
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_selected
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_curl
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_json
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_text
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_url
-import ro.cosminmihu.ktor.monitor.ui.resources.ktor_share_selection_as_wget
 import ro.cosminmihu.ktor.monitor.ui.theme.LibraryTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -233,6 +235,7 @@ internal fun ListScreen(
                                                             when (type) {
                                                                 ListUiState.BulkShareType.Json -> Res.string.ktor_share_selection_as_json
                                                                 ListUiState.BulkShareType.Text -> Res.string.ktor_share_selection_as_text
+                                                                ListUiState.BulkShareType.Markdown -> Res.string.ktor_share_selection_as_markdown
                                                                 ListUiState.BulkShareType.Curl -> Res.string.ktor_share_selection_as_curl
                                                                 ListUiState.BulkShareType.Wget -> Res.string.ktor_share_selection_as_wget
                                                                 ListUiState.BulkShareType.Url -> Res.string.ktor_share_selection_as_url
@@ -243,6 +246,7 @@ internal fun ListScreen(
                                                             imageVector = when (type) {
                                                                 ListUiState.BulkShareType.Json -> Icons.Default.FileDownload
                                                                 ListUiState.BulkShareType.Text -> Icons.AutoMirrored.Filled.Article
+                                                                ListUiState.BulkShareType.Markdown -> Icons.Default.Markdown
                                                                 ListUiState.BulkShareType.Curl -> Icons.Default.Laptop
                                                                 ListUiState.BulkShareType.Wget -> Icons.Default.Downloading
                                                                 ListUiState.BulkShareType.Url -> Icons.Default.Link

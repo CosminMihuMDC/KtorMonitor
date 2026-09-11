@@ -235,6 +235,7 @@ internal class ListViewModel(
             val format = when (type) {
                 ListUiState.BulkShareType.Json -> CallsExportFormat.Json
                 ListUiState.BulkShareType.Text -> CallsExportFormat.Text
+                ListUiState.BulkShareType.Markdown -> CallsExportFormat.Markdown
                 ListUiState.BulkShareType.Curl -> CallsExportFormat.Curl
                 ListUiState.BulkShareType.Wget -> CallsExportFormat.Wget
                 ListUiState.BulkShareType.Url -> CallsExportFormat.Url

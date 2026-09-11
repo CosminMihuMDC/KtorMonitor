@@ -12,6 +12,8 @@ import kotlinx.coroutines.launch
 import org.koin.core.annotation.InjectedParam
 import ro.cosminmihu.ktor.monitor.core.ClipboardManager
 import ro.cosminmihu.ktor.monitor.core.ShareManager
+import ro.cosminmihu.ktor.monitor.domain.CallsExportFormat
+import ro.cosminmihu.ktor.monitor.domain.ExportCallAsMarkdownUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
@@ -43,6 +45,7 @@ import kotlin.time.Duration.Companion.seconds
 
 private const val NO_DATA = "-"
 private const val SHARE_FILE_NAME = "ktormonitor.http"
+private const val SHARE_FILE_NAME_MARKDOWN = "ktormonitor.md"
 
 internal class DetailViewModel(
     @InjectedParam id: String,
@@ -51,6 +54,7 @@ internal class DetailViewModel(
     private val exportCallRequestAsCurlUseCase: ExportCallRequestAsCurlUseCase,
     private val exportCallRequestAsWgetUseCase: ExportCallRequestAsWgetUseCase,
     private val exportCallAsTextUseCase: ExportCallAsTextUseCase,
+    private val exportCallAsMarkdownUseCase: ExportCallAsMarkdownUseCase,
     private val clipboardManager: ClipboardManager,
     private val shareManager: ShareManager,
 ) : ViewModel() {
@@ -154,9 +158,20 @@ internal class DetailViewModel(
 
             val share = when (type) {
                 DetailUiState.FileShareType.Text -> exportCallAsTextUseCase(call)
+                DetailUiState.FileShareType.Markdown -> exportCallAsMarkdownUseCase(call)
             }
 
-            shareManager.shareAsFile(share, SHARE_FILE_NAME)
+            val fileName = when (type) {
+                DetailUiState.FileShareType.Text -> SHARE_FILE_NAME
+                DetailUiState.FileShareType.Markdown -> SHARE_FILE_NAME_MARKDOWN
+            }
+
+            val mimeType = when (type) {
+                DetailUiState.FileShareType.Text -> CallsExportFormat.Text.mimeType
+                DetailUiState.FileShareType.Markdown -> CallsExportFormat.Markdown.mimeType
+            }
+
+            shareManager.shareAsFile(share, fileName, mimeType = mimeType)
         }
     }
 }

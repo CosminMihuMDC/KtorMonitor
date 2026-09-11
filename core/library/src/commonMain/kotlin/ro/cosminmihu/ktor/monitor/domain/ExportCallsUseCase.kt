@@ -17,6 +17,7 @@ internal enum class CallsExportFormat(
 ) {
     Json(extension = "json", mimeType = "application/json"),
     Text(extension = "txt", mimeType = "text/plain"),
+    Markdown(extension = "md", mimeType = "text/markdown"),
     Curl(extension = "sh", mimeType = "text/plain"),
     Wget(extension = "sh", mimeType = "text/plain"),
     Url(extension = "txt", mimeType = "text/plain"),
@@ -34,6 +35,7 @@ internal class ExportCallsUseCase(
     private val exportCallRequestAsCurlUseCase: ExportCallRequestAsCurlUseCase,
     private val exportCallRequestAsWgetUseCase: ExportCallRequestAsWgetUseCase,
     private val exportCallAsTextUseCase: ExportCallAsTextUseCase,
+    private val exportCallAsMarkdownUseCase: ExportCallAsMarkdownUseCase,
 ) {
 
     suspend operator fun invoke(
@@ -60,6 +62,12 @@ internal class ExportCallsUseCase(
                 fileName = fileName,
                 mimeType = format.mimeType,
                 content = exportAsText(calls),
+            )
+
+            CallsExportFormat.Markdown -> CallsExportResult(
+                fileName = fileName,
+                mimeType = format.mimeType,
+                content = exportAsMarkdown(calls),
             )
 
             CallsExportFormat.Curl -> CallsExportResult(
@@ -123,6 +131,14 @@ internal class ExportCallsUseCase(
             sections += exportCallAsTextUseCase(call).trimEnd()
         }
         return sections.joinToString(separator = "\n\n---\n\n")
+    }
+
+    private suspend fun exportAsMarkdown(calls: List<Call>): String {
+        val sections = mutableListOf<String>()
+        for (call in calls) {
+            sections += exportCallAsMarkdownUseCase(call).trimEnd()
+        }
+        return sections.joinToString(separator = "\n\n")
     }
 
     private suspend fun exportAsCurl(calls: List<Call>): String {

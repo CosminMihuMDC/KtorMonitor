@@ -17,6 +17,7 @@ import ro.cosminmihu.ktor.monitor.db.createDatabaseDriver
 import ro.cosminmihu.ktor.monitor.domain.ConfigUseCase
 import ro.cosminmihu.ktor.monitor.domain.DeleteAllCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.DeleteCallsUseCase
+import ro.cosminmihu.ktor.monitor.domain.ExportCallAsMarkdownUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallAsTextUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsCurlUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallRequestAsWgetUseCase
@@ -80,5 +81,6 @@ internal val domainModule = module {
     factory<ExportCallRequestAsCurlUseCase>()
     factory<ExportCallRequestAsWgetUseCase>()
     factory<ExportCallAsTextUseCase>()
+    factory<ExportCallAsMarkdownUseCase>()
     factory<ExportCallsUseCase>()
 }

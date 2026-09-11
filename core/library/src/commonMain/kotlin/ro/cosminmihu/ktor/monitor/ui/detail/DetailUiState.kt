@@ -92,6 +92,7 @@ internal data class DetailUiState(
 
     enum class FileShareType {
         Text,
+        Markdown,
     }
 
     enum class ContentFormat {
