@@ -165,6 +165,21 @@ internal fun Body(
                     showLineNumbers = true,
                 )
 
+            body.raw != null && displayMode == DisplayMode.STREAM ->
+                TextLines(
+                    text = body.raw,
+                    modifier = Modifier.fillMaxHeight().codeBlock(),
+                    contentPadding = PaddingValues(Dimens.Small),
+                    showLineNumbers = true,
+                )
+
+            !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.STREAM ->
+                HexViewer(
+                    bytes = body.bytes,
+                    modifier = Modifier.fillMaxHeight().fillMaxWidth().codeBlock(),
+                    contentPadding = PaddingValues(Dimens.Small),
+                )
+
             !body.bytes.isNullOrEmpty() && displayMode == DisplayMode.BYTES ->
                 HexViewer(
                     bytes = body.bytes,

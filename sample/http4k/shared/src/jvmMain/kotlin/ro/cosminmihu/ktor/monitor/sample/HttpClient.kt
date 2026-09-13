@@ -1,6 +1,7 @@
 package ro.cosminmihu.ktor.monitor.sample
 
 import org.http4k.client.JavaHttpClient
+import org.http4k.core.BodyMode
 import org.http4k.core.HttpHandler
 import org.http4k.core.then
 import ro.cosminmihu.ktor.monitor.ContentLength
@@ -14,5 +15,5 @@ internal actual fun httpClient(): HttpHandler =
         showNotification = true
         retentionPeriod = RetentionPeriod.OneHour
         maxContentLength = ContentLength.Default
-    }.then(JavaHttpClient())
+    }.then(JavaHttpClient(responseBodyMode = BodyMode.Stream))
 

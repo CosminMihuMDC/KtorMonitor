@@ -30,6 +30,7 @@ internal fun Transaction(
     var displayMode by remember(body) {
         mutableStateOf(
             when {
+                body?.supportsStream == true -> DisplayMode.STREAM
                 body?.hasPreview == true -> DisplayMode.PREVIEW
                 body?.contentFormat != null -> DisplayMode.CODE
                 body?.raw != null -> DisplayMode.RAW
@@ -76,7 +77,7 @@ private fun TransactionPreview() {
             body = DetailUiState.Body(
                 image = null,
                 raw = "Hello, World!",
-                bytes = "Hello, World!".encodeToByteArray().toString(),
+                bytes = "Hello, World!".encodeToByteArray().contentToString(),
                 isTrimmed = false,
                 contentFormat = null
             ),

@@ -26,6 +26,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.decodeBody
 import ro.cosminmihu.ktor.monitor.domain.model.durationAsText
 import ro.cosminmihu.ktor.monitor.domain.model.encodedPathAndQuery
 import ro.cosminmihu.ktor.monitor.domain.model.host
+import ro.cosminmihu.ktor.monitor.domain.model.ifNotTruncated
 import ro.cosminmihu.ktor.monitor.domain.model.isError
 import ro.cosminmihu.ktor.monitor.domain.model.isHttpError
 import ro.cosminmihu.ktor.monitor.domain.model.isInProgress
@@ -35,6 +36,7 @@ import ro.cosminmihu.ktor.monitor.domain.model.requestDateTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.requestTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.responseDateTimeAsText
 import ro.cosminmihu.ktor.monitor.domain.model.sizeAsText
+import ro.cosminmihu.ktor.monitor.domain.model.supportsStreamTransport
 import ro.cosminmihu.ktor.monitor.domain.model.toBytesString
 import ro.cosminmihu.ktor.monitor.domain.model.totalSizeAsText
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.Call
@@ -63,6 +65,8 @@ internal class DetailViewModel(
     val uiState = call
         .map { call ->
             call ?: return@map DetailUiState()
+
+            val responseHeaders = call.responseHeaders ?: mapOf()
 
             DetailUiState(
                 summary = DetailUiState.Summary(
@@ -102,7 +106,8 @@ internal class DetailViewModel(
                             isTrimmed = call.isRequestBodyTruncated == true,
                             contentFormat = ifNotTruncated(call.isRequestBodyTruncated) {
                                 call.requestContentType?.contentType?.contentFormat
-                            }
+                            },
+                            supportsStream = call.requestHeaders.supportsStreamTransport(),
                         ),
                     ),
                     response = Response(
@@ -111,20 +116,21 @@ internal class DetailViewModel(
                         duration = call.durationAsText ?: "",
                         size = call.responseContentLength?.sizeAsText() ?: "",
                         error = call.error ?: "",
-                        headers = call.responseHeaders ?: mapOf(),
+                        headers = responseHeaders,
                         body = DetailUiState.Body(
                             bytes = call.responseBody?.toBytesString(),
                             raw = ifNotTruncated(
                                 call.isResponseBodyTruncated,
                                 fallback = call.responseBody?.asString(),
-                            ) { call.responseBody?.decodeBody(call.responseHeaders) },
+                            ) { call.responseBody?.decodeBody(responseHeaders) },
                             image = ifNotTruncated(call.isResponseBodyTruncated) {
                                 bodyImage(call.responseContentType, call.responseBody)
                             },
                             isTrimmed = call.isResponseBodyTruncated == true,
                             contentFormat = ifNotTruncated(call.isResponseBodyTruncated) {
                                 call.responseContentType?.contentType?.contentFormat
-                            }
+                            },
+                            supportsStream = responseHeaders.supportsStreamTransport(),
                         ),
                     )
                 )
@@ -175,10 +181,3 @@ internal class DetailViewModel(
         }
     }
 }
-
-
-private inline fun <T> ifNotTruncated(
-    isTruncated: Boolean?,
-    fallback: T? = null,
-    value: () -> T?,
-): T? = if (isTruncated == true) fallback else value()

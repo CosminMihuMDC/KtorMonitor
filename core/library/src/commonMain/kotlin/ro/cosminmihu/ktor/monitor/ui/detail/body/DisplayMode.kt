@@ -29,6 +29,7 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_binary
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_code
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_preview
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_raw
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_response_view_stream
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
@@ -72,6 +73,16 @@ internal fun DisplayModeSelector(
                     text = stringResource(Res.string.ktor_response_view_raw),
                     selected = displayMode == DisplayMode.RAW,
                     onClick = { onDisplayMode(DisplayMode.RAW) },
+                )
+            )
+        }
+
+        if (body.supportsStream) {
+            add(
+                BodyShowTypeSegment(
+                    text = stringResource(Res.string.ktor_response_view_stream),
+                    selected = displayMode == DisplayMode.STREAM,
+                    onClick = { onDisplayMode(DisplayMode.STREAM) },
                 )
             )
         }

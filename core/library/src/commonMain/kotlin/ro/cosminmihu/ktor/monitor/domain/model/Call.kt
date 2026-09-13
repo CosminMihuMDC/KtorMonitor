@@ -1,5 +1,7 @@
 package ro.cosminmihu.ktor.monitor.domain.model
 
+import io.ktor.http.ContentType
+import io.ktor.http.HttpHeaders
 import ro.cosminmihu.ktor.monitor.db.sqldelight.Call
 import ro.cosminmihu.ktor.monitor.db.sqldelight.SelectCalls
 import kotlin.time.Duration.Companion.milliseconds
@@ -70,3 +72,28 @@ internal val SelectCalls.isError
         responseCode in 100 until 200 -> false
         else -> true
     }
+
+internal inline fun <T> ifNotTruncated(
+    isTruncated: Boolean?,
+    fallback: T? = null,
+    value: () -> T?,
+): T? = if (isTruncated == true) fallback else value()
+
+internal fun Map<String, List<String>>.supportsStreamTransport(): Boolean {
+    val isSse = containsHeaderValue(
+        name = HttpHeaders.ContentType,
+        valuePart = ContentType.Text.EventStream.toString(),
+    )
+    val isWebSocket = containsHeaderValue(name = HttpHeaders.Upgrade, valuePart = "websocket") ||
+        keys.any { it.equals(HttpHeaders.SecWebSocketKey, ignoreCase = true) }
+    return isSse || isWebSocket
+}
+
+private fun Map<String, List<String>>.containsHeaderValue(
+    name: String,
+    valuePart: String,
+): Boolean = entries
+    .firstOrNull { it.key.equals(name, ignoreCase = true) }
+    ?.value
+    ?.any { it.contains(valuePart, ignoreCase = true) } == true
+

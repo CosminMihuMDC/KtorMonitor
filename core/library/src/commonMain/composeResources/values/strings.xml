@@ -78,4 +78,5 @@
     <string name="ktor_response_view_code">CODE</string>
     <string name="ktor_response_view_raw">TXT</string>
     <string name="ktor_response_view_binary">HEX</string>
+    <string name="ktor_response_view_stream">STREAM</string>
 </resources>

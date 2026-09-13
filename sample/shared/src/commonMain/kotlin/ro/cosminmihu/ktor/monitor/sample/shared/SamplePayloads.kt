@@ -1,6 +1,9 @@
 package ro.cosminmihu.ktor.monitor.sample.shared
 
-const val HTTP_BIN_URL: String = "https://httpbin.org"
+const val HTTP_URL: String = "https://httpbin.org"
+const val WS_URL: String = "wss://ws.postman-echo.com/raw"
+const val SSE_URL: String = "https://stream.wikimedia.org/v2/stream/recentchange"
+const val USER_AGENT: String = "KtorMonitor Sample (https://github.com/CosminMihuMDC/KtorMonitor)"
 
 const val TEXT_SAMPLE: String = "Hello from Ktor Monitor sample"
 

@@ -59,7 +59,8 @@ internal data class DetailUiState(
         val raw: String?,
         val image: ByteArray?,
         val isTrimmed: Boolean,
-        val contentFormat: ContentFormat?
+        val contentFormat: ContentFormat?,
+        val supportsStream: Boolean = false,
     ) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
@@ -68,6 +69,7 @@ internal data class DetailUiState(
             if (raw != other.raw) return false
             if (isTrimmed != other.isTrimmed) return false
             if (contentFormat != other.contentFormat) return false
+            if (supportsStream != other.supportsStream) return false
             if (image == null) return other.image == null
             if (other.image == null) return false
             return image.contentEquals(other.image)
@@ -79,6 +81,7 @@ internal data class DetailUiState(
             result = 31 * result + (image?.contentHashCode() ?: 0)
             result = 31 * result + isTrimmed.hashCode()
             result = 31 * result + (contentFormat?.hashCode() ?: 0)
+            result = 31 * result + supportsStream.hashCode()
             return result
         }
     }
@@ -181,6 +184,7 @@ internal fun DetailUiState.Body.hasCopyableContent(displayMode: DisplayMode): Bo
     DisplayMode.CODE,
     DisplayMode.RAW -> !raw.isNullOrEmpty()
     DisplayMode.BYTES -> !bytes.isNullOrEmpty()
+    DisplayMode.STREAM -> !raw.isNullOrEmpty() || !bytes.isNullOrEmpty()
     DisplayMode.PREVIEW -> false
 }
 
@@ -188,5 +192,6 @@ internal fun DetailUiState.Body.copyTextFor(displayMode: DisplayMode): String? =
     DisplayMode.CODE,
     DisplayMode.RAW -> raw?.takeIf { it.isNotEmpty() }
     DisplayMode.BYTES -> bytes?.takeIf { it.isNotEmpty() }
+    DisplayMode.STREAM -> raw?.takeIf { it.isNotEmpty() } ?: bytes?.takeIf { it.isNotEmpty() }
     DisplayMode.PREVIEW -> null
 }
