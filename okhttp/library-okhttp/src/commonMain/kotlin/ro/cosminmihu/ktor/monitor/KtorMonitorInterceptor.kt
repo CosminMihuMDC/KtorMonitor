@@ -11,7 +11,7 @@ import okio.BufferedSource
 import okio.ForwardingSource
 import okio.Source
 import okio.buffer
-import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
+import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import kotlin.math.abs
 import kotlin.math.min
 import kotlin.random.Random
@@ -52,7 +52,7 @@ public class KtorMonitorInterceptor(
             showNotification = config.showNotification,
             retentionPeriod = config.retentionPeriod,
             maxContentLength = config.maxContentLength,
-            clientSource = ClientSource.OkHttp,
+            networkClient = NetworkClient.OkHttp,
         )
 
         if (config.isActive && config.retentionPeriod.isPositive()) {

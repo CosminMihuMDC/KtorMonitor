@@ -49,7 +49,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import ro.cosminmihu.ktor.monitor.core.BuildKonfig
 import ro.cosminmihu.ktor.monitor.core.URL
-import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
+import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
 import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
@@ -158,11 +158,11 @@ internal fun ListScreen(
                                 )
                             }
 
-                            uiState.clientSource?.let { source ->
+                            uiState.networkClient?.let { source ->
                                 val (label, url) = when (source) {
-                                    ClientSource.Ktor -> stringResource(Res.string.ktor_source_ktor) to URL.KTOR
-                                    ClientSource.OkHttp -> stringResource(Res.string.ktor_source_okhttp) to URL.OKHTTP
-                                    ClientSource.Http4k -> stringResource(Res.string.ktor_source_http4k) to URL.HTTP4K
+                                    NetworkClient.Ktor -> stringResource(Res.string.ktor_source_ktor) to URL.KTOR
+                                    NetworkClient.OkHttp -> stringResource(Res.string.ktor_source_okhttp) to URL.OKHTTP
+                                    NetworkClient.Http4k -> stringResource(Res.string.ktor_source_http4k) to URL.HTTP4K
                                 }
                                 Text(
                                     text = "${stringResource(Res.string.ktor_source_prefix)} $label",

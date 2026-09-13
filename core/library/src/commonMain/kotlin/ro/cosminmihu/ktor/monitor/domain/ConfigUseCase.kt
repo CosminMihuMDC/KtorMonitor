@@ -9,7 +9,7 @@ internal class ConfigUseCase {
 
     private val config = MutableStateFlow(Config.Disabled)
     internal val isActive = config.map { it.isActive }
-    internal val clientSource = config.map { it.clientSource }
+    internal val networkClient = config.map { it.networkClient }
 
     internal fun setConfig(config: Config) {
         this@ConfigUseCase.config.update { config }

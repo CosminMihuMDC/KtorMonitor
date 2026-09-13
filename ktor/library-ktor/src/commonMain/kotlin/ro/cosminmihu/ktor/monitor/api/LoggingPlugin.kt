@@ -17,7 +17,7 @@ import ro.cosminmihu.ktor.monitor.api.util.logRequestException
 import ro.cosminmihu.ktor.monitor.api.util.logResponse
 import ro.cosminmihu.ktor.monitor.api.util.logResponseBody
 import ro.cosminmihu.ktor.monitor.api.util.logResponseException
-import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
+import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 
 private val DisableLogging = AttributeKey<Unit>("KtorMonitorDisableLogging")
 private val CallIdentifier = AttributeKey<String>("KtorMonitorCallIdentifier")
@@ -32,7 +32,7 @@ internal val LoggingPlugin: ClientPlugin<LoggingConfig> =
             showNotification = pluginConfig.showNotification,
             retentionPeriod = pluginConfig.retentionPeriod,
             maxContentLength = pluginConfig.maxContentLength,
-            clientSource = ClientSource.Ktor,
+            networkClient = NetworkClient.Ktor,
         )
 
         // Check if plugin is active.

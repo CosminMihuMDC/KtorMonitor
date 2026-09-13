@@ -3,7 +3,7 @@ package ro.cosminmihu.ktor.monitor
 import kotlinx.coroutines.launch
 import org.http4k.core.Filter
 import org.http4k.core.HttpHandler
-import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
+import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import kotlin.math.abs
 import kotlin.random.Random
 import kotlin.time.Clock
@@ -39,7 +39,7 @@ public class KtorMonitorFilter(
             showNotification = config.showNotification,
             retentionPeriod = config.retentionPeriod,
             maxContentLength = config.maxContentLength,
-            clientSource = ClientSource.Http4k,
+            networkClient = NetworkClient.Http4k,
         )
 
         if (config.isActive && config.retentionPeriod.isPositive()) {

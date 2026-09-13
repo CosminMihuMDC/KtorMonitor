@@ -53,7 +53,7 @@ dokka {
         )
 
         suppressedFiles.from(
-            file("src/commonMain/kotlin/ro/cosminmihu/ktor/monitor/domain/model/ClientSource.kt")
+            file("src/commonMain/kotlin/ro/cosminmihu/ktor/monitor/domain/model/NetworkClient.kt")
         )
 
         perPackageOption {

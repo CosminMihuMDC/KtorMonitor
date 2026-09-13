@@ -19,7 +19,7 @@ import ro.cosminmihu.ktor.monitor.domain.DeleteCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallsUseCase
 import ro.cosminmihu.ktor.monitor.core.ShareManager
-import ro.cosminmihu.ktor.monitor.domain.model.ClientSource
+import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.domain.model.contentType
 import ro.cosminmihu.ktor.monitor.domain.model.durationAsText
@@ -50,10 +50,10 @@ internal class ListViewModel(
     val uiState = combine(
         this@ListViewModel.filter,
         calls,
-        configUseCase.clientSource,
+        configUseCase.networkClient,
         _isSelectionMode,
         _selectedCallIds,
-    ) { filterOption, calls, clientSource, isSelectionMode, selectedCallIds ->
+    ) { filterOption, calls, networkClient, isSelectionMode, selectedCallIds ->
         val (appliedFilter, filtered) = filter(filterOption, calls)
         val availableMethods = calls.map { it.method }.toSet()
         val availableHosts = calls.map { it.host }.toSet()
@@ -68,7 +68,7 @@ internal class ListViewModel(
             filter = appliedFilter,
             calls = filtered,
             showNotification = configUseCase.isShowNotification(),
-            clientSource = clientSource,
+            networkClient = networkClient,
             availableMethods = availableMethods,
             availableHosts = availableHosts,
             availableContentTypes = availableContentTypes,
@@ -145,7 +145,7 @@ internal class ListViewModel(
         filter: ListUiState.Filter,
         calls: List<SelectCalls>,
         showNotification: Boolean,
-        clientSource: ClientSource?,
+        networkClient: NetworkClient?,
         availableMethods: Set<String> = emptySet(),
         availableHosts: Set<String> = emptySet(),
         availableContentTypes: Set<ContentType> = emptySet(),
@@ -155,7 +155,7 @@ internal class ListViewModel(
     ): ListUiState = ListUiState(
         filter = filter,
         showNotification = showNotification,
-        clientSource = clientSource,
+        networkClient = networkClient,
         availableMethods = availableMethods,
         availableHosts = availableHosts,
         availableContentTypes = availableContentTypes,
