@@ -138,3 +138,11 @@
     - ```showNotification``` - Keep track of latest requests and responses into notification. Default is **true**. Android only. Notifications permission needs to be granted.
     - ```retentionPeriod``` - The retention period for the logs. Default is **1h**.
     - ```maxContentLength``` - The maximum length of the content that will be logged. After this, body will be truncated. Default is **250_000**. To log the entire body use ```ContentLength.Full```.
+
+### 🤖 Install AI Skill
+
+Install the KtorMonitor AI skill (for Copilot, Claude, Cursor and others) using [skills.sh](https://www.skills.sh/):
+
+```bash
+npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
+```

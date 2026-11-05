@@ -1,3 +1,13 @@
+## 🤖 AI Skill
+
+KtorMonitor provides an AI Skill (for Copilot, Claude, Cursor, ChatGPT and others), available at [SKILL.md](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/.agents/skills/ktormonitor/SKILL.md).
+
+Install it using [skills.sh](https://www.skills.sh/):
+
+```bash
+npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
+```
+
 ## ✍️ Feedback
 
 Found a bug or have a feature request? [File an issue](https://github.com/CosminMihuMDC/KtorMonitor/issues/new).
@@ -21,8 +31,6 @@ API is available at [KtorMonitor API](https://cosminmihumdc.github.io/KtorMonito
 KtorMonitor is available also on JetBrains' [klibs.io](https://klibs.io/project/CosminMihuMDC/KtorMonitor).
 <br>
 KtorMonitor on [Context7](https://context7.com/cosminmihumdc/ktormonitor).
-<br>
-AI Skill (for Copilot, Claude, Cursor, ChatGPT and others) is available at [skill.md](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/.agents/skills/ktormonitor/skill.md).
 <br>
 <br>
 Some parts of this project are reusing ideas that are originally coming from [Chucker](https://github.com/ChuckerTeam/chucker).
