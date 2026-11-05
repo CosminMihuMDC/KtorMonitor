@@ -32,6 +32,14 @@ Try the live web demo: [DEMO](https://cosminmihu.ro/static/apps/ktormonitor/web/
 *   📡**SSE & WebSockets**: Track one-way streams (*SSE*) and bidirectional traffic (*WebSockets*).
 *   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
 
+## 🤖 Install AI Skill
+
+Install the KtorMonitor AI skill (for Copilot, Claude, Cursor and others) using [skills.sh](https://www.skills.sh/):
+
+```bash
+npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
+```
+
 ## 📦 Setup (Kotlin Multiplatform) for [Ktor Client](https://ktor.io/)
 
 ### <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/Gradle_logo.svg" width="100"/>
@@ -306,16 +314,6 @@ ComposeViewport {
 }
 ```
 </details>
-
-## 🤖 AI Skill
-
-KtorMonitor provides an AI Skill (for Copilot, Claude, Cursor, ChatGPT and others), available at [SKILL.md](https://github.com/CosminMihuMDC/KtorMonitor/blob/main/.agents/skills/ktormonitor/SKILL.md).
-
-Install it using [skills.sh](https://www.skills.sh/):
-
-```bash
-npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
-```
 
 ## ✍️ Feedback
 
