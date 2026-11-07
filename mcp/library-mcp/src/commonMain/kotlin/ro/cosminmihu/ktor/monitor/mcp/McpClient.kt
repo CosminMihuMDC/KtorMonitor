@@ -7,14 +7,12 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
-import kotlin.coroutines.coroutineContext
-
-internal expect fun platformName(): String
 
 internal class McpSettings(
     val host: String,
@@ -37,7 +35,7 @@ internal class McpClient(
         val client = HttpClient { install(WebSockets) }
         var attempt = 0
         try {
-            while (coroutineContext.isActive) {
+            while (currentCoroutineContext().isActive) {
                 status.value = McpConnectionStatus.Connecting
                 try {
                     connect(client) { attempt = 0 }
@@ -74,7 +72,8 @@ internal class McpClient(
             coroutineScope {
                 for (frame in incoming) {
                     val request = (frame as? Frame.Text)?.readText()
-                        ?.let { runCatching { decodeMessage(it) }.getOrNull() } as? Request ?: continue
+                        ?.let { runCatching { decodeMessage(it) }.getOrNull() } as? Request
+                        ?: continue
                     launch {
                         send(Frame.Text(answer(request).encode()))
                     }

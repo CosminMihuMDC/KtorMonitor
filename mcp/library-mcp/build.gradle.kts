@@ -118,8 +118,6 @@ kotlin {
 
     sourceSets {
         commonMain {
-            // Wire protocol shared with the companion.
-            kotlin.srcDir("../protocol/src/commonMain/kotlin")
             dependencies {
                 api(projects.core.library)
                 implementation(libs.kotlinx.coroutines.core)

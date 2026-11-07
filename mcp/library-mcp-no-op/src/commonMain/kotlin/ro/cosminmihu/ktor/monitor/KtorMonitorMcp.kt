@@ -6,6 +6,8 @@ import kotlinx.coroutines.flow.StateFlow
 /**
  * No-op implementation of `KtorMonitorMcp`.
  */
+private const val DEFAULT_PORT = 8765
+
 public object KtorMonitorMcp {
 
     /**
@@ -31,7 +33,7 @@ public object KtorMonitorMcp {
  */
 public class KtorMonitorMcpConfig {
     public var host: String = "localhost"
-    public var port: Int = 8765
+    public var port: Int = DEFAULT_PORT
     public var token: String? = null
     public var appName: String? = null
 }

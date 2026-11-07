@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
+import ro.cosminmihu.ktor.monitor.mcp.DEFAULT_PORT
 import ro.cosminmihu.ktor.monitor.mcp.McpClient
 import ro.cosminmihu.ktor.monitor.mcp.McpSettings
 import ro.cosminmihu.ktor.monitor.mcp.platformName
@@ -107,7 +108,7 @@ public class KtorMonitorMcpConfig {
     /**
      * The companion port. By default 8765.
      */
-    public var port: Int = 8765
+    public var port: Int = DEFAULT_PORT
 
     /**
      * Shared secret, must match the companion `--token`. By default none.

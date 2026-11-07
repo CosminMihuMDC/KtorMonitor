@@ -8,7 +8,7 @@ import kotlinx.serialization.json.JsonObject
 /*
  * Wire protocol between an app (WebSocket client) and the companion (WebSocket server).
  *
- * This source directory is shared by `library-mcp` and `companion` (it is not a published artifact),
+ * This file lives in `library-mcp` and is also compiled into `companion` (see `syncProtocol`),
  * so every declaration is internal to the module that includes it.
  *
  * Flow: the app connects to `ws://host:port/app` and sends [Hello]. The companion answers with
@@ -31,35 +31,35 @@ internal sealed interface Message
 @Serializable
 @SerialName("hello")
 internal data class Hello(
-    val protocolVersion: Int = PROTOCOL_VERSION,
-    val appId: String,
-    val appName: String,
-    val platform: String,
-    val token: String? = null,
+    @SerialName("protocol_version") val protocolVersion: Int = PROTOCOL_VERSION,
+    @SerialName("app_id") val appId: String,
+    @SerialName("app_name") val appName: String,
+    @SerialName("platform") val platform: String,
+    @SerialName("token") val token: String? = null,
 ) : Message
 
 @Serializable
 @SerialName("hello_ack")
 internal data class HelloAck(
-    val ok: Boolean,
-    val error: String? = null,
+    @SerialName("ok") val ok: Boolean,
+    @SerialName("error") val error: String? = null,
 ) : Message
 
 @Serializable
 @SerialName("request")
 internal data class Request(
-    val id: Long,
-    val method: String,
-    val params: JsonObject,
+    @SerialName("id") val id: Long,
+    @SerialName("method") val method: String,
+    @SerialName("params") val params: JsonObject,
 ) : Message
 
 /** [result] is a JSON document serialized as text, [error] is set when the request failed. */
 @Serializable
 @SerialName("response")
 internal data class Response(
-    val id: Long,
-    val result: String? = null,
-    val error: String? = null,
+    @SerialName("id") val id: Long,
+    @SerialName("result") val result: String? = null,
+    @SerialName("error") val error: String? = null,
 ) : Message
 
 internal fun Message.encode(): String = ProtocolJson.encodeToString(Message.serializer(), this)
