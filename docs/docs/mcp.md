@@ -1,4 +1,4 @@
-# AI / MCP
+# MCP
 
 Let any MCP-capable AI agent (Copilot, Claude, Cursor, ...) query the calls captured by KtorMonitor.
 Read-only, debug-time, works on Android, iOS, Desktop and Web.

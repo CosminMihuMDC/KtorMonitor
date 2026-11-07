@@ -62,7 +62,7 @@ nav:
   - 'Overview': index.md
   - 'Getting Started': getting_started.md
   - 'Integration': integration.md
-  - 'AI / MCP': mcp.md
+  - 'MCP': mcp.md
   - 'API ⏏': api/
   - 'Contributing': contributing.md
 
