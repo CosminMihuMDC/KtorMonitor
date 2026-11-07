@@ -127,3 +127,8 @@ ComposeViewport {
     App()
 }
 ```
+
+### AI / MCP (Optional)
+
+Independent of the UI integration above and of the HTTP client used. Lets AI agents (Copilot, Claude,
+Cursor, ...) query the captured calls, on any platform. See [AI / MCP](mcp.md) for the full setup.
