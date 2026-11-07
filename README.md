@@ -31,19 +31,22 @@ Try the live web demo: [DEMO](https://cosminmihu.ro/static/apps/ktormonitor/web/
 *   🎨**Rich Previews**: Built-in viewers for *JSON*, *XML*, *HTML*, *CSS*, *YAML*, *MARKDOWN*, *Form Data*, *Image* (*JPG*, *PNG*, *SVG*, *GIF*, *WEBP*).
 *   📡**SSE & WebSockets**: Track one-way streams (*SSE*) and bidirectional traffic (*WebSockets*).
 *   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
-*   🤖**AI / MCP** *(optional)*: Let AI agents (Copilot, Claude, Cursor, ...) query captured calls through the [Model Context Protocol](https://cosminmihumdc.github.io/KtorMonitor/mcp/).
+*   🤖**AI Integration**: Install the KtorMonitor AI SKILL, and optionally let AI agents (Copilot, Claude, Cursor, ...) query captured calls via MCP.
 
 ## 🤖 AI Integration
 
-### Install AI Skill
+<details>
+<summary><b>Install AI SKILL</b></summary>
 
-Install the KtorMonitor AI skill (for Copilot, Claude, Cursor and others) using [skills.sh](https://www.skills.sh/):
+Install the [KtorMonitor AI SKILL](.agents/skills/ktormonitor/SKILL.md) (for Copilot, Claude, Cursor and others) using [skills.sh](https://www.skills.sh/):
 
 ```bash
 npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
 ```
+</details>
 
-### AI / MCP (Optional)
+<details>
+<summary><b>AI / MCP (Optional)</b></summary>
 
 Let AI agents (Copilot, Claude, Cursor, ...) query the calls captured by KtorMonitor at runtime, on
 any platform, independent of the HTTP client used.
@@ -63,6 +66,7 @@ KtorMonitorMcp.start {
 
 See [AI / MCP](https://cosminmihumdc.github.io/KtorMonitor/mcp/) for the companion JAR setup and
 connectivity per platform.
+</details>
 
 ## 📦 Setup (Kotlin Multiplatform) for [Ktor Client](https://ktor.io/)
 
@@ -383,4 +387,3 @@ You can sponsor us by clicking [<span style="color:#bf3989">♥ Sponsor</span>](
 ## 🙏🏻 Credits
 
 KtorMonitor is brought to you by these [contributors](https://github.com/CosminMihuMDC/KtorMonitor/graphs/contributors).
-

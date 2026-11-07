@@ -29,12 +29,34 @@ Try the live web demo: [DEMO](https://cosminmihu.ro/static/apps/ktormonitor/web/
 *   🎨**Rich Previews**: Built-in viewers for *JSON*, *XML*, *HTML*, *CSS*, *YAML*, *MARKDOWN*, *Form Data*, *Image* (*JPG*, *PNG*, *SVG*, *GIF*, *WEBP*).
 *   📡**SSE & WebSockets**: Track one-way streams (*SSE*) and bidirectional traffic (*WebSockets*).
 *   🛡️**Production Safe**: No-Op version to ensure monitoring code is excluded from your production builds.
-*   🤖**AI / MCP** *(optional)*: Let AI agents (Copilot, Claude, Cursor, ...) query captured calls through the [Model Context Protocol](mcp.md).
+*   🤖**AI Integration**: Install the KtorMonitor AI SKILL, and optionally let AI agents (Copilot, Claude, Cursor, ...) query captured calls via MCP.
 
-## 🤖 Install AI Skill
+## 🤖 AI Integration
 
-Install the KtorMonitor AI skill (for Copilot, Claude, Cursor and others) using [skills.sh](https://www.skills.sh/):
+=== "Install AI SKILL"
 
-```bash
-npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
-```
+    Install the KtorMonitor AI SKILL (for Copilot, Claude, Cursor and others) using [skills.sh](https://www.skills.sh/):
+
+    ```bash
+    npx skills add CosminMihuMDC/KtorMonitor --skill ktormonitor
+    ```
+
+=== "AI / MCP (Optional)"
+
+    Let AI agents (Copilot, Claude, Cursor, ...) query the calls captured by KtorMonitor at runtime, on
+    any platform, independent of the HTTP client used.
+
+    ```kotlin
+    dependencies {
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+    }
+    ```
+
+    ```kotlin
+    KtorMonitorMcp.start {
+        // host = "localhost"; port = 8765; token = null; appName = null
+    }
+    ```
+
+    See [AI / MCP](mcp.md) for the companion JAR setup and connectivity per platform.
