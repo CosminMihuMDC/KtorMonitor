@@ -316,6 +316,29 @@ ComposeViewport {
 ```
 </details>
 
+<details>
+<summary><b>AI / MCP (Optional)</b></summary>
+
+Independent of the UI integration above and of the HTTP client used. Lets AI agents (Copilot, Claude,
+Cursor, ...) query the captured calls, on any platform.
+
+```kotlin
+dependencies {
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+}
+```
+
+```kotlin
+KtorMonitorMcp.start {
+    // host = "localhost"; port = 8765; token = null; appName = null
+}
+```
+
+See [AI / MCP](https://cosminmihumdc.github.io/KtorMonitor/mcp/) for the companion JAR setup and
+connectivity per platform.
+</details>
+
 ## ✍️ Feedback
 
 Found a bug or have a feature request? [File an issue](https://github.com/CosminMihuMDC/KtorMonitor/issues/new).
