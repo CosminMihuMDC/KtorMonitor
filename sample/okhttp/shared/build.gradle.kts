@@ -28,6 +28,7 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtime.compose)
             implementation(libs.okhttp)
             implementation(projects.okhttp.libraryOkhttp)
+            implementation(projects.mcp.libraryMcp)
             implementation(projects.sample.shared)
 //            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.17.0")
 //            implementation(projects.okhttp.libraryOkhttpNoOp)

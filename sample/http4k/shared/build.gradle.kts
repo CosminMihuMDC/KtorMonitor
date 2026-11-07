@@ -30,6 +30,7 @@ kotlin {
             implementation(libs.http4k.core)
             implementation(libs.http4k.multipart)
             implementation(projects.http4k.libraryHttp4k)
+            implementation(projects.mcp.libraryMcp)
             implementation(projects.sample.shared)
 //            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.17.0")
 //            implementation(projects.http4k.libraryHttp4kNoOp)

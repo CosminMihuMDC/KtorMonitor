@@ -37,6 +37,10 @@ Multiplatform UI for inspecting requests and responses.
 | `okhttp/library-okhttp-no-op`     | KMP (Android + JVM)        | No-op mirror of `library-okhttp`.                                       |
 | `http4k/library-http4k`           | KMP (Android + JVM)        | `KtorMonitorFilter` for http4k; depends on `core/library`.              |
 | `http4k/library-http4k-no-op`     | KMP (Android + JVM)        | No-op mirror of `library-http4k`.                                       |
+| `mcp/library-mcp`                 | KMP library (all targets)  | `KtorMonitorMcp` WebSocket client exposing DB queries to the companion; depends on `core/library`. |
+| `mcp/library-mcp-no-op`           | KMP library                | No-op mirror of `library-mcp`.                                          |
+| `mcp/companion`                   | JVM (shadow fat jar)       | MCP stdio server + WebSocket server (`ktor-monitor-mcp-companion`, `-all` classifier). |
+| `mcp/protocol`                    | sources only               | Wire protocol shared by srcDir in `library-mcp` and `companion`.        |
 | `sample/ktor/shared`              | KMP shared module          | Shared business/UI code for Ktor sample.                                 |
 | `sample/ktor/androidApp`          | Android application        | Android app for Ktor sample.                                             |
 | `sample/ktor/jvmApp`              | JVM desktop application    | Desktop app for Ktor sample.                                             |

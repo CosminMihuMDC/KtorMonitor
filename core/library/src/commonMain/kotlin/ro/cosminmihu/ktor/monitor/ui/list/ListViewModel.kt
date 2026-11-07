@@ -19,6 +19,7 @@ import ro.cosminmihu.ktor.monitor.domain.DeleteCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.ExportCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallsUseCase
 import ro.cosminmihu.ktor.monitor.core.ShareManager
+import ro.cosminmihu.ktor.monitor.domain.model.Mcp
 import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.domain.model.contentType
@@ -63,10 +64,10 @@ internal class ListViewModel(
     val uiState = combine(
         this@ListViewModel.filter,
         calls,
-        configUseCase.networkClient,
+        combine(configUseCase.networkClient, configUseCase.mcpStatus) { client, mcp -> client to mcp },
         _isSelectionMode,
         _selectedCallIds,
-    ) { filterOption, calls, networkClient, isSelectionMode, selectedCallIds ->
+    ) { filterOption, calls, (networkClient, mcpStatus), isSelectionMode, selectedCallIds ->
         val (appliedFilter, filtered) = filter(filterOption, calls)
         val availableMethods = calls.map { it.method }.toSet()
         val availableHosts = calls.map { it.host }.toSet()
@@ -82,6 +83,7 @@ internal class ListViewModel(
             calls = filtered,
             showNotification = configUseCase.isShowNotification(),
             networkClient = networkClient,
+            mcpStatus = mcpStatus,
             availableMethods = availableMethods,
             availableHosts = availableHosts,
             availableContentTypes = availableContentTypes,
@@ -159,6 +161,7 @@ internal class ListViewModel(
         calls: List<SelectCalls>,
         showNotification: Boolean,
         networkClient: NetworkClient?,
+        mcpStatus: Mcp.Status? = null,
         availableMethods: Set<String> = emptySet(),
         availableHosts: Set<String> = emptySet(),
         availableContentTypes: Set<ContentType> = emptySet(),
@@ -169,6 +172,7 @@ internal class ListViewModel(
         filter = filter,
         showNotification = showNotification,
         networkClient = networkClient,
+        mcpStatus = mcpStatus,
         availableMethods = availableMethods,
         availableHosts = availableHosts,
         availableContentTypes = availableContentTypes,

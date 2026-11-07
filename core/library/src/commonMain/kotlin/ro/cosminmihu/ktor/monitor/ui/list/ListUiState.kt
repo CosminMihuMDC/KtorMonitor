@@ -1,5 +1,6 @@
 package ro.cosminmihu.ktor.monitor.ui.list
 
+import ro.cosminmihu.ktor.monitor.domain.model.Mcp
 import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 
@@ -8,6 +9,7 @@ internal data class ListUiState(
     val filter: Filter = Filter.NoFilter,
     val showNotification: Boolean = false,
     val networkClient: NetworkClient? = null,
+    val mcpStatus: Mcp.Status? = null,
     val availableMethods: Set<String> = emptySet(),
     val availableHosts: Set<String> = emptySet(),
     val availableContentTypes: Set<ContentType> = emptySet(),

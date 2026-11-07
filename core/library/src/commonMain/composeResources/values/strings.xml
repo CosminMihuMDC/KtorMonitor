@@ -5,6 +5,7 @@
     <string name="ktor_source_okhttp">OkHttp Interceptor</string>
     <string name="ktor_source_http4k">http4k Filter</string>
     <string name="ktor_source_prefix">via</string>
+    <string name="ktor_mcp_connected">AI connected</string>
     <string name="ktor_source_none">No client attached</string>
 
     <string name="ktor_library_disabled">Ktor Monitor is disabled.</string>
