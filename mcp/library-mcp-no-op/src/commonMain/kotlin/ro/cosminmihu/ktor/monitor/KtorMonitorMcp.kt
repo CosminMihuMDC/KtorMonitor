@@ -2,12 +2,12 @@ package ro.cosminmihu.ktor.monitor
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
 
 /**
  * No-op implementation of `KtorMonitorMcp`.
  */
-private const val DEFAULT_PORT = 8765
-
 public object KtorMonitorMcp {
 
     /**
@@ -32,9 +32,17 @@ public object KtorMonitorMcp {
  * No-op configuration.
  */
 public class KtorMonitorMcpConfig {
-    public var host: String = "localhost"
+
+    /** Ignored. */
+    public var host: String = DEFAULT_HOST
+
+    /** Ignored. */
     public var port: Int = DEFAULT_PORT
+
+    /** Ignored. */
     public var token: String? = null
+
+    /** Ignored. */
     public var appName: String? = null
 }
 
@@ -42,7 +50,12 @@ public class KtorMonitorMcpConfig {
  * No-op connection state.
  */
 public enum class McpConnectionStatus {
+    /** Never connected. */
     Stopped,
+
+    /** Never used. */
     Connecting,
+
+    /** Never used. */
     Connected,
 }

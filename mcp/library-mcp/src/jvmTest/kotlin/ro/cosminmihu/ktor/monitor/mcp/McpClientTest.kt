@@ -18,6 +18,7 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
 import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
@@ -29,11 +30,13 @@ import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 class McpClientTest {
 
     private fun settings(port: Int) = McpSettings(
-        host = "127.0.0.1",
+        host = DEFAULT_HOST,
         port = port,
         token = "secret",
         appId = "app-1",
@@ -48,7 +51,7 @@ class McpClientTest {
         val ok = CompletableDeferred<Response>()
         val failed = CompletableDeferred<Response>()
 
-        val server = embeddedServer(CIO, port = port, host = "127.0.0.1") {
+        val server = embeddedServer(CIO, port = port, host = DEFAULT_HOST) {
             install(WebSockets)
             routing {
                 webSocket(APP_PATH) {
@@ -76,7 +79,7 @@ class McpClientTest {
             ).run()
         }
         try {
-            withTimeout(10_000) {
+            withTimeout(10.seconds) {
                 assertEquals("app-1", hello.await().appId)
                 assertEquals("secret", hello.await().token)
                 assertEquals("""{"method":"list_calls","params":{"limit":5}}""", ok.await().result)
@@ -95,13 +98,13 @@ class McpClientTest {
         val port = ServerSocket(0).use { it.localPort }
         val status = MutableStateFlow(McpConnectionStatus.Stopped)
         val job = launch(Dispatchers.IO) {
-            McpClient(settings(port), status, { _, _ -> "{}" }, retryDelaysMillis = listOf(50)).run()
+            McpClient(settings(port), status, { _, _ -> "{}" }, retryDelays = listOf(50.milliseconds)).run()
         }
         try {
-            withTimeout(5_000) { status.first { it == McpConnectionStatus.Connecting } }
+            withTimeout(5.seconds) { status.first { it == McpConnectionStatus.Connecting } }
 
             val connected = CompletableDeferred<Unit>()
-            val server = embeddedServer(CIO, port = port, host = "127.0.0.1") {
+            val server = embeddedServer(CIO, port = port, host = DEFAULT_HOST) {
                 install(WebSockets)
                 routing {
                     webSocket(APP_PATH) {
@@ -113,7 +116,7 @@ class McpClientTest {
                 }
             }.start(wait = false)
             try {
-                withTimeout(10_000) { connected.await() }
+                withTimeout(10.seconds) { connected.await() }
                 assertTrue(status.first { it == McpConnectionStatus.Connected } == McpConnectionStatus.Connected)
             } finally {
                 server.stop(100, 500)

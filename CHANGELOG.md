@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## [Unreleased]
 ### Added
-* AI/MCP support: new `ktor-monitor-mcp` (and `-no-op`) module and `ktor-monitor-mcp-companion` JAR that expose captured calls (`list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`) to any MCP-capable AI agent on Android, iOS, Desktop and Web. Read-only, localhost only.
+* AI/MCP support: new `ktor-monitor-mcp` (and `-no-op`) module and `ktor-monitor-mcp-companion` JAR that expose captured calls (`list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`) to any MCP-capable AI agent on Android, iOS, Desktop and Web. Read-only, loopback (`127.0.0.1`) only.
 ### Fixed
 * Recent calls observer now retries after a transient database error and logs it, so notifications and old-call retention keep working for the rest of the session. Fixes for [#68](https://github.com/CosminMihuMDC/KtorMonitor/issues/68).
 

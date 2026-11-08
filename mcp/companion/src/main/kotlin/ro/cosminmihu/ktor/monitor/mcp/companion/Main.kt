@@ -7,6 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
 import java.io.FileDescriptor
 import java.io.FileOutputStream
@@ -37,11 +38,11 @@ fun main(args: Array<String>) {
     val registry = AppRegistry()
     val server = try {
         startWebSocketServer(registry, options.port, options.token)
-    } catch (e: Exception) {
-        log("Cannot listen on 127.0.0.1:${options.port}: ${e.message}")
+    } catch (exception: Exception) {
+        log("Cannot listen on $DEFAULT_HOST:${options.port}: ${exception.message}")
         exitProcess(1)
     }
-    log("Listening for apps on ws://127.0.0.1:${options.port}")
+    log("Listening for apps on ws://$DEFAULT_HOST:${options.port}")
 
     val mcp = McpServer(registry, McpServer::class.java.`package`?.implementationVersion ?: "dev")
     val out = PrintStream(FileOutputStream(FileDescriptor.out), true, Charsets.UTF_8)

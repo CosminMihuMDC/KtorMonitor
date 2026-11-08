@@ -4,7 +4,7 @@ Let any MCP-capable AI agent (Copilot, Claude, Cursor, ...) query the calls capt
 Read-only, debug-time, works on Android, iOS, Desktop and Web.
 
 ```
-AI client ──stdio (MCP)──> companion JAR ──WebSocket (localhost:8765)──< your app
+AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:8765)──< your app
 ```
 
 The app connects **out** to the companion, so it also works in browsers and on iOS.
@@ -18,7 +18,7 @@ releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:<version>")
 
 ```kotlin
 KtorMonitorMcp.start {
-    // host = "localhost"; port = 8765; token = null; appName = null
+    // host = "127.0.0.1"; port = 8765; token = null; appName = null
 }
 ```
 
@@ -46,7 +46,7 @@ The server only listens on `127.0.0.1`.
 
 | Platform          | Notes |
 |-------------------|-------|
-| Desktop / Web     | `localhost` works as is. |
+| Desktop / Web     | `127.0.0.1` works as is. |
 | Android emulator/device | `adb reverse tcp:8765 tcp:8765` (emulator can also use `10.0.2.2`). Needs cleartext traffic allowed in debug. |
 | iOS simulator     | Add `NSAppTransportSecurity > NSAllowsLocalNetworking = true` to `Info.plist`. |
 

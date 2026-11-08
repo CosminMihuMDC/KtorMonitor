@@ -1,6 +1,7 @@
 package ro.cosminmihu.ktor.monitor.mcp
 
 import io.ktor.client.HttpClient
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
 import io.ktor.websocket.Frame
@@ -12,6 +13,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
@@ -19,8 +21,10 @@ import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Message
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
-import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessage
+import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessageOrNull
 import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
+import kotlin.time.Duration
+import kotlin.time.Duration.Companion.seconds
 
 internal class McpSettings(
     val host: String,
@@ -36,7 +40,7 @@ internal class McpClient(
     private val settings: McpSettings,
     private val status: MutableStateFlow<McpConnectionStatus>,
     private val query: suspend (method: String, paramsJson: String) -> String,
-    private val retryDelaysMillis: List<Long> = listOf(1_000, 2_000, 5_000, 10_000),
+    private val retryDelays: List<Duration> = listOf(1.seconds, 2.seconds, 5.seconds, 10.seconds),
 ) {
 
     suspend fun run() {
@@ -47,13 +51,13 @@ internal class McpClient(
                 status.value = McpConnectionStatus.Connecting
                 try {
                     connect(client) { attempt = 0 }
-                } catch (e: CancellationException) {
-                    throw e
+                } catch (exception: CancellationException) {
+                    throw exception
                 } catch (_: Throwable) {
                     // Companion not running or connection lost, retry.
                 }
                 status.value = McpConnectionStatus.Connecting
-                delay(retryDelaysMillis[minOf(attempt++, retryDelaysMillis.lastIndex)])
+                delay(retryDelays[minOf(attempt++, retryDelays.lastIndex)])
             }
         } finally {
             client.close()
@@ -72,7 +76,7 @@ internal class McpClient(
                     ).encode()
                 )
             )
-            val ack = readMessage() as? HelloAck ?: return@webSocket
+            val ack = withTimeoutOrNull(HELLO_TIMEOUT) { readMessage() } as? HelloAck ?: return@webSocket
             if (!ack.ok) return@webSocket
             status.value = McpConnectionStatus.Connected
             onConnected()
@@ -80,29 +84,38 @@ internal class McpClient(
             coroutineScope {
                 for (frame in incoming) {
                     val request = (frame as? Frame.Text)?.readText()
-                        ?.let { runCatching { decodeMessage(it) }.getOrNull() } as? Request
+                        ?.let(::decodeMessageOrNull) as? Request
                         ?: continue
                     launch {
-                        send(Frame.Text(answer(request).encode()))
+                        val response = answer(request).encode()
+                        try {
+                            send(Frame.Text(response))
+                        } catch (exception: CancellationException) {
+                            throw exception
+                        } catch (_: Throwable) {
+                            // The socket closed while the query ran; the loop above ends the connection.
+                        }
                     }
                 }
             }
         }
     }
 
-    private suspend fun io.ktor.client.plugins.websocket.DefaultClientWebSocketSession.readMessage(): Message? {
+    private suspend fun DefaultClientWebSocketSession.readMessage(): Message? {
         for (frame in incoming) {
             val text = (frame as? Frame.Text)?.readText() ?: continue
-            return runCatching { decodeMessage(text) }.getOrNull()
+            return decodeMessageOrNull(text)
         }
         return null
     }
 
     private suspend fun answer(request: Request): Response = try {
         Response(request.id, result = query(request.method, request.params.toString()))
-    } catch (e: CancellationException) {
-        throw e
-    } catch (e: Throwable) {
-        Response(request.id, error = e.message ?: e::class.simpleName ?: "Error")
+    } catch (exception: CancellationException) {
+        throw exception
+    } catch (exception: Throwable) {
+        Response(request.id, error = exception.message ?: exception::class.simpleName ?: "Error")
     }
 }
+
+private val HELLO_TIMEOUT = 10.seconds

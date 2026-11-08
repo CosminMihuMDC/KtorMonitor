@@ -106,9 +106,13 @@ kotlin {
     }
 
     sourceSets {
-        commonMain.dependencies {
-            api(projects.core.libraryNoOp)
-            implementation(libs.kotlinx.coroutines.core)
+        commonMain {
+            // Default port shared with the real library (source-only, not a published module).
+            kotlin.srcDir("../protocol/src/defaults/kotlin")
+            dependencies {
+                api(projects.core.libraryNoOp)
+                implementation(libs.kotlinx.coroutines.core)
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package ro.cosminmihu.ktor.monitor.mcp.protocol
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -16,7 +17,6 @@ import kotlinx.serialization.json.JsonObject
  */
 
 internal const val PROTOCOL_VERSION: Int = 1
-internal const val DEFAULT_PORT: Int = 8765
 internal const val APP_PATH: String = "/app"
 
 internal val ProtocolJson: Json = Json {
@@ -65,3 +65,12 @@ internal data class Response(
 internal fun Message.encode(): String = ProtocolJson.encodeToString(Message.serializer(), this)
 
 internal fun decodeMessage(text: String): Message = ProtocolJson.decodeFromString(Message.serializer(), text)
+
+/** Returns `null` when [text] is not a valid protocol message. */
+internal fun decodeMessageOrNull(text: String): Message? = try {
+    decodeMessage(text)
+} catch (exception: SerializationException) {
+    null
+} catch (exception: IllegalArgumentException) {
+    null
+}

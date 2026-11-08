@@ -17,10 +17,11 @@ import io.ktor.websocket.readText
 import kotlinx.coroutines.withTimeoutOrNull
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
 import ro.cosminmihu.ktor.monitor.mcp.protocol.PROTOCOL_VERSION
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
-import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessage
+import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessageOrNull
 import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
 import kotlin.time.Duration.Companion.seconds
 
@@ -29,7 +30,7 @@ internal fun startWebSocketServer(
     registry: AppRegistry,
     port: Int,
     token: String?,
-): EmbeddedServer<*, *> = embeddedServer(CIO, port = port, host = "127.0.0.1") {
+): EmbeddedServer<*, *> = embeddedServer(CIO, port = port, host = DEFAULT_HOST) {
     install(WebSockets) {
         pingPeriod = 15.seconds
         timeout = 30.seconds
@@ -66,7 +67,7 @@ private suspend fun DefaultWebSocketServerSession.handleApp(registry: AppRegistr
     try {
         for (frame in incoming) {
             val text = (frame as? Frame.Text)?.readText() ?: continue
-            val message = runCatching { decodeMessage(text) }.getOrNull()
+            val message = decodeMessageOrNull(text)
             if (message is Response) connection.complete(message)
         }
     } finally {
@@ -79,7 +80,7 @@ private suspend fun DefaultWebSocketServerSession.handleApp(registry: AppRegistr
 private suspend fun DefaultWebSocketServerSession.readHello(): Hello? {
     for (frame in incoming) {
         val text = (frame as? Frame.Text)?.readText() ?: continue
-        return runCatching { decodeMessage(text) }.getOrNull() as? Hello
+        return decodeMessageOrNull(text) as? Hello
     }
     return null
 }

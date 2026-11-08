@@ -15,6 +15,7 @@ import kotlinx.serialization.json.boolean
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
 import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
@@ -28,6 +29,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.time.Duration.Companion.milliseconds
 
 class CompanionTest {
 
@@ -73,7 +75,7 @@ class CompanionTest {
         val client = HttpClient(CIO) { install(WebSockets) }
         try {
             val appJob = launch(kotlinx.coroutines.Dispatchers.IO) {
-                client.webSocket(host = "127.0.0.1", port = port, path = APP_PATH) {
+                client.webSocket(host = DEFAULT_HOST, port = port, path = APP_PATH) {
                     send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test", token = "secret").encode()))
                     assertTrue((decodeMessage((incoming.receive() as Frame.Text).readText()) as HelloAck).ok)
                     for (frame in incoming) {
@@ -82,7 +84,7 @@ class CompanionTest {
                     }
                 }
             }
-            while (registry.list().isEmpty()) delay(20)
+            while (registry.list().isEmpty()) delay(20.milliseconds)
 
             val mcp = McpServer(registry, "test")
             val apps = Json.parseToJsonElement(mcp.handle(toolCall("list_apps"))!!).jsonObject
@@ -107,7 +109,7 @@ class CompanionTest {
         val client = HttpClient(CIO) { install(WebSockets) }
         try {
             var ack: HelloAck? = null
-            client.webSocket(host = "127.0.0.1", port = port, path = APP_PATH) {
+            client.webSocket(host = DEFAULT_HOST, port = port, path = APP_PATH) {
                 send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test", token = "wrong").encode()))
                 ack = decodeMessage((incoming.receive() as Frame.Text).readText()) as HelloAck
             }

@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.mcp.McpClient
 import ro.cosminmihu.ktor.monitor.mcp.McpSettings
 import ro.cosminmihu.ktor.monitor.mcp.platformName
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
 
 /**
@@ -97,13 +98,13 @@ public object KtorMonitorMcp {
 public class KtorMonitorMcpConfig {
 
     /**
-     * The machine running the companion. By default `localhost`.
+     * The machine running the companion. By default `127.0.0.1`, the address the companion listens on.
      *
-     * - Android emulator and device: run `adb reverse tcp:8765 tcp:8765` and keep `localhost`
+     * - Android emulator and device: run `adb reverse tcp:8765 tcp:8765` and keep `127.0.0.1`
      *   (or use `10.0.2.2` on the emulator).
-     * - iOS simulator, desktop, web: `localhost`.
+     * - iOS simulator, desktop, web: `127.0.0.1`.
      */
-    public var host: String = "localhost"
+    public var host: String = DEFAULT_HOST
 
     /**
      * The companion port. By default 8765.
