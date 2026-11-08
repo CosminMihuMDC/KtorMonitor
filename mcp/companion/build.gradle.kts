@@ -117,7 +117,9 @@ tasks.shadowJar {
 // Publish the executable fat JAR next to the regular one, as `ktor-monitor-mcp-companion-<version>-all.jar`.
 afterEvaluate {
     publishing.publications.withType<MavenPublication>().configureEach {
-        artifact(tasks.shadowJar)
+        if (artifacts.none { it.classifier == "all" }) {
+            artifact(tasks.shadowJar)
+        }
     }
 }
 
