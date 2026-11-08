@@ -118,6 +118,8 @@ kotlin {
 
     sourceSets {
         commonMain {
+            // Wire protocol shared with `companion` (source-only, not a published module).
+            kotlin.srcDir("../protocol/src/commonMain/kotlin")
             dependencies {
                 api(projects.core.library)
                 implementation(libs.kotlinx.coroutines.core)

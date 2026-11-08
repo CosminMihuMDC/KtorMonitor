@@ -1,16 +1,16 @@
 package ro.cosminmihu.ktor.monitor
 
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
-import ro.cosminmihu.ktor.monitor.mcp.DEFAULT_PORT
 import ro.cosminmihu.ktor.monitor.mcp.McpClient
 import ro.cosminmihu.ktor.monitor.mcp.McpSettings
 import ro.cosminmihu.ktor.monitor.mcp.platformName
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
 
 /**
  * Lets AI agents (Copilot, Claude, Cursor, ...) query the calls captured by Ktor Monitor, through

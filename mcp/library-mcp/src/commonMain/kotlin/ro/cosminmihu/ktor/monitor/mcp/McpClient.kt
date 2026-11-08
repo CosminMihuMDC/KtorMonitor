@@ -13,6 +13,14 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
+import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Message
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
+import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessage
+import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
 
 internal class McpSettings(
     val host: String,

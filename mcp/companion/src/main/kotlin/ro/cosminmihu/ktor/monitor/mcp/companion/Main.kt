@@ -7,7 +7,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
-import ro.cosminmihu.ktor.monitor.mcp.DEFAULT_PORT
+import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
 import java.io.FileDescriptor
 import java.io.FileOutputStream
 import java.io.PrintStream

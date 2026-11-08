@@ -18,6 +18,13 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
+import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
+import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessage
+import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
 import java.net.ServerSocket
 import kotlin.test.Test
 import kotlin.test.assertEquals

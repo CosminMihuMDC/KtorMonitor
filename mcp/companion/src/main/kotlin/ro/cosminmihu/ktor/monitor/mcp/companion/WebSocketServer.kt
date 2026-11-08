@@ -1,9 +1,9 @@
 package ro.cosminmihu.ktor.monitor.mcp.companion
 
+import io.ktor.server.application.install
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.engine.embeddedServer
-import io.ktor.server.application.install
 import io.ktor.server.routing.routing
 import io.ktor.server.websocket.DefaultWebSocketServerSession
 import io.ktor.server.websocket.WebSockets
@@ -15,13 +15,13 @@ import io.ktor.websocket.Frame
 import io.ktor.websocket.close
 import io.ktor.websocket.readText
 import kotlinx.coroutines.withTimeoutOrNull
-import ro.cosminmihu.ktor.monitor.mcp.APP_PATH
-import ro.cosminmihu.ktor.monitor.mcp.Hello
-import ro.cosminmihu.ktor.monitor.mcp.HelloAck
-import ro.cosminmihu.ktor.monitor.mcp.PROTOCOL_VERSION
-import ro.cosminmihu.ktor.monitor.mcp.Response
-import ro.cosminmihu.ktor.monitor.mcp.decodeMessage
-import ro.cosminmihu.ktor.monitor.mcp.encode
+import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
+import ro.cosminmihu.ktor.monitor.mcp.protocol.PROTOCOL_VERSION
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
+import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessage
+import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
 import kotlin.time.Duration.Companion.seconds
 
 /** Listens on loopback only, so apps on other machines cannot connect. */

@@ -59,12 +59,6 @@ mavenPublishing {
 
 base.archivesName = "ktor-monitor-mcp-companion"
 
-// Copy only `Protocol.kt` so the companion does not compile the rest of `library-mcp`.
-val syncProtocol = tasks.register<Sync>("syncProtocol") {
-    from("../library-mcp/src/commonMain/kotlin") { include("**/mcp/Protocol.kt") }
-    into(layout.buildDirectory.dir("generated/protocol"))
-}
-
 kotlin {
     jvmToolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -74,9 +68,9 @@ kotlin {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
     }
 
+    // Wire protocol shared with `library-mcp` (source-only, not a published module).
     sourceSets.main {
-        // Wire protocol shared with `library-mcp`.
-        kotlin.srcDir(syncProtocol)
+        kotlin.srcDir("../protocol/src/commonMain/kotlin")
     }
 }
 

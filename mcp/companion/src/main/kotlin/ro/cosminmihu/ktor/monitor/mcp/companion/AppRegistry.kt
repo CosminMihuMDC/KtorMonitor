@@ -3,10 +3,10 @@ package ro.cosminmihu.ktor.monitor.mcp.companion
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.JsonObject
-import ro.cosminmihu.ktor.monitor.mcp.Hello
-import ro.cosminmihu.ktor.monitor.mcp.Request
-import ro.cosminmihu.ktor.monitor.mcp.Response
-import ro.cosminmihu.ktor.monitor.mcp.encode
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
+import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicLong
 

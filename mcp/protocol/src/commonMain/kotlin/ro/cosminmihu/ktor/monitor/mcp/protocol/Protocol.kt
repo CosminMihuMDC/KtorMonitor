@@ -1,4 +1,4 @@
-package ro.cosminmihu.ktor.monitor.mcp
+package ro.cosminmihu.ktor.monitor.mcp.protocol
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -8,18 +8,18 @@ import kotlinx.serialization.json.JsonObject
 /*
  * Wire protocol between an app (WebSocket client) and the companion (WebSocket server).
  *
- * This file lives in `library-mcp` and is also compiled into `companion` (see `syncProtocol`),
- * so every declaration is internal to the module that includes it.
+ * This source folder (`mcp/protocol`) is not a published module: it is compiled directly into both
+ * `library-mcp` and `companion` through `kotlin.srcDir`, so every declaration is internal to each.
  *
  * Flow: the app connects to `ws://host:port/app` and sends [Hello]. The companion answers with
  * [HelloAck]. Afterwards the companion sends [Request]s and the app answers each with a [Response].
  */
 
-internal const val PROTOCOL_VERSION = 1
-internal const val DEFAULT_PORT = 8765
-internal const val APP_PATH = "/app"
+internal const val PROTOCOL_VERSION: Int = 1
+internal const val DEFAULT_PORT: Int = 8765
+internal const val APP_PATH: String = "/app"
 
-internal val ProtocolJson = Json {
+internal val ProtocolJson: Json = Json {
     classDiscriminator = "type"
     ignoreUnknownKeys = true
     encodeDefaults = true
