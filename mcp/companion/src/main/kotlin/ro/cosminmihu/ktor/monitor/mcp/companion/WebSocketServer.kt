@@ -1,6 +1,10 @@
 package ro.cosminmihu.ktor.monitor.mcp.companion
 
+import io.ktor.http.HttpHeaders
+import io.ktor.http.Url
+import io.ktor.http.URLParserException
 import io.ktor.server.application.install
+import io.ktor.server.request.ApplicationRequest
 import io.ktor.server.cio.CIO
 import io.ktor.server.engine.EmbeddedServer
 import io.ktor.server.engine.embeddedServer
@@ -23,6 +27,7 @@ import ro.cosminmihu.ktor.monitor.mcp.protocol.PROTOCOL_VERSION
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
 import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessageOrNull
 import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
+import java.security.MessageDigest
 import kotlin.time.Duration.Companion.seconds
 
 /** Listens on loopback only, so apps on other machines cannot connect. */
@@ -41,6 +46,11 @@ internal fun startWebSocketServer(
 }.start(wait = false)
 
 private suspend fun DefaultWebSocketServerSession.handleApp(registry: AppRegistry, expectedToken: String?) {
+    if (expectedToken == null && !call.request.hasLocalOrigin()) {
+        // Without a token, a web page opened in the developer browser could otherwise pose as an app.
+        close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Forbidden origin"))
+        return
+    }
     val hello = withTimeoutOrNull(10.seconds) { readHello() }
     if (hello == null) {
         close(CloseReason(CloseReason.Codes.VIOLATED_POLICY, "Expected hello"))
@@ -51,7 +61,7 @@ private suspend fun DefaultWebSocketServerSession.handleApp(registry: AppRegistr
             "Unsupported protocol version ${hello.protocolVersion}, the companion supports $PROTOCOL_VERSION. " +
                 "Use the same version for the library and the companion."
 
-        expectedToken != null && hello.token != expectedToken -> "Invalid token."
+        expectedToken != null && !tokenMatches(expectedToken, hello.token) -> "Invalid token."
         else -> null
     }
     if (rejection != null) {
@@ -76,6 +86,20 @@ private suspend fun DefaultWebSocketServerSession.handleApp(registry: AppRegistr
         log("App disconnected: ${hello.appName} (${hello.appId})")
     }
 }
+
+/** Native clients send no `Origin`; browsers must come from a loopback page. */
+private fun ApplicationRequest.hasLocalOrigin(): Boolean {
+    val origin = headers[HttpHeaders.Origin] ?: return true
+    val host = try {
+        Url(origin).host
+    } catch (_: URLParserException) {
+        return false
+    }
+    return host == "localhost" || host == DEFAULT_HOST || host == "[::1]" || host == "::1"
+}
+
+private fun tokenMatches(expected: String, actual: String?): Boolean =
+    actual != null && MessageDigest.isEqual(expected.toByteArray(Charsets.UTF_8), actual.toByteArray(Charsets.UTF_8))
 
 private suspend fun DefaultWebSocketServerSession.readHello(): Hello? {
     for (frame in incoming) {

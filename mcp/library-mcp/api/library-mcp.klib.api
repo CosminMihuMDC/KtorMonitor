@@ -9,6 +9,7 @@
 final enum class ro.cosminmihu.ktor.monitor/McpConnectionStatus : kotlin/Enum<ro.cosminmihu.ktor.monitor/McpConnectionStatus> { // ro.cosminmihu.ktor.monitor/McpConnectionStatus|null[0]
     enum entry Connected // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Connected|null[0]
     enum entry Connecting // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Connecting|null[0]
+    enum entry Rejected // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Rejected|null[0]
     enum entry Stopped // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Stopped|null[0]
 
     final val entries // ro.cosminmihu.ktor.monitor/McpConnectionStatus.entries|#static{}entries[0]

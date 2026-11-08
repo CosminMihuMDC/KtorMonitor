@@ -77,6 +77,17 @@ internal data class ToolDefinition(
     @SerialName("name") val name: String,
     @SerialName("description") val description: String,
     @SerialName("inputSchema") val inputSchema: ToolInputSchema,
+    @SerialName("annotations") val annotations: ToolAnnotations? = null,
+)
+
+/** Hints that let AI clients run the tool without asking for confirmation. */
+@Serializable
+internal data class ToolAnnotations(
+    @SerialName("title") val title: String? = null,
+    @SerialName("readOnlyHint") val readOnlyHint: Boolean = true,
+    @SerialName("destructiveHint") val destructiveHint: Boolean = false,
+    @SerialName("idempotentHint") val idempotentHint: Boolean = true,
+    @SerialName("openWorldHint") val openWorldHint: Boolean = false,
 )
 
 @Serializable

@@ -48,7 +48,7 @@ internal class McpClient(
         var attempt = 0
         try {
             while (currentCoroutineContext().isActive) {
-                status.value = McpConnectionStatus.Connecting
+                if (status.value != McpConnectionStatus.Rejected) status.value = McpConnectionStatus.Connecting
                 try {
                     connect(client) { attempt = 0 }
                 } catch (exception: CancellationException) {
@@ -56,7 +56,7 @@ internal class McpClient(
                 } catch (_: Throwable) {
                     // Companion not running or connection lost, retry.
                 }
-                status.value = McpConnectionStatus.Connecting
+                if (status.value != McpConnectionStatus.Rejected) status.value = McpConnectionStatus.Connecting
                 delay(retryDelays[minOf(attempt++, retryDelays.lastIndex)])
             }
         } finally {
@@ -77,7 +77,10 @@ internal class McpClient(
                 )
             )
             val ack = withTimeoutOrNull(HELLO_TIMEOUT) { readMessage() } as? HelloAck ?: return@webSocket
-            if (!ack.ok) return@webSocket
+            if (!ack.ok) {
+                status.value = McpConnectionStatus.Rejected
+                return@webSocket
+            }
             status.value = McpConnectionStatus.Connected
             onConnected()
 

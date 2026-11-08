@@ -4,6 +4,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.client.plugins.websocket.webSocket
+import io.ktor.client.request.header
+import io.ktor.http.HttpHeaders
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import kotlinx.coroutines.delay
@@ -12,6 +14,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.boolean
+import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
@@ -57,6 +60,23 @@ class CompanionTest {
         val tools = Json.parseToJsonElement(mcp.handle("""{"jsonrpc":"2.0","id":2,"method":"tools/list"}""")!!).jsonObject
         val names = tools["result"]!!.jsonObject["tools"]!!.jsonArray.map { it.jsonObject["name"]!!.jsonPrimitive.content }
         assertEquals(listOf("list_apps", "list_calls", "get_call", "search_calls", "get_stats"), names)
+        assertTrue(tools["result"]!!.jsonObject["tools"]!!.jsonArray.all {
+            it.jsonObject["annotations"]!!.jsonObject["readOnlyHint"]!!.jsonPrimitive.boolean
+        })
+    }
+
+    @Test
+    fun invalidJsonReturnsParseError() = runBlocking {
+        val mcp = McpServer(AppRegistry(), "test")
+        val response = Json.parseToJsonElement(mcp.handle("{not json")!!).jsonObject
+        assertEquals(-32700, response["error"]!!.jsonObject["code"]!!.jsonPrimitive.int)
+    }
+
+    @Test
+    fun unknownToolReturnsInvalidParams() = runBlocking {
+        val mcp = McpServer(AppRegistry(), "test")
+        val response = Json.parseToJsonElement(mcp.handle(toolCall("nope"))!!).jsonObject
+        assertEquals(-32602, response["error"]!!.jsonObject["code"]!!.jsonPrimitive.int)
     }
 
     @Test
@@ -115,6 +135,35 @@ class CompanionTest {
             }
             assertFalse(ack!!.ok)
             assertTrue(registry.list().isEmpty())
+        } finally {
+            client.close()
+            server.stop(100, 500)
+        }
+    }
+
+    @Test
+    fun browserOriginIsRejectedWithoutTokenButLocalOriginIsAccepted() = runBlocking {
+        val port = freePort()
+        val registry = AppRegistry()
+        val server = startWebSocketServer(registry, port, token = null)
+        val client = HttpClient(CIO) { install(WebSockets) }
+        try {
+            suspend fun handshake(origin: String): Boolean {
+                var accepted = false
+                client.webSocket(
+                    host = DEFAULT_HOST,
+                    port = port,
+                    path = APP_PATH,
+                    request = { header(HttpHeaders.Origin, origin) },
+                ) {
+                    send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test").encode()))
+                    val frame = incoming.receiveCatching().getOrNull() as? Frame.Text
+                    accepted = frame?.let { (decodeMessage(it.readText()) as? HelloAck)?.ok } == true
+                }
+                return accepted
+            }
+            assertFalse(handshake("https://evil.example.com"))
+            assertTrue(handshake("http://localhost:8080"))
         } finally {
             client.close()
             server.stop(100, 500)

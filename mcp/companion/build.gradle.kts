@@ -71,7 +71,6 @@ kotlin {
     // Wire protocol shared with `library-mcp` (source-only, not a published module).
     sourceSets.main {
         kotlin.srcDir("../protocol/src/commonMain/kotlin")
-        kotlin.srcDir("../protocol/src/defaults/kotlin")
     }
 }
 

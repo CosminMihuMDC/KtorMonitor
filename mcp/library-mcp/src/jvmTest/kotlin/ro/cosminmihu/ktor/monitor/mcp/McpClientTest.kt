@@ -126,4 +126,32 @@ class McpClientTest {
             job.join()
         }
     }
+
+    @Test
+    fun reportsRejectedWhenTheCompanionRefusesTheHandshake() = runBlocking {
+        val port = ServerSocket(0).use { it.localPort }
+        val server = embeddedServer(CIO, port = port, host = DEFAULT_HOST) {
+            install(WebSockets)
+            routing {
+                webSocket(APP_PATH) {
+                    incoming.receive()
+                    send(Frame.Text(HelloAck(ok = false, error = "Invalid token.").encode()))
+                }
+            }
+        }.start(wait = false)
+        val status = MutableStateFlow(McpConnectionStatus.Stopped)
+        val job = launch(Dispatchers.IO) {
+            McpClient(settings(port), status, { _, _ -> "{}" }, retryDelays = listOf(50.milliseconds)).run()
+        }
+        try {
+            assertEquals(
+                McpConnectionStatus.Rejected,
+                withTimeout(10.seconds) { status.first { it == McpConnectionStatus.Rejected } },
+            )
+        } finally {
+            job.cancel()
+            job.join()
+            server.stop(100, 500)
+        }
+    }
 }

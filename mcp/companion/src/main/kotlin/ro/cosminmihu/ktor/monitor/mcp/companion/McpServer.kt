@@ -21,6 +21,7 @@ import ro.cosminmihu.ktor.monitor.mcp.protocol.JsonRpcResponse
 import ro.cosminmihu.ktor.monitor.mcp.protocol.ListToolsResult
 import ro.cosminmihu.ktor.monitor.mcp.protocol.McpJson
 import ro.cosminmihu.ktor.monitor.mcp.protocol.ServerInfo
+import ro.cosminmihu.ktor.monitor.mcp.protocol.ToolAnnotations
 import ro.cosminmihu.ktor.monitor.mcp.protocol.ToolDefinition
 import ro.cosminmihu.ktor.monitor.mcp.protocol.ToolInputSchema
 import ro.cosminmihu.ktor.monitor.mcp.protocol.ToolProperty
@@ -102,6 +103,14 @@ internal class McpServer(
 
         val SUPPORTED_VERSIONS = listOf("2025-06-18", "2025-03-26", "2024-11-05")
 
+        val titles = mapOf(
+            "list_apps" to "List connected apps",
+            "list_calls" to "List HTTP calls",
+            "get_call" to "Get HTTP call",
+            "search_calls" to "Search HTTP calls",
+            "get_stats" to "HTTP calls statistics",
+        )
+
         val tools: List<ToolDefinition> = listOf(
             tool("list_apps", "List the apps currently connected to the companion."),
             tool(
@@ -158,6 +167,7 @@ internal class McpServer(
                     properties = if (name == "list_apps") properties else properties + ("app_id" to appIdProperty),
                     required = required,
                 ),
+                annotations = ToolAnnotations(title = titles[name]),
             )
         }
     }

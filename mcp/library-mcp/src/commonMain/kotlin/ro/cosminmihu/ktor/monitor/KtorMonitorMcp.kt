@@ -85,7 +85,7 @@ public object KtorMonitorMcp {
         InternalLibraryBridge.setMcpStatus(
             when (status) {
                 McpConnectionStatus.Stopped -> null
-                McpConnectionStatus.Connecting -> false
+                McpConnectionStatus.Connecting, McpConnectionStatus.Rejected -> false
                 McpConnectionStatus.Connected -> true
             }
         )
@@ -134,4 +134,7 @@ public enum class McpConnectionStatus {
 
     /** Connected, AI agents can query the calls. */
     Connected,
+
+    /** The companion refused the connection (wrong token or incompatible version), check the companion log. */
+    Rejected,
 }

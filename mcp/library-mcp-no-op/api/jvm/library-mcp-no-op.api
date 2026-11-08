@@ -21,6 +21,7 @@ public final class ro/cosminmihu/ktor/monitor/KtorMonitorMcpConfig {
 public final class ro/cosminmihu/ktor/monitor/McpConnectionStatus : java/lang/Enum {
 	public static final field Connected Lro/cosminmihu/ktor/monitor/McpConnectionStatus;
 	public static final field Connecting Lro/cosminmihu/ktor/monitor/McpConnectionStatus;
+	public static final field Rejected Lro/cosminmihu/ktor/monitor/McpConnectionStatus;
 	public static final field Stopped Lro/cosminmihu/ktor/monitor/McpConnectionStatus;
 	public static fun getEntries ()Lkotlin/enums/EnumEntries;
 	public static fun valueOf (Ljava/lang/String;)Lro/cosminmihu/ktor/monitor/McpConnectionStatus;

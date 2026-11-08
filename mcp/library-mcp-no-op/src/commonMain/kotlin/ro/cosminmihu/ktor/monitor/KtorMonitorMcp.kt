@@ -58,4 +58,7 @@ public enum class McpConnectionStatus {
 
     /** Never used. */
     Connected,
+
+    /** Never used. */
+    Rejected,
 }
