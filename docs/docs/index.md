@@ -48,8 +48,8 @@ Try the live web demo: [DEMO](https://cosminmihu.ro/static/apps/ktormonitor/web/
 
     ```kotlin
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
     }
     ```
 

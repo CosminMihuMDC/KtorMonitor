@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [Unreleased]
+## [1.18.0]
 ### Added
 * AI/MCP support: new `ktor-monitor-mcp` (and `-no-op`) module and `ktor-monitor-mcp-companion` JAR that expose captured calls (`list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`) to any MCP-capable AI agent on Android, iOS, Desktop and Web. Read-only, loopback (`127.0.0.1`) only. The optional `token` is verified with a mutual HMAC challenge/response, it never travels over the socket. The list header shows a rejected connection.
 ### Fixed

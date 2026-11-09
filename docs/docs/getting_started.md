@@ -6,7 +6,7 @@
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.17.0")
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
             }
         }
     }
@@ -20,7 +20,7 @@
     kotlin {
         sourceSets {
             commonMain.dependencies {
-                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.17.0")
+                implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
             }
         }
     }
@@ -30,8 +30,8 @@
     
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.17.0")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.17.0")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
     }
     ```
 
@@ -41,8 +41,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.17.0")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.17.0")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.18.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.18.0")
     }
     ```
 
@@ -52,8 +52,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.17.0")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.17.0")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.18.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.18.0")
     }
     ```
 
@@ -67,8 +67,8 @@
 
     ```kotlin hl_lines="2-3"
     dependencies {
-        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
-        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
     }
     ```
 

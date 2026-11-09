@@ -31,13 +31,13 @@ kotlin {
             implementation(libs.http4k.multipart)
             implementation(projects.http4k.libraryHttp4k)
             implementation(projects.mcp.libraryMcp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
 //            implementation(projects.mcp.libraryMcpNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.18.0")
 //            implementation(projects.http4k.libraryHttp4kNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.18.0")
         }
     }
 }

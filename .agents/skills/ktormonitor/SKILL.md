@@ -1,6 +1,6 @@
 ---
 name: ktormonitor
-version: 1.17.0
+version: 1.18.0
 description: >
   KtorMonitor is a Kotlin Multiplatform library for real-time HTTP traffic monitoring.
   It supports Ktor Client, OkHttp, and http4k on Android, iOS, Desktop JVM, Wasm, and JS.
@@ -54,7 +54,7 @@ When a developer asks to:
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.17.0")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
         }
     }
 }
@@ -66,7 +66,7 @@ kotlin {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.17.0")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
         }
     }
 }
@@ -77,8 +77,8 @@ kotlin {
 ```kotlin
 // build.gradle.kts (app module)
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.17.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.17.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
 }
 ```
 
@@ -86,8 +86,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.17.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.17.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.18.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.18.0")
 }
 ```
 
@@ -95,8 +95,8 @@ dependencies {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.17.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.17.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.18.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.18.0")
 }
 ```
 
@@ -318,8 +318,8 @@ also the MCP stdio server for the AI client) — no extra app permissions needed
 ```kotlin
 // build.gradle.kts
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
 }
 ```
 
@@ -332,7 +332,7 @@ KtorMonitorMcp.start {
 }
 ```
 
-Register the companion JAR (`ktor-monitor-mcp-companion-1.17.0-all.jar`, Java 11+, downloaded from
+Register the companion JAR (`ktor-monitor-mcp-companion-1.18.0-all.jar`, Java 11+, downloaded from
 Maven Central) in the AI client's MCP config:
 
 ```json
@@ -340,7 +340,7 @@ Maven Central) in the AI client's MCP config:
   "mcpServers": {
     "ktor-monitor": {
       "command": "java",
-      "args": ["-jar", "/path/to/ktor-monitor-mcp-companion-1.17.0-all.jar"]
+      "args": ["-jar", "/path/to/ktor-monitor-mcp-companion-1.18.0-all.jar"]
     }
   }
 }

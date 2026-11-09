@@ -29,13 +29,13 @@ kotlin {
             implementation(libs.okhttp)
             implementation(projects.okhttp.libraryOkhttp)
             implementation(projects.mcp.libraryMcp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
 //            implementation(projects.mcp.libraryMcpNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.18.0")
 //            implementation(projects.okhttp.libraryOkhttpNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.17.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.18.0")
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
