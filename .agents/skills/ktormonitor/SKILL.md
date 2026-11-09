@@ -301,6 +301,65 @@ fun main() {
 
 ---
 
+## Step 5 — (Optional) Let AI agents query captured calls via MCP
+
+This is **entirely optional** and off by default — skip it unless the developer explicitly asks to
+query/inspect KtorMonitor calls from an AI agent (Copilot, Claude, Cursor, ...). It works independently
+of which HTTP client (Ktor/OkHttp/http4k) is used, on Android, iOS, Desktop and Web, and is read-only
+and debug-time only.
+
+```
+AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:8765)──< your app
+```
+
+The app only connects **out** to a small companion JAR running on the developer's machine (which is
+also the MCP stdio server for the AI client) — no extra app permissions needed.
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+}
+```
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitorMcp
+
+// Call once, e.g. in debug builds only. Does nothing unless called.
+KtorMonitorMcp.start {
+    // host = "127.0.0.1"; port = 8765; token = null; appName = null
+}
+```
+
+Register the companion JAR (`ktor-monitor-mcp-companion-1.17.0-all.jar`, Java 11+, downloaded from
+Maven Central) in the AI client's MCP config:
+
+```json
+{
+  "mcpServers": {
+    "ktor-monitor": {
+      "command": "java",
+      "args": ["-jar", "/path/to/ktor-monitor-mcp-companion-1.17.0-all.jar"]
+    }
+  }
+}
+```
+
+Connectivity notes: Desktop/Web use `127.0.0.1` as is; Android emulator/device needs
+`adb reverse tcp:8765 tcp:8765` (and the `INTERNET` permission); iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
+in `Info.plist`.
+
+Optional: set `token` in `start {}` and pass the same value to the companion with `--token` (or the
+`KTOR_MONITOR_MCP_TOKEN` env var); it is verified with a challenge/response and never sent over the socket.
+A mismatch shows as `McpConnectionStatus.Rejected` and a red **AI!** badge in the list header.
+
+Exposed tools: `list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`. Headers are masked
+by `sanitizeHeader` as usual; **bodies are not sanitized** — don't enable MCP on traffic with sensitive
+bodies. See `docs/docs/mcp.md` for full details.
+
+---
+
 ## Configuration reference
 
 | Option | Type | Default | Description |
@@ -334,6 +393,7 @@ ContentLength.Full      // no limit
 | `ktor-monitor-okhttp-interceptor` | `ktor-monitor-okhttp-interceptor-no-op` |
 | `ktor-monitor-http4k-filter` | `ktor-monitor-http4k-filter-no-op` |
 | `ktor-monitor-core` | `ktor-monitor-core-no-op` |
+| `ktor-monitor-mcp` (optional) | `ktor-monitor-mcp-no-op` |
 
 All no-op variants are ABI-identical to their counterparts — zero code changes needed when switching.
 
@@ -358,6 +418,9 @@ Enable Core Library Desugaring (see Step 2 note above).
 
 ### WebSocket / SSE support?
 Yes — KtorMonitorLogging captures WebSocket frames and Server-Sent Events automatically.
+
+### Can an AI agent query the captured calls?
+Yes, via the optional MCP integration (Step 5) — not enabled unless the developer explicitly asks for it.
 
 ### Which body formats get rich preview?
 JSON, XML, HTML, CSS, YAML, Markdown, Form Data, Multipart, Images (JPG / PNG / SVG / GIF / WEBP), Hex.

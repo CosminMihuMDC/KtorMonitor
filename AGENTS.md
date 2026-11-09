@@ -37,6 +37,10 @@ Multiplatform UI for inspecting requests and responses.
 | `okhttp/library-okhttp-no-op`     | KMP (Android + JVM)        | No-op mirror of `library-okhttp`.                                       |
 | `http4k/library-http4k`           | KMP (Android + JVM)        | `KtorMonitorFilter` for http4k; depends on `core/library`.              |
 | `http4k/library-http4k-no-op`     | KMP (Android + JVM)        | No-op mirror of `library-http4k`.                                       |
+| `mcp/library-mcp`                 | KMP library (all targets)  | `KtorMonitorMcp` WebSocket client exposing DB queries to the companion; depends on `core/library`. |
+| `mcp/library-mcp-no-op`           | KMP library                | No-op mirror of `library-mcp`.                                          |
+| `mcp/companion`                   | JVM (shadow fat jar)       | MCP stdio server + WebSocket server (`ktor-monitor-mcp-companion`, `-all` classifier). |
+| `mcp/protocol`                   | Source-only (no Gradle module) | Shared wire models/protocol; added via `kotlin.srcDir` to `library-mcp` and `companion`, and excluded by glob in `library-mcp-no-op`. |
 | `sample/ktor/shared`              | KMP shared module          | Shared business/UI code for Ktor sample.                                 |
 | `sample/ktor/androidApp`          | Android application        | Android app for Ktor sample.                                             |
 | `sample/ktor/jvmApp`              | JVM desktop application    | Desktop app for Ktor sample.                                             |
@@ -72,7 +76,7 @@ A wrapper is included; always use `./gradlew`. JVM toolchain is **Java 11** for 
 |---------------------------------------|-----------------------------------------------------------------------|
 | Full build                            | `./gradlew build`                                                     |
 | All checks (lint + tests + apiCheck)  | `./gradlew check`                                                     |
-| JVM unit tests (run in CI)            | `./gradlew jvmTest`                                                   |
+| JVM unit tests (run in CI)            | `./gradlew jvmTest :mcp:companion:test`                               |
 | Android sample APKs (debug + release) | `./gradlew :sample:ktor:androidApp:assembleDebug :sample:okhttp:androidApp:assembleDebug :sample:http4k:androidApp:assembleDebug` |
 | Desktop sample run (JVM)              | `./gradlew :sample:ktor:jvmApp:run` / `:sample:okhttp:jvmApp:run` / `:sample:http4k:jvmApp:run` |
 | Desktop installer (current OS)        | `./gradlew :sample:ktor:jvmApp:packageDmg` (mac) / `packageMsi` / `packageDeb` |

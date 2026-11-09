@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.room) apply false
     alias(libs.plugins.koin.compiler) apply false
     alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.shadow) apply false
     alias(libs.plugins.binary.compatibility.validator) apply false
     alias(libs.plugins.dokka)
 }
@@ -24,6 +25,7 @@ dependencies {
     dokka(projects.ktor.libraryKtor)
     dokka(projects.okhttp.libraryOkhttp)
     dokka(projects.http4k.libraryHttp4k)
+    dokka(projects.mcp.libraryMcp)
 }
 
 dokka {

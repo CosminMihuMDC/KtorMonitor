@@ -1,6 +1,11 @@
 package ro.cosminmihu.ktor.monitor.ui.list
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
@@ -19,6 +24,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -41,14 +47,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.resources.vectorResource
 import ro.cosminmihu.ktor.monitor.core.BuildKonfig
 import ro.cosminmihu.ktor.monitor.core.URL
+import ro.cosminmihu.ktor.monitor.domain.model.Mcp
 import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
@@ -77,6 +88,9 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_launcher
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_warning_off
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_mcp_connected
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_mcp_label
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_mcp_rejected
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select_all
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_remove
@@ -158,27 +172,71 @@ internal fun ListScreen(
                                 )
                             }
 
-                            uiState.networkClient?.let { source ->
-                                val (label, url) = when (source) {
-                                    NetworkClient.Ktor -> stringResource(Res.string.ktor_source_ktor) to URL.KTOR
-                                    NetworkClient.OkHttp -> stringResource(Res.string.ktor_source_okhttp) to URL.OKHTTP
-                                    NetworkClient.Http4k -> stringResource(Res.string.ktor_source_http4k) to URL.HTTP4K
-                                }
-                                Text(
-                                    text = "${stringResource(Res.string.ktor_source_prefix)} $label",
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(Dimens.ExtraSmall),
+                            ) {
+                                uiState.networkClient?.let { source ->
+                                    val (label, url) = when (source) {
+                                        NetworkClient.Ktor -> stringResource(Res.string.ktor_source_ktor) to URL.KTOR
+                                        NetworkClient.OkHttp -> stringResource(Res.string.ktor_source_okhttp) to URL.OKHTTP
+                                        NetworkClient.Http4k -> stringResource(Res.string.ktor_source_http4k) to URL.HTTP4K
+                                    }
+                                    Text(
+                                        text = "${stringResource(Res.string.ktor_source_prefix)} $label",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.clickable { uriHandler.openUri(url) },
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                    )
+                                } ?: Text(
+                                    text = stringResource(Res.string.ktor_source_none),
                                     style = MaterialTheme.typography.labelSmall,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.clickable { uriHandler.openUri(url) },
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                 )
-                            } ?: Text(
-                                text = stringResource(Res.string.ktor_source_none),
-                                style = MaterialTheme.typography.labelSmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                maxLines = 1,
-                                overflow = TextOverflow.Ellipsis,
-                            )
+
+                                val mcpStatus = uiState.mcpStatus
+                                if (mcpStatus == Mcp.Status.Connected || mcpStatus == Mcp.Status.Rejected) {
+                                    val isRejected = mcpStatus == Mcp.Status.Rejected
+                                    val color = if (isRejected) {
+                                        MaterialTheme.colorScheme.error
+                                    } else {
+                                        MaterialTheme.colorScheme.tertiary
+                                    }
+                                    Box(
+                                        modifier = Modifier
+                                            .size(4.dp)
+                                            .background(color, CircleShape),
+                                    )
+
+                                    val description = stringResource(
+                                        if (isRejected) Res.string.ktor_mcp_rejected else Res.string.ktor_mcp_connected
+                                    )
+                                    val blink by rememberInfiniteTransition().animateFloat(
+                                        initialValue = 1f,
+                                        targetValue = 0.2f,
+                                        animationSpec = infiniteRepeatable(
+                                            animation = tween(durationMillis = 800),
+                                            repeatMode = RepeatMode.Reverse,
+                                        ),
+                                    )
+                                    Text(
+                                        // Rejected is static and struck by the "!" so it is not conveyed by color alone.
+                                        text = stringResource(Res.string.ktor_mcp_label) + if (isRejected) "!" else "",
+                                        style = MaterialTheme.typography.labelSmall,
+                                        color = color,
+                                        fontWeight = FontWeight.Bold,
+                                        modifier = Modifier
+                                            .semantics { contentDescription = description }
+                                            .padding(start = 4.dp)
+                                            .graphicsLayer { alpha = if (isRejected) 1f else blink },
+                                        maxLines = 1,
+                                    )
+                                }
+                            }
                         }
                     },
                     navigationIcon = {
@@ -229,7 +287,9 @@ internal fun ListScreen(
                                             DropdownMenuItem(
                                                 text = {
                                                     Row(
-                                                        horizontalArrangement = Arrangement.spacedBy(Dimens.Small),
+                                                        horizontalArrangement = Arrangement.spacedBy(
+                                                            Dimens.Small
+                                                        ),
                                                     ) {
                                                         val label = stringResource(
                                                             when (type) {

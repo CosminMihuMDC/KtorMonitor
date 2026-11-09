@@ -59,6 +59,19 @@
 
     For ***Android minSdk < 26***, [Core Library Desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring) is required.
 
+=== "MCP"
+
+    Works alongside any of the HTTP clients above, on Android, iOS, Desktop and Web. Skip this unless
+    you want an AI agent (Copilot, Claude, Cursor, ...) to query the captured calls. See [MCP](mcp.md)
+    for the full setup (companion JAR, connectivity per platform, exposed tools).
+
+    ```kotlin hl_lines="2-3"
+    dependencies {
+        debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.17.0")
+        releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.17.0")
+    }
+    ```
+
 
 ### 📦 Install Ktor Monitor
 
@@ -138,3 +151,14 @@
     - ```showNotification``` - Keep track of latest requests and responses into notification. Default is **true**. Android only. Notifications permission needs to be granted.
     - ```retentionPeriod``` - The retention period for the logs. Default is **1h**.
     - ```maxContentLength``` - The maximum length of the content that will be logged. After this, body will be truncated. Default is **250_000**. To log the entire body use ```ContentLength.Full```.
+
+=== "MCP"
+
+    ```kotlin
+    KtorMonitorMcp.start {
+        // host = "127.0.0.1"; port = 8765; token = null; appName = null
+    }
+    ```
+
+    Call once (e.g. in debug builds only). Does nothing unless called. See [MCP](mcp.md) for the
+    companion JAR setup and connectivity per platform.

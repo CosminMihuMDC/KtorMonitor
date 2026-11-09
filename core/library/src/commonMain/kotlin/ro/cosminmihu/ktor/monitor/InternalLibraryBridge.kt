@@ -6,6 +6,8 @@ import ro.cosminmihu.ktor.monitor.di.LibraryKoinContext
 import ro.cosminmihu.ktor.monitor.di.inject
 import ro.cosminmihu.ktor.monitor.domain.ConfigUseCase
 import ro.cosminmihu.ktor.monitor.domain.ListenByRecentCallsUseCase
+import ro.cosminmihu.ktor.monitor.domain.McpQueryUseCase
+import ro.cosminmihu.ktor.monitor.domain.model.Mcp
 import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.domain.model.Config
 import kotlin.time.Duration
@@ -66,6 +68,35 @@ public object InternalLibraryBridge {
         LibraryKoinContext.koin.get<ListenByRecentCallsUseCase>()()
     }
 
+
+    /**
+     * Show the MCP connection state in the UI.
+     *
+     * @param isConnected `true` when connected, `false` when connecting, `null` when MCP is stopped.
+     * @param isRejected `true` when the companion refused the connection (wrong token or version), overrides [isConnected].
+     */
+    @InternalKtorMonitorApi
+    public fun setMcpStatus(isConnected: Boolean?, isRejected: Boolean = false) {
+        LibraryKoinContext.koin.get<ConfigUseCase>().mcpStatus.value = when {
+            isRejected -> Mcp.Status.Rejected
+            isConnected == null -> null
+            isConnected -> Mcp.Status.Connected
+            else -> Mcp.Status.Connecting
+        }
+    }
+
+    /**
+     * Run a read-only MCP query (`list_calls`, `get_call`, `search_calls`, `get_stats`) over the stored calls.
+     *
+     * @param method The query name.
+     * @param paramsJson The query parameters as a JSON object.
+     * @return The result as a JSON string.
+     * @throws IllegalArgumentException If the method is unknown or the parameters are invalid.
+     */
+    @InternalKtorMonitorApi
+    public suspend fun mcpQuery(method: String, paramsJson: String): String {
+        return LibraryKoinContext.koin.get<McpQueryUseCase>()(method, paramsJson)
+    }
 
     /**
      * Generate a unique call identifier.

@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import ro.cosminmihu.ktor.monitor.KtorMonitor
+import ro.cosminmihu.ktor.monitor.KtorMonitorMcp
 
 /**
  * Compose sample how to use [KtorMonitor].
@@ -23,6 +24,7 @@ fun App() {
     }
 
     LaunchedEffect(Unit) {
+        KtorMonitorMcp.start()
         samples()
     }
 }

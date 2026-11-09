@@ -26,6 +26,7 @@ import ro.cosminmihu.ktor.monitor.domain.GetCallUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetCallsUseCase
 import ro.cosminmihu.ktor.monitor.domain.GetStreamEventsUseCase
 import ro.cosminmihu.ktor.monitor.domain.ListenByRecentCallsUseCase
+import ro.cosminmihu.ktor.monitor.domain.McpQueryUseCase
 import ro.cosminmihu.ktor.monitor.domain.RetentionUseCase
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailViewModel
 import ro.cosminmihu.ktor.monitor.ui.list.ListViewModel
@@ -71,6 +72,7 @@ internal val domainModule = module {
     factory<GetCallsUseCase>()
     factory<GetCallUseCase>()
     factory<GetStreamEventsUseCase>()
+    factory<McpQueryUseCase>()
     factory<DeleteCallsUseCase>()
     factory<DeleteAllCallsUseCase>()
 
