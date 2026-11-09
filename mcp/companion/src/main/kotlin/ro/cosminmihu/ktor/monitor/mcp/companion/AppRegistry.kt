@@ -4,6 +4,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.JsonObject
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Cancel
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
@@ -37,7 +38,11 @@ internal class AppConnection(
                 throw ToolException("The app '${hello.appName}' disconnected.")
             }
             val response = withTimeoutOrNull(timeout) { deferred.await() }
-                ?: throw ToolException("The app '${hello.appName}' did not answer within ${timeout.inWholeSeconds}s.")
+                ?: run {
+                    // Let the app stop the work, nobody waits for the result anymore.
+                    runCatching { sendText(Cancel(id).encode()) }
+                    throw ToolException("The app '${hello.appName}' did not answer within ${timeout.inWholeSeconds}s.")
+                }
             response.error?.let { throw ToolException(it) }
             return response.result ?: "null"
         } finally {

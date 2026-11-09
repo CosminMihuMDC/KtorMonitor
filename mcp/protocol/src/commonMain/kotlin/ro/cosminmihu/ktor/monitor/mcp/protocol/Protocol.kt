@@ -12,11 +12,12 @@ import kotlinx.serialization.json.JsonObject
  * This source folder (`mcp/protocol`) is not a published module: it is compiled directly into both
  * `library-mcp` and `companion` through `kotlin.srcDir`, so every declaration is internal to each.
  *
- * Flow: the app connects to `ws://host:port/app` and sends [Hello]. The companion answers with
- * [HelloAck]. Afterwards the companion sends [Request]s and the app answers each with a [Response].
+ * Flow: the app connects to `ws://host:port/app` and sends [Hello]. The companion answers with a
+ * [Challenge], the app with an [Auth] (see ProtocolAuth.kt) and the companion closes the handshake with
+ * a [HelloAck]. Afterwards the companion sends [Request]s and the app answers each with a [Response].
  */
 
-internal const val PROTOCOL_VERSION: Int = 1
+internal const val PROTOCOL_VERSION: Int = 2
 internal const val APP_PATH: String = "/app"
 
 internal val ProtocolJson: Json = Json {
@@ -35,7 +36,20 @@ internal data class Hello(
     @SerialName("app_id") val appId: String,
     @SerialName("app_name") val appName: String,
     @SerialName("platform") val platform: String,
-    @SerialName("token") val token: String? = null,
+    @SerialName("client_nonce") val clientNonce: String = "",
+) : Message
+
+@Serializable
+@SerialName("challenge")
+internal data class Challenge(
+    @SerialName("server_nonce") val serverNonce: String,
+    @SerialName("proof") val proof: String? = null,
+) : Message
+
+@Serializable
+@SerialName("auth")
+internal data class Auth(
+    @SerialName("proof") val proof: String? = null,
 ) : Message
 
 @Serializable
@@ -51,6 +65,13 @@ internal data class Request(
     @SerialName("id") val id: Long,
     @SerialName("method") val method: String,
     @SerialName("params") val params: JsonObject,
+) : Message
+
+/** Sent by the companion when it gave up waiting for the answer to request [id]. */
+@Serializable
+@SerialName("cancel")
+internal data class Cancel(
+    @SerialName("id") val id: Long,
 ) : Message
 
 /** [result] is a JSON document serialized as text, [error] is set when the request failed. */

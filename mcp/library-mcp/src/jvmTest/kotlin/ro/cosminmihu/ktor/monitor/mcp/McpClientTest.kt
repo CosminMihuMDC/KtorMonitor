@@ -15,12 +15,18 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
+import io.ktor.server.websocket.DefaultWebSocketServerSession
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Auth
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Challenge
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.appProof
+import ro.cosminmihu.ktor.monitor.mcp.protocol.companionProof
 import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
@@ -34,6 +40,17 @@ import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
 
 class McpClientTest {
+
+    /** Plays the companion side of the handshake, accepting only the app that knows [token]. */
+    private suspend fun DefaultWebSocketServerSession.handshake(token: String): Hello {
+        val hello = decodeMessage((incoming.receive() as Frame.Text).readText()) as Hello
+        val serverNonce = "server-nonce"
+        send(Frame.Text(Challenge(serverNonce, companionProof(token, hello.clientNonce, serverNonce)).encode()))
+        val auth = decodeMessage((incoming.receive() as Frame.Text).readText()) as Auth
+        val ok = auth.proof == appProof(token, hello.clientNonce, serverNonce)
+        send(Frame.Text(HelloAck(ok = ok, error = "Invalid token.".takeIf { !ok }).encode()))
+        return hello
+    }
 
     private fun settings(port: Int) = McpSettings(
         host = DEFAULT_HOST,
@@ -55,8 +72,7 @@ class McpClientTest {
             install(WebSockets)
             routing {
                 webSocket(APP_PATH) {
-                    hello.complete(decodeMessage((incoming.receive() as Frame.Text).readText()) as Hello)
-                    send(Frame.Text(HelloAck(ok = true).encode()))
+                    hello.complete(handshake("secret"))
                     send(Frame.Text(Request(1, "list_calls", buildJsonObject { put("limit", 5) }).encode()))
                     send(Frame.Text(Request(2, "boom", buildJsonObject {}).encode()))
                     for (frame in incoming) {
@@ -81,7 +97,6 @@ class McpClientTest {
         try {
             withTimeout(10.seconds) {
                 assertEquals("app-1", hello.await().appId)
-                assertEquals("secret", hello.await().token)
                 assertEquals("""{"method":"list_calls","params":{"limit":5}}""", ok.await().result)
                 assertEquals("failed query", failed.await().error)
                 assertEquals(McpConnectionStatus.Connected, status.first { it != McpConnectionStatus.Connecting })
@@ -108,8 +123,7 @@ class McpClientTest {
                 install(WebSockets)
                 routing {
                     webSocket(APP_PATH) {
-                        incoming.receive()
-                        send(Frame.Text(HelloAck(ok = true).encode()))
+                        handshake("secret")
                         connected.complete(Unit)
                         for (frame in incoming) Unit
                     }
@@ -134,8 +148,7 @@ class McpClientTest {
             install(WebSockets)
             routing {
                 webSocket(APP_PATH) {
-                    incoming.receive()
-                    send(Frame.Text(HelloAck(ok = false, error = "Invalid token.").encode()))
+                    handshake("other-secret")
                 }
             }
         }.start(wait = false)
@@ -148,6 +161,34 @@ class McpClientTest {
                 McpConnectionStatus.Rejected,
                 withTimeout(10.seconds) { status.first { it == McpConnectionStatus.Rejected } },
             )
+        } finally {
+            job.cancel()
+            job.join()
+            server.stop(100, 500)
+        }
+    }
+
+    @Test
+    fun doesNotAnswerAnImpostorThatDoesNotKnowTheToken() = runBlocking {
+        val port = ServerSocket(0).use { it.localPort }
+        val sawAuth = CompletableDeferred<Boolean>()
+        val server = embeddedServer(CIO, port = port, host = DEFAULT_HOST) {
+            install(WebSockets)
+            routing {
+                webSocket(APP_PATH) {
+                    val hello = decodeMessage((incoming.receive() as Frame.Text).readText()) as Hello
+                    send(Frame.Text(Challenge("n", companionProof("wrong-token", hello.clientNonce, "n")).encode()))
+                    sawAuth.complete(withTimeoutOrNull(1.seconds) { incoming.receiveCatching().getOrNull() } != null)
+                }
+            }
+        }.start(wait = false)
+        val status = MutableStateFlow(McpConnectionStatus.Stopped)
+        val job = launch(Dispatchers.IO) {
+            McpClient(settings(port), status, { _, _ -> "{}" }, retryDelays = listOf(50.milliseconds)).run()
+        }
+        try {
+            withTimeout(10.seconds) { status.first { it == McpConnectionStatus.Rejected } }
+            assertEquals(false, withTimeout(5.seconds) { sawAuth.await() })
         } finally {
             job.cancel()
             job.join()

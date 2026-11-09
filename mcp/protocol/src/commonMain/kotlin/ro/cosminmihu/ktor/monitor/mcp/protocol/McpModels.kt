@@ -17,14 +17,6 @@ internal val McpJson: Json = Json {
     explicitNulls = false
 }
 
-/** [id] is a string or a number chosen by the client, it is `null` for notifications. */
-@Serializable
-internal data class JsonRpcRequest(
-    @SerialName("id") val id: JsonElement? = null,
-    @SerialName("method") val method: String? = null,
-    @SerialName("params") val params: JsonObject? = null,
-)
-
 /** Exactly one of [result] and [error] is set. */
 @Serializable
 internal data class JsonRpcResponse(
@@ -95,12 +87,15 @@ internal data class ToolInputSchema(
     @SerialName("type") val type: String = "object",
     @SerialName("properties") val properties: Map<String, ToolProperty>,
     @SerialName("required") val required: List<String>? = null,
+    @SerialName("additionalProperties") val additionalProperties: Boolean = false,
 )
 
 @Serializable
 internal data class ToolProperty(
     @SerialName("type") val type: String,
     @SerialName("description") val description: String,
+    @SerialName("minimum") val minimum: Long? = null,
+    @SerialName("maximum") val maximum: Long? = null,
 )
 
 @Serializable

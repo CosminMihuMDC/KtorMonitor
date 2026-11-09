@@ -89,6 +89,8 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_launcher
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_ic_warning_off
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_library_name
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_mcp_connected
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_mcp_label
+import ro.cosminmihu.ktor.monitor.ui.resources.ktor_mcp_rejected
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_select_all
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_selection_remove
@@ -196,14 +198,23 @@ internal fun ListScreen(
                                     overflow = TextOverflow.Ellipsis,
                                 )
 
-                                if (uiState.mcpStatus == Mcp.Status.Connected) {
+                                val mcpStatus = uiState.mcpStatus
+                                if (mcpStatus == Mcp.Status.Connected || mcpStatus == Mcp.Status.Rejected) {
+                                    val isRejected = mcpStatus == Mcp.Status.Rejected
+                                    val color = if (isRejected) {
+                                        MaterialTheme.colorScheme.error
+                                    } else {
+                                        MaterialTheme.colorScheme.tertiary
+                                    }
                                     Box(
                                         modifier = Modifier
                                             .size(4.dp)
-                                            .background(MaterialTheme.colorScheme.tertiary, CircleShape),
+                                            .background(color, CircleShape),
                                     )
 
-                                    val description = stringResource(Res.string.ktor_mcp_connected)
+                                    val description = stringResource(
+                                        if (isRejected) Res.string.ktor_mcp_rejected else Res.string.ktor_mcp_connected
+                                    )
                                     val blink by rememberInfiniteTransition().animateFloat(
                                         initialValue = 1f,
                                         targetValue = 0.2f,
@@ -213,14 +224,15 @@ internal fun ListScreen(
                                         ),
                                     )
                                     Text(
-                                        text = "AI",
+                                        // Rejected is static and struck by the "!" so it is not conveyed by color alone.
+                                        text = stringResource(Res.string.ktor_mcp_label) + if (isRejected) "!" else "",
                                         style = MaterialTheme.typography.labelSmall,
-                                        color = MaterialTheme.colorScheme.error,
+                                        color = color,
                                         fontWeight = FontWeight.Bold,
                                         modifier = Modifier
                                             .semantics { contentDescription = description }
                                             .padding(start = 4.dp)
-                                            .graphicsLayer { alpha = blink },
+                                            .graphicsLayer { alpha = if (isRejected) 1f else blink },
                                         maxLines = 1,
                                     )
                                 }

@@ -347,8 +347,12 @@ Maven Central) in the AI client's MCP config:
 ```
 
 Connectivity notes: Desktop/Web use `127.0.0.1` as is; Android emulator/device needs
-`adb reverse tcp:8765 tcp:8765`; iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
+`adb reverse tcp:8765 tcp:8765` (and the `INTERNET` permission); iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
 in `Info.plist`.
+
+Optional: set `token` in `start {}` and pass the same value to the companion with `--token` (or the
+`KTOR_MONITOR_MCP_TOKEN` env var); it is verified with a challenge/response and never sent over the socket.
+A mismatch shows as `McpConnectionStatus.Rejected` and a red **AI!** badge in the list header.
 
 Exposed tools: `list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`. Headers are masked
 by `sanitizeHeader` as usual; **bodies are not sanitized** — don't enable MCP on traffic with sensitive

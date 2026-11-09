@@ -7,7 +7,8 @@ import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.booleanOrNull
+import kotlinx.serialization.json.longOrNull
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import ro.cosminmihu.ktor.monitor.mcp.protocol.AppInfo
@@ -16,7 +17,6 @@ import ro.cosminmihu.ktor.monitor.mcp.protocol.CallToolResult
 import ro.cosminmihu.ktor.monitor.mcp.protocol.InitializeParams
 import ro.cosminmihu.ktor.monitor.mcp.protocol.InitializeResult
 import ro.cosminmihu.ktor.monitor.mcp.protocol.JsonRpcError
-import ro.cosminmihu.ktor.monitor.mcp.protocol.JsonRpcRequest
 import ro.cosminmihu.ktor.monitor.mcp.protocol.JsonRpcResponse
 import ro.cosminmihu.ktor.monitor.mcp.protocol.ListToolsResult
 import ro.cosminmihu.ktor.monitor.mcp.protocol.McpJson
@@ -32,18 +32,37 @@ internal class McpServer(
     private val version: String,
 ) {
 
-    /** Handles one incoming message. Returns the response line, or `null` for notifications. */
+    /** Handles one incoming message. Returns the response line, or `null` when no response is due. */
     suspend fun handle(line: String): String? {
-        val request = try {
-            McpJson.decodeFromString<JsonRpcRequest>(line)
+        val message = try {
+            McpJson.parseToJsonElement(line)
         } catch (exception: SerializationException) {
             return error(JsonNull, PARSE_ERROR, "Parse error")
         } catch (exception: IllegalArgumentException) {
             return error(JsonNull, PARSE_ERROR, "Parse error")
         }
-        val method = request.method ?: return null
-        val id = request.id ?: return null
-        val params = request.params ?: JsonObject(emptyMap())
+        if (message !is JsonObject) {
+            return error(JsonNull, INVALID_REQUEST, "Invalid Request: expected a JSON object, batches are not supported")
+        }
+
+        val rawId = message["id"]
+        val id = rawId?.takeIf { it is JsonPrimitive && it !is JsonNull }
+        if (rawId != null && id == null) {
+            return error(JsonNull, INVALID_REQUEST, "Invalid Request: 'id' must be a string or a number")
+        }
+        val method = (message["method"] as? JsonPrimitive)?.takeIf { it.isString }?.content
+        if (method == null) {
+            // A response to a request we never send, or a malformed message.
+            if ("result" in message || "error" in message) return null
+            return error(id ?: JsonNull, INVALID_REQUEST, "Invalid Request: 'method' must be a string")
+        }
+        if (id == null) return null // Notification.
+
+        val params = when (val raw = message["params"]) {
+            null, is JsonNull -> JsonObject(emptyMap())
+            is JsonObject -> raw
+            else -> return error(id, INVALID_PARAMS, "Invalid params: expected an object")
+        }
 
         return try {
             val result = when (method) {
@@ -76,17 +95,15 @@ internal class McpServer(
         if (tools.none { it.name == name }) {
             throw IllegalArgumentException("Unknown tool: $name")
         }
-        val arguments = params.arguments ?: JsonObject(emptyMap())
 
         return try {
+            val arguments =
+                validate(tools.first { it.name == name }.inputSchema, params.arguments ?: JsonObject(emptyMap()))
             val text = if (name == "list_apps") {
                 val apps = registry.list().map { AppInfo(appId = it.appId, name = it.appName, platform = it.platform) }
                 McpJson.encodeToString(ListSerializer(AppInfo.serializer()), apps)
             } else {
-                val appId = arguments["app_id"]?.let {
-                    (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content
-                        ?: throw IllegalArgumentException("'app_id' must be a string")
-                }
+                val appId = (arguments["app_id"] as? JsonPrimitive)?.content
                 registry.call(appId, name, JsonObject(arguments - "app_id"))
             }
             CallToolResult(text, isError = false)
@@ -95,11 +112,42 @@ internal class McpServer(
         }
     }
 
+    /** Checks the arguments against the tool schema and drops `null` values. Failures are reported to the AI as tool errors. */
+    private fun validate(schema: ToolInputSchema, arguments: JsonObject): JsonObject {
+        val values = arguments.filterValues { it !is JsonNull }
+        schema.required?.firstOrNull { it !in values }?.let { throw ToolException("'$it' is required.") }
+        for ((name, value) in values) {
+            val property = schema.properties[name]
+                ?: throw ToolException("Unknown argument '$name'. Allowed: ${schema.properties.keys.joinToString()}.")
+            val primitive = value as? JsonPrimitive
+            when (property.type) {
+                "string" -> if (primitive == null || !primitive.isString) throw ToolException("'$name' must be a string.")
+                "boolean" -> if (primitive == null || primitive.isString || primitive.booleanOrNull == null) {
+                    throw ToolException("'$name' must be a boolean.")
+                }
+
+                "integer" -> {
+                    val number = primitive?.takeIf { !it.isString }?.longOrNull
+                        ?: throw ToolException("'$name' must be an integer.")
+                    if (property.minimum != null && number < property.minimum ||
+                        property.maximum != null && number > property.maximum
+                    ) {
+                        throw ToolException(
+                            "'$name' must be between ${property.minimum ?: "-infinity"} and ${property.maximum ?: "infinity"}."
+                        )
+                    }
+                }
+            }
+        }
+        return JsonObject(values)
+    }
+
     private fun error(id: JsonElement, code: Int, message: String): String =
         McpJson.encodeToString(JsonRpcResponse(id = id, error = JsonRpcError(code, message)))
 
     private companion object {
         const val PARSE_ERROR = -32700
+        const val INVALID_REQUEST = -32600
         const val METHOD_NOT_FOUND = -32601
         const val INVALID_PARAMS = -32602
         const val INTERNAL_ERROR = -32603
@@ -122,11 +170,11 @@ internal class McpServer(
                 mapOf(
                     "method" to ToolProperty("string", "HTTP method, e.g. GET."),
                     "url_contains" to ToolProperty("string", "Keep calls whose URL contains this text."),
-                    "status_min" to ToolProperty("integer", "Minimum response status code."),
-                    "status_max" to ToolProperty("integer", "Maximum response status code."),
+                    "status_min" to ToolProperty("integer", "Minimum response status code.", minimum = 100, maximum = 599),
+                    "status_max" to ToolProperty("integer", "Maximum response status code.", minimum = 100, maximum = 599),
                     "only_errors" to ToolProperty("boolean", "Only failed calls (exceptions or HTTP 4xx/5xx)."),
-                    "limit" to ToolProperty("integer", "Page size, default 50, max 200."),
-                    "offset" to ToolProperty("integer", "Start of the page, use next_offset from the previous page."),
+                    "limit" to ToolProperty("integer", "Page size, default 50, max 200.", minimum = 1, maximum = 200),
+                    "offset" to ToolProperty("integer", "Start of the page, use next_offset from the previous page.", minimum = 0),
                 ),
             ),
             tool(
@@ -135,7 +183,7 @@ internal class McpServer(
                     "WebSocket and SSE calls include their events.",
                 mapOf(
                     "id" to ToolProperty("string", "Call id from list_calls or search_calls."),
-                    "max_body_length" to ToolProperty("integer", "Maximum characters per body, default 32000."),
+                    "max_body_length" to ToolProperty("integer", "Maximum characters per body, default 32000, max 256000.", minimum = 0, maximum = 256_000),
                 ),
                 required = listOf("id"),
             ),
@@ -145,8 +193,8 @@ internal class McpServer(
                 mapOf(
                     "query" to ToolProperty("string", "Text to find, case-insensitive."),
                     "in_bodies" to ToolProperty("boolean", "Also search headers and bodies, default true."),
-                    "limit" to ToolProperty("integer", "Page size, default 50, max 200."),
-                    "offset" to ToolProperty("integer", "Start of the page, use next_offset from the previous page."),
+                    "limit" to ToolProperty("integer", "Page size, default 50, max 200.", minimum = 1, maximum = 200),
+                    "offset" to ToolProperty("integer", "Start of the page, use next_offset from the previous page.", minimum = 0),
                 ),
                 required = listOf("query"),
             ),

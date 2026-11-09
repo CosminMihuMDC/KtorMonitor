@@ -10,6 +10,7 @@ internal object Mcp {
     enum class Status {
         Connecting,
         Connected,
+        Rejected,
     }
 
     /** Parameters of the MCP `list_calls` method. */

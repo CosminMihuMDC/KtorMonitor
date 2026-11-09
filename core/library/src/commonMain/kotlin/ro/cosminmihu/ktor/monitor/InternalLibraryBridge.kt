@@ -73,13 +73,15 @@ public object InternalLibraryBridge {
      * Show the MCP connection state in the UI.
      *
      * @param isConnected `true` when connected, `false` when connecting, `null` when MCP is stopped.
+     * @param isRejected `true` when the companion refused the connection (wrong token or version), overrides [isConnected].
      */
     @InternalKtorMonitorApi
-    public fun setMcpStatus(isConnected: Boolean?) {
-        LibraryKoinContext.koin.get<ConfigUseCase>().mcpStatus.value = when (isConnected) {
-            null -> null
-            true -> Mcp.Status.Connected
-            false -> Mcp.Status.Connecting
+    public fun setMcpStatus(isConnected: Boolean?, isRejected: Boolean = false) {
+        LibraryKoinContext.koin.get<ConfigUseCase>().mcpStatus.value = when {
+            isRejected -> Mcp.Status.Rejected
+            isConnected == null -> null
+            isConnected -> Mcp.Status.Connected
+            else -> Mcp.Status.Connecting
         }
     }
 

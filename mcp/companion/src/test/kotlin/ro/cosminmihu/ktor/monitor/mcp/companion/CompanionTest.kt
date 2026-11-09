@@ -20,7 +20,14 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
+import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Auth
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Challenge
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
+import ro.cosminmihu.ktor.monitor.mcp.protocol.appProof
+import ro.cosminmihu.ktor.monitor.mcp.protocol.companionProof
+import ro.cosminmihu.ktor.monitor.mcp.protocol.hmacSha256
+import ro.cosminmihu.ktor.monitor.mcp.protocol.newNonce
 import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
@@ -35,6 +42,18 @@ import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.milliseconds
 
 class CompanionTest {
+
+    /** Plays the app side of the authenticated handshake. */
+    private suspend fun DefaultClientWebSocketSession.handshake(token: String?, verifyCompanion: Boolean = true): HelloAck {
+        val nonce = newNonce()
+        send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test", clientNonce = nonce).encode()))
+        val challenge = decodeMessage((incoming.receive() as Frame.Text).readText()) as Challenge
+        if (token != null && verifyCompanion) {
+            assertEquals(companionProof(token, nonce, challenge.serverNonce), challenge.proof)
+        }
+        send(Frame.Text(Auth(token?.let { appProof(it, nonce, challenge.serverNonce) }).encode()))
+        return decodeMessage((incoming.receive() as Frame.Text).readText()) as HelloAck
+    }
 
     private fun freePort() = ServerSocket(0).use { it.localPort }
 
@@ -96,8 +115,7 @@ class CompanionTest {
         try {
             val appJob = launch(kotlinx.coroutines.Dispatchers.IO) {
                 client.webSocket(host = DEFAULT_HOST, port = port, path = APP_PATH) {
-                    send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test", token = "secret").encode()))
-                    assertTrue((decodeMessage((incoming.receive() as Frame.Text).readText()) as HelloAck).ok)
+                    assertTrue(handshake("secret").ok)
                     for (frame in incoming) {
                         val request = decodeMessage((frame as Frame.Text).readText()) as Request
                         send(Frame.Text(Response(request.id, result = """{"echo":"${request.method}","limit":${request.params["limit"]}}""").encode()))
@@ -130,8 +148,7 @@ class CompanionTest {
         try {
             var ack: HelloAck? = null
             client.webSocket(host = DEFAULT_HOST, port = port, path = APP_PATH) {
-                send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test", token = "wrong").encode()))
-                ack = decodeMessage((incoming.receive() as Frame.Text).readText()) as HelloAck
+                ack = handshake("wrong", verifyCompanion = false)
             }
             assertFalse(ack!!.ok)
             assertTrue(registry.list().isEmpty())
@@ -156,9 +173,7 @@ class CompanionTest {
                     path = APP_PATH,
                     request = { header(HttpHeaders.Origin, origin) },
                 ) {
-                    send(Frame.Text(Hello(appId = "a1", appName = "Sample", platform = "Test").encode()))
-                    val frame = incoming.receiveCatching().getOrNull() as? Frame.Text
-                    accepted = frame?.let { (decodeMessage(it.readText()) as? HelloAck)?.ok } == true
+                    accepted = runCatching { handshake(null).ok }.getOrDefault(false)
                 }
                 return accepted
             }
@@ -168,5 +183,46 @@ class CompanionTest {
             client.close()
             server.stop(100, 500)
         }
+    }
+
+    @Test
+    fun hmacMatchesTheJdkImplementation() {
+        for (size in listOf(0, 1, 55, 56, 64, 65, 200)) {
+            val key = ByteArray(size) { (it * 7).toByte() }
+            val message = ByteArray(size * 3) { (it * 13).toByte() }
+            val mac = javax.crypto.Mac.getInstance("HmacSHA256")
+            mac.init(javax.crypto.spec.SecretKeySpec(key.copyOf(maxOf(size, 1)), "HmacSHA256"))
+            if (size > 0) assertTrue(mac.doFinal(message).contentEquals(hmacSha256(key, message)), "size $size")
+        }
+    }
+
+    @Test
+    fun jsonRpcEdgeCasesReturnProperErrors() = runBlocking {
+        val mcp = McpServer(AppRegistry(), "test")
+        suspend fun code(line: String) = Json.parseToJsonElement(mcp.handle(line)!!).jsonObject["error"]!!
+            .jsonObject["code"]!!.jsonPrimitive.int
+
+        assertEquals(-32600, code("""[{"jsonrpc":"2.0","id":1,"method":"ping"}]"""))
+        assertEquals(-32600, code("""{"jsonrpc":"2.0","id":{"a":1},"method":"ping"}"""))
+        assertEquals(-32600, code("""{"jsonrpc":"2.0","id":1,"method":5}"""))
+        assertEquals(-32602, code("""{"jsonrpc":"2.0","id":1,"method":"tools/list","params":[1]}"""))
+        assertEquals(-32602, code("""{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":5}}"""))
+        assertNull(mcp.handle("""{"jsonrpc":"2.0","id":1,"result":{}}"""))
+    }
+
+    @Test
+    fun toolArgumentsAreValidatedBeforeReachingTheApp() = runBlocking {
+        val mcp = McpServer(AppRegistry(), "test")
+        suspend fun text(name: String, args: String): String {
+            val response = Json.parseToJsonElement(mcp.handle(toolCall(name, args))!!).jsonObject
+            assertTrue(response.isToolError(), "$name $args")
+            return response.toolText()
+        }
+        assertTrue(text("get_stats", """{"app_id":5}""").contains("'app_id' must be a string"))
+        assertTrue(text("list_calls", """{"limit":"abc"}""").contains("'limit' must be an integer"))
+        assertTrue(text("list_calls", """{"limit":500}""").contains("between 1 and 200"))
+        assertTrue(text("list_calls", """{"only_errors":"yes"}""").contains("must be a boolean"))
+        assertTrue(text("list_calls", """{"bogus":1}""").contains("Unknown argument 'bogus'"))
+        assertTrue(text("get_call", "{}").contains("'id' is required"))
     }
 }

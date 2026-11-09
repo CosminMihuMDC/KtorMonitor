@@ -10,7 +10,9 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Semaphore
@@ -19,12 +21,19 @@ import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.TimeSource
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Auth
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Cancel
+import ro.cosminmihu.ktor.monitor.mcp.protocol.Challenge
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
 import ro.cosminmihu.ktor.monitor.mcp.protocol.HelloAck
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Message
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Request
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Response
+import ro.cosminmihu.ktor.monitor.mcp.protocol.appProof
+import ro.cosminmihu.ktor.monitor.mcp.protocol.companionProof
+import ro.cosminmihu.ktor.monitor.mcp.protocol.constantTimeEquals
 import ro.cosminmihu.ktor.monitor.mcp.protocol.decodeMessageOrNull
+import ro.cosminmihu.ktor.monitor.mcp.protocol.newNonce
 import ro.cosminmihu.ktor.monitor.mcp.protocol.encode
 import kotlin.time.Duration
 import kotlin.time.Duration.Companion.seconds
@@ -47,7 +56,7 @@ internal class McpClient(
 ) {
 
     suspend fun run() {
-        val client = HttpClient { install(WebSockets) { maxFrameSize = MAX_FRAME_SIZE } }
+        val client = HttpClient { install(WebSockets) }
         var attempt = 0
         try {
             while (currentCoroutineContext().isActive) {
@@ -72,16 +81,37 @@ internal class McpClient(
 
     private suspend fun connect(client: HttpClient, onConnected: () -> Unit) {
         client.webSocket(host = settings.host, port = settings.port, path = APP_PATH) {
+            val clientNonce = newNonce()
             send(
                 Frame.Text(
                     Hello(
                         appId = settings.appId,
                         appName = settings.appName,
                         platform = settings.platform,
-                        token = settings.token,
+                        clientNonce = clientNonce,
                     ).encode()
                 )
             )
+            val challenge = when (val message = withTimeoutOrNull(HELLO_TIMEOUT) { readMessage() }) {
+                is Challenge -> message
+                is HelloAck -> {
+                    // Either an explicit refusal (e.g. protocol version) or a companion without authentication.
+                    status.value = McpConnectionStatus.Rejected
+                    return@webSocket
+                }
+
+                else -> return@webSocket
+            }
+            val token = settings.token
+            if (token != null &&
+                !constantTimeEquals(challenge.proof, companionProof(token, clientNonce, challenge.serverNonce))
+            ) {
+                // The peer does not know the token: do not talk to it.
+                status.value = McpConnectionStatus.Rejected
+                return@webSocket
+            }
+            send(Frame.Text(Auth(token?.let { appProof(it, clientNonce, challenge.serverNonce) }).encode()))
+
             val ack = withTimeoutOrNull(HELLO_TIMEOUT) { readMessage() } as? HelloAck ?: return@webSocket
             if (!ack.ok) {
                 status.value = McpConnectionStatus.Rejected
@@ -91,20 +121,27 @@ internal class McpClient(
             onConnected()
 
             val permits = Semaphore(MAX_CONCURRENT_REQUESTS)
+            val running = MutableStateFlow<Map<Long, Job>>(emptyMap())
             coroutineScope {
                 for (frame in incoming) {
-                    val request = (frame as? Frame.Text)?.readText()
-                        ?.let(::decodeMessageOrNull) as? Request
-                        ?: continue
-                    launch {
-                        val response = permits.withPermit { answer(request).encode() }
-                        try {
-                            send(Frame.Text(response))
-                        } catch (exception: CancellationException) {
-                            throw exception
-                        } catch (_: Throwable) {
-                            // The socket closed while the query ran; the loop above ends the connection.
+                    when (val message = (frame as? Frame.Text)?.takeIf { it.data.size <= MAX_FRAME_SIZE }?.readText()?.let(::decodeMessageOrNull)) {
+                        is Cancel -> running.value[message.id]?.cancel()
+                        is Request -> {
+                            val job = launch {
+                                val response = permits.withPermit { answer(message).encode() }
+                                try {
+                                    send(Frame.Text(response))
+                                } catch (exception: CancellationException) {
+                                    throw exception
+                                } catch (_: Throwable) {
+                                    // The socket closed while the query ran; the loop above ends the connection.
+                                }
+                            }
+                            running.update { it + (message.id to job) }
+                            job.invokeOnCompletion { running.update { it - message.id } }
                         }
+
+                        else -> Unit
                     }
                 }
             }
@@ -131,4 +168,5 @@ internal class McpClient(
 private val HELLO_TIMEOUT = 10.seconds
 private val STABLE_CONNECTION = 30.seconds
 private const val MAX_CONCURRENT_REQUESTS = 4
-private const val MAX_FRAME_SIZE = 16L * 1024 * 1024
+// Not enforced through the engine config: not every Ktor engine (e.g. OkHttp) supports `maxFrameSize`.
+private const val MAX_FRAME_SIZE = 1024 * 1024

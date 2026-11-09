@@ -110,7 +110,7 @@ kotlin {
             // Default host and port shared with the real library (source-only, not a published module).
             // Only the plain constants are compiled: the no-op module has no serialization plugin.
             kotlin.srcDir("../protocol/src/commonMain/kotlin")
-            kotlin.exclude("**/protocol/Protocol.kt", "**/protocol/McpModels.kt")
+            kotlin.exclude("**/protocol/Protocol.kt", "**/protocol/McpModels.kt", "**/protocol/ProtocolAuth.kt")
             dependencies {
                 api(projects.core.libraryNoOp)
                 implementation(libs.kotlinx.coroutines.core)

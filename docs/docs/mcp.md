@@ -22,7 +22,10 @@ KtorMonitorMcp.start {
 }
 ```
 
-`KtorMonitorMcp.status` exposes the connection state; it is also shown in the list header.
+`KtorMonitorMcp.status` exposes the connection state (`Stopped`, `Connecting`, `Connected`, `Rejected`).
+The list header shows a blinking **AI** badge while connected and a static red **AI!** when the companion
+rejected the connection (wrong `token`, or different library and companion versions). Nothing is shown while
+connecting or stopped.
 
 ## 2. Run the companion in your AI client
 
@@ -53,11 +56,17 @@ The server only listens on `127.0.0.1`.
 ## Tools
 
 `list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats` (all accept an optional `app_id`).
+Arguments are validated against the tool schema (types and ranges, e.g. `limit` 1..200, `max_body_length` up to 256000); invalid input is returned to the AI as a tool error so it can retry.
 `list_calls`/`search_calls` paginate with `offset` / `next_offset`; bodies are truncated by `max_body_length`.
 
 ## Security notes
 
 * Headers are masked by your `sanitizeHeader` config at capture time, so the AI sees the same masked values as the UI.
 * **Bodies are not sanitized.** Do not enable MCP when traffic contains data you don't want an AI to read.
-* Use the optional `token` as a shared secret between app and companion.
+* Set a `token` (and pass the same value with `--token` or `KTOR_MONITOR_MCP_TOKEN`, which keeps it out of the process list).
+  The token is never sent over the socket: app and companion prove they know it with a challenge/response (HMAC-SHA256),
+  so a process that grabs the port first can neither learn the token nor read your traffic. Without a token, any local
+  process can pose as an app or read the calls, only web pages are blocked.
+* Responses are bounded (max 4 concurrent queries per app, bodies capped at 256000 characters) and the companion
+  cancels the work in the app when a request times out.
 * The MCP server is a small hand-written JSON-RPC implementation (protocol versions 2025-06-18, 2025-03-26, 2024-11-05).

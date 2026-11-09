@@ -83,11 +83,12 @@ public object KtorMonitorMcp {
     @OptIn(InternalKtorMonitorApi::class)
     private fun publish(status: McpConnectionStatus) {
         InternalLibraryBridge.setMcpStatus(
-            when (status) {
+            isConnected = when (status) {
                 McpConnectionStatus.Stopped -> null
                 McpConnectionStatus.Connecting, McpConnectionStatus.Rejected -> false
                 McpConnectionStatus.Connected -> true
-            }
+            },
+            isRejected = status == McpConnectionStatus.Rejected,
         )
     }
 }
