@@ -13,7 +13,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withTimeoutOrNull
+import kotlin.time.TimeSource
 import ro.cosminmihu.ktor.monitor.McpConnectionStatus
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Hello
@@ -44,19 +47,22 @@ internal class McpClient(
 ) {
 
     suspend fun run() {
-        val client = HttpClient { install(WebSockets) }
+        val client = HttpClient { install(WebSockets) { maxFrameSize = MAX_FRAME_SIZE } }
         var attempt = 0
         try {
             while (currentCoroutineContext().isActive) {
                 if (status.value != McpConnectionStatus.Rejected) status.value = McpConnectionStatus.Connecting
+                var connectedAt: TimeSource.Monotonic.ValueTimeMark? = null
                 try {
-                    connect(client) { attempt = 0 }
+                    connect(client) { connectedAt = TimeSource.Monotonic.markNow() }
                 } catch (exception: CancellationException) {
                     throw exception
                 } catch (_: Throwable) {
                     // Companion not running or connection lost, retry.
                 }
                 if (status.value != McpConnectionStatus.Rejected) status.value = McpConnectionStatus.Connecting
+                // Only reset the backoff when the connection was stable, so a companion that drops us right away is not hammered.
+                if (connectedAt?.let { it.elapsedNow() >= STABLE_CONNECTION } == true) attempt = 0
                 delay(retryDelays[minOf(attempt++, retryDelays.lastIndex)])
             }
         } finally {
@@ -84,13 +90,14 @@ internal class McpClient(
             status.value = McpConnectionStatus.Connected
             onConnected()
 
+            val permits = Semaphore(MAX_CONCURRENT_REQUESTS)
             coroutineScope {
                 for (frame in incoming) {
                     val request = (frame as? Frame.Text)?.readText()
                         ?.let(::decodeMessageOrNull) as? Request
                         ?: continue
                     launch {
-                        val response = answer(request).encode()
+                        val response = permits.withPermit { answer(request).encode() }
                         try {
                             send(Frame.Text(response))
                         } catch (exception: CancellationException) {
@@ -122,3 +129,6 @@ internal class McpClient(
 }
 
 private val HELLO_TIMEOUT = 10.seconds
+private val STABLE_CONNECTION = 30.seconds
+private const val MAX_CONCURRENT_REQUESTS = 4
+private const val MAX_FRAME_SIZE = 16L * 1024 * 1024

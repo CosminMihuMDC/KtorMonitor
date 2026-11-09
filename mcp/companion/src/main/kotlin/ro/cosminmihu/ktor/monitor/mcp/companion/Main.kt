@@ -1,6 +1,9 @@
 package ro.cosminmihu.ktor.monitor.mcp.companion
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.joinAll
+import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
@@ -60,7 +63,8 @@ fun main(args: Array<String>) {
             }
         }
     }
-    // stdin closed: the AI client went away.
+    // stdin closed: let in-flight requests answer before exiting.
+    runBlocking { withTimeoutOrNull(5_000) { scope.coroutineContext[Job]?.children?.toList()?.joinAll() } }
     server.stop(500, 1000)
     exitProcess(0)
 }
@@ -68,12 +72,13 @@ fun main(args: Array<String>) {
 private class Options(val port: Int, val token: String?)
 
 private fun parseArgs(args: Array<String>): Options? {
-    var port = System.getenv("KTOR_MONITOR_MCP_PORT")?.toIntOrNull() ?: DEFAULT_PORT
+    var port = System.getenv("KTOR_MONITOR_MCP_PORT")?.let { it.toIntOrNull()?.takeIf { p -> p in 1..65535 } ?: return null }
+        ?: DEFAULT_PORT
     var token = System.getenv("KTOR_MONITOR_MCP_TOKEN")?.takeIf { it.isNotEmpty() }
     var i = 0
     while (i < args.size) {
         when (args[i]) {
-            "--port" -> port = args.getOrNull(++i)?.toIntOrNull() ?: return null
+            "--port" -> port = args.getOrNull(++i)?.toIntOrNull()?.takeIf { it in 1..65535 } ?: return null
             "--token" -> token = args.getOrNull(++i) ?: return null
             else -> return null
         }

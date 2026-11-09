@@ -83,7 +83,10 @@ internal class McpServer(
                 val apps = registry.list().map { AppInfo(appId = it.appId, name = it.appName, platform = it.platform) }
                 McpJson.encodeToString(ListSerializer(AppInfo.serializer()), apps)
             } else {
-                val appId = (arguments["app_id"] as? JsonPrimitive)?.contentOrNull
+                val appId = arguments["app_id"]?.let {
+                    (it as? JsonPrimitive)?.takeIf { p -> p.isString }?.content
+                        ?: throw IllegalArgumentException("'app_id' must be a string")
+                }
                 registry.call(appId, name, JsonObject(arguments - "app_id"))
             }
             CallToolResult(text, isError = false)

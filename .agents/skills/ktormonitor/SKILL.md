@@ -332,7 +332,7 @@ KtorMonitorMcp.start {
 }
 ```
 
-Register the companion JAR (`ktor-monitor-mcp-companion-1.17.0-all.jar`, Java 17+, downloaded from
+Register the companion JAR (`ktor-monitor-mcp-companion-1.17.0-all.jar`, Java 11+, downloaded from
 Maven Central) in the AI client's MCP config:
 
 ```json

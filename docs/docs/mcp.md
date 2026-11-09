@@ -26,7 +26,7 @@ KtorMonitorMcp.start {
 
 ## 2. Run the companion in your AI client
 
-Download `ktor-monitor-mcp-companion-<version>-all.jar` from Maven Central (Java 17+), then register it:
+Download `ktor-monitor-mcp-companion-<version>-all.jar` from Maven Central (Java 11+), then register it:
 
 ```json
 {

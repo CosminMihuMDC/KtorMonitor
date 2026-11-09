@@ -41,7 +41,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5.0.0
 
       - name: Run unit tests
-        run: ./gradlew jvmTest
+        run: ./gradlew jvmTest :mcp:companion:test
 
 #      - name: Upload test reports
 #        uses: actions/upload-artifact@v7

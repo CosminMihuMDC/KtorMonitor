@@ -116,7 +116,7 @@ internal class McpQueryUseCase(
 
     private suspend fun getCall(params: Mcp.GetCallParams): Mcp.CallDetail {
         val id = params.id ?: throw IllegalArgumentException("'id' is required")
-        val maxBody = (params.maxBodyLength ?: DEFAULT_BODY_LENGTH).coerceAtLeast(0)
+        val maxBody = (params.maxBodyLength ?: DEFAULT_BODY_LENGTH).coerceIn(0, MAX_BODY_LENGTH)
         val call = dao.getCalls(listOf(id)).firstOrNull()
             ?: throw IllegalArgumentException("Call not found: $id")
         val events = if (call.streamKind != null) dao.getStreamEvents(listOf(id)) else emptyList()
@@ -230,6 +230,7 @@ internal class McpQueryUseCase(
         private const val DEFAULT_LIMIT = 50
         private const val MAX_LIMIT = 200
         private const val DEFAULT_BODY_LENGTH = 32_000
+        private const val MAX_BODY_LENGTH = 256_000
         private const val MAX_STREAM_EVENTS = 200
         private const val BODY_SEARCH_CHUNK = 50
         private const val TOP_HOSTS = 10
