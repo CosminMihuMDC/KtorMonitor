@@ -332,15 +332,23 @@ KtorMonitorMcp.start {
 }
 ```
 
-Register the companion JAR (`ktor-monitor-mcp-companion-1.18.0-all.jar`, Java 11+, downloaded from
-Maven Central) in the AI client's MCP config:
+Download the companion fat JAR (Java 11+; its version must equal the library version):
+
+```bash
+mkdir -p ~/.ktor-monitor && curl -L -o ~/.ktor-monitor/ktor-monitor-mcp-companion-all.jar \
+  https://repo1.maven.org/maven2/ro/cosminmihu/ktor/ktor-monitor-mcp-companion/1.18.0/ktor-monitor-mcp-companion-1.18.0-all.jar
+```
+
+Register it in the AI client's MCP config using an **absolute** JAR path (the client launches it; never run it
+manually; restart the client afterwards; VS Code uses key `servers` + `"type": "stdio"` in `.vscode/mcp.json`;
+Claude Code: `claude mcp add ktor-monitor -- java -jar <abs path>`):
 
 ```json
 {
   "mcpServers": {
     "ktor-monitor": {
       "command": "java",
-      "args": ["-jar", "/path/to/ktor-monitor-mcp-companion-1.18.0-all.jar"]
+      "args": ["-jar", "/absolute/path/ktor-monitor-mcp-companion-all.jar"]
     }
   }
 }
@@ -356,7 +364,8 @@ A mismatch shows as `McpConnectionStatus.Rejected` and a red **AI!** badge in th
 
 Exposed tools: `list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`. Headers are masked
 by `sanitizeHeader` as usual; **bodies are not sanitized** — don't enable MCP on traffic with sensitive
-bodies. See `docs/docs/mcp.md` for full details.
+bodies. Verify by running the app and asking the AI to call `list_apps`. See `docs/docs/mcp.md` for
+per-client configs, troubleshooting and full details.
 
 ---
 
