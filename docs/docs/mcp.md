@@ -85,28 +85,36 @@ e.g. `/Users/you/.ktor-monitor/ktor-monitor-mcp-companion-all.jar`.
 
 ## 3. Register the companion in your AI client
 
-The client launches the JAR itself over stdio; you never run it manually. The server name is `ktor-monitor`.
+Clients that support local `stdio` servers launch the JAR themselves; you never run it manually.
+The server name is `ktor-monitor`.
 
 === "Copilot CLI"
 
-    Add to `~/.copilot/mcp-config.json` (or run `/mcp add` in the CLI):
+    For a project-specific server, add `.mcp.json` at the repository root. To share the
+    configuration with collaborators, commit it as `.github/mcp.json` instead:
 
     ```json
     {
       "mcpServers": {
         "ktor-monitor": {
-          "type": "local",
+          "type": "stdio",
           "command": "java",
-          "args": ["-jar", "/absolute/path/ktor-monitor-mcp-companion-all.jar"],
-          "tools": ["*"]
+          "args": ["-jar", "/absolute/path/ktor-monitor-mcp-companion-all.jar"]
         }
       }
     }
     ```
 
+    Copilot CLI loads project-level configs only for trusted repositories. The `.vscode/mcp.json`
+    format is not read by Copilot CLI.
+
+    For a user-wide server instead, add the same entry to `~/.copilot/mcp-config.json` or run
+    `/mcp add` in the CLI.
+
 === "VS Code / Copilot Chat"
 
-    `.vscode/mcp.json` (note the key is `servers`, not `mcpServers`):
+    For a project/workspace-specific server, add `.vscode/mcp.json` to the workspace. Its key is
+    `servers` (not `mcpServers`):
 
     ```json
     {
@@ -120,15 +128,45 @@ The client launches the JAR itself over stdio; you never run it manually. The se
     }
     ```
 
+    You can also use the repository-root `.mcp.json` from the Copilot CLI example above; VS Code
+    forwards eligible servers from that portable format to Copilot Chat. The `.vscode/mcp.json`
+    format is specific to VS Code and is not read by Copilot CLI.
+
 === "Claude Code"
 
+    For a project-shared server, run this from the project directory; Claude Code writes it to
+    `.mcp.json`:
+
     ```bash
-    claude mcp add ktor-monitor -- java -jar /absolute/path/ktor-monitor-mcp-companion-all.jar
+    claude mcp add --scope project --transport stdio ktor-monitor -- \
+      java -jar /absolute/path/ktor-monitor-mcp-companion-all.jar
     ```
 
-=== "Claude Desktop / Cursor"
+    For a personal server available across projects, use `--scope user` instead of
+    `--scope project`.
 
-    `claude_desktop_config.json` or `~/.cursor/mcp.json`:
+=== "Claude Desktop"
+
+    Add the server in Claude Desktop's MCP settings (or edit its `claude_desktop_config.json`).
+    This is a user-level configuration; Claude Desktop does not use Claude Code's project
+    `.mcp.json`.
+
+    ```json
+    {
+      "mcpServers": {
+        "ktor-monitor": {
+          "command": "java",
+          "args": ["-jar", "/absolute/path/ktor-monitor-mcp-companion-all.jar"]
+        }
+      }
+    }
+    ```
+
+=== "Cursor"
+
+    For a project-specific server, add `.cursor/mcp.json` to the project. Commit it to share the
+    configuration with collaborators. Cursor also reads `~/.cursor/mcp.json` for user-wide
+    servers; the project config takes precedence when server names conflict.
 
     ```json
     {
@@ -143,7 +181,10 @@ The client launches the JAR itself over stdio; you never run it manually. The se
 
 === "Android Studio (Gemini)"
 
-    Settings > Tools > AI > MCP Servers, or the same `mcpServers` JSON as above.
+    MCP servers are configured under **Settings > Tools > AI > MCP Servers** and stored in
+    Android Studio's configuration directory, not in a project-level file. Android Studio's MCP
+    integration currently does not support `stdio`, so it cannot launch the Ktor Monitor companion
+    JAR directly.
 
 Restart the client (or reload MCP servers) after editing the config.
 

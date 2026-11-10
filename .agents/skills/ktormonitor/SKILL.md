@@ -3,9 +3,10 @@ name: ktormonitor
 version: 1.18.0
 description: >
   KtorMonitor is a Kotlin Multiplatform library for real-time HTTP traffic monitoring.
-  It supports Ktor Client, OkHttp, and http4k on Android, iOS, Desktop JVM, Wasm, and JS.
-  Use this skill when a developer needs to integrate, configure, display, or troubleshoot
-  HTTP monitoring in a Kotlin or Android project.
+  It supports Ktor Client, OkHttp, http4k, and optional MCP integration on Android, iOS,
+  Desktop JVM, Wasm, and JS. Use this skill when a developer needs to integrate, configure,
+  display, or troubleshoot HTTP monitoring or MCP access to captured traffic in a Kotlin
+  or Android project.
 tags:
   - kotlin
   - android
@@ -14,6 +15,7 @@ tags:
   - ktor
   - okhttp
   - http4k
+  - mcp
   - compose-multiplatform
   - networking
   - debugging
