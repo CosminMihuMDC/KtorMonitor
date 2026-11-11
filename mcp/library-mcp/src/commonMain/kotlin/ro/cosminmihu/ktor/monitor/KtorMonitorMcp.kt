@@ -5,6 +5,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.getAndUpdate
 import kotlinx.coroutines.launch
 import ro.cosminmihu.ktor.monitor.mcp.McpClient
@@ -12,6 +13,7 @@ import ro.cosminmihu.ktor.monitor.mcp.McpSettings
 import ro.cosminmihu.ktor.monitor.mcp.platformName
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
+import ro.cosminmihu.ktor.monitor.mcp.protocol.PORT_FALLBACK_COUNT
 
 /**
  * Lets AI agents (Copilot, Claude, Cursor, ...) query the calls captured by Ktor Monitor, through
@@ -49,23 +51,37 @@ public object KtorMonitorMcp {
     @OptIn(InternalKtorMonitorApi::class)
     public fun start(block: KtorMonitorMcpConfig.() -> Unit = {}) {
         val config = KtorMonitorMcpConfig().apply(block)
-        val settings = McpSettings(
-            host = config.host,
-            port = config.port,
-            token = config.token,
-            appId = InternalLibraryBridge.newCallId(),
-            appName = config.appName ?: platformName(),
-            platform = platformName(),
-        )
-        val client = McpClient(
-            settings = settings,
-            status = mutableStatus,
-            query = InternalLibraryBridge::mcpQuery,
-        )
+        val appId = InternalLibraryBridge.newCallId()
+        // A busy port makes the companion use the next free one, so connect to every companion in the range.
+        val ports = (config.port until config.port + PORT_FALLBACK_COUNT).filter { it <= 65535 }
+        val portStatuses = ports.map { MutableStateFlow(McpConnectionStatus.Connecting) }
+        val clients = ports.mapIndexed { index, port ->
+            McpClient(
+                settings = McpSettings(
+                    host = config.host,
+                    port = port,
+                    token = config.token,
+                    appId = appId,
+                    appName = config.appName ?: platformName(),
+                    platform = platformName(),
+                ),
+                status = portStatuses[index],
+                query = InternalLibraryBridge::mcpQuery,
+            )
+        }
         mutableStatus.value = McpConnectionStatus.Connecting
         val newJob = InternalLibraryBridge.coroutineScope().launch(start = CoroutineStart.LAZY) {
             launch { mutableStatus.collect { publish(it) } }
-            client.run()
+            launch {
+                combine(portStatuses) { statuses ->
+                    when {
+                        McpConnectionStatus.Connected in statuses -> McpConnectionStatus.Connected
+                        McpConnectionStatus.Rejected in statuses -> McpConnectionStatus.Rejected
+                        else -> McpConnectionStatus.Connecting
+                    }
+                }.collect { mutableStatus.value = it }
+            }
+            clients.forEach { launch { it.run() } }
         }
         job.getAndUpdate { newJob }?.cancel()
         newJob.start()
@@ -108,7 +124,8 @@ public class KtorMonitorMcpConfig {
     public var host: String = DEFAULT_HOST
 
     /**
-     * The companion port. By default 8765.
+     * The companion port. By default 8765. If the companion finds it busy it uses the next free port,
+     * so the app also tries the following ports (up to 9 more).
      */
     public var port: Int = DEFAULT_PORT
 

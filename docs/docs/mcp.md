@@ -192,9 +192,12 @@ Options (optional): `--port` / `KTOR_MONITOR_MCP_PORT` (default `8765`), `--toke
 (must match `token` in the app config). Add them to `args`, or use `"env": { "KTOR_MONITOR_MCP_TOKEN": "..." }`
 to keep the token out of the process list. The server only listens on `127.0.0.1`.
 
-!!! tip "Port in use"
-    Only **one** companion can listen on a port. If you run several AI clients or projects at once,
-    give each a different `--port` and set the matching `port` in the app's `start {}`.
+!!! tip "Several projects at once"
+    Only **one** companion can listen on a port. If the port is busy (e.g. another project's companion),
+    the companion automatically uses the next free one, up to 9 ports after the configured one, and logs it.
+    The app connects to every companion in that range, so no manual port is needed. Note that the app is then
+    visible to the AI client of each companion running on the same machine.
+    On Android, run `adb reverse` for the range (e.g. `tcp:8765` to `tcp:8774`).
 
 ## 4. Verify it works
 
@@ -218,7 +221,7 @@ to keep the token out of the process list. The server only listens on `127.0.0.1
 | AI client shows the server as failed / no tools | Check `java -version` is 11+, the JAR path is absolute and is the `-all` JAR. Companion logs go to stderr prefixed with `[ktor-monitor-mcp]` (see the client's MCP log). |
 | `list_apps` returns nothing | The app is not connected: it did not call `KtorMonitorMcp.start()`, is a release build (no-op), or cannot reach the host/port (see [Connectivity](#5-connectivity)). |
 | Red **AI!** badge / `Rejected` | `token` differs between app and companion, or library and companion versions differ. |
-| Port already in use | Another companion is running; change `--port` and the app `port`. |
+| Port already in use | Handled automatically (next free port, up to 9 more). If all are busy, stop old companions or change `--port` and the app `port`. |
 | Android: connection fails | Run `adb reverse tcp:8765 tcp:8765`, allow cleartext in debug, add `INTERNET` permission. |
 
 ## Tools

@@ -12,6 +12,7 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
+import ro.cosminmihu.ktor.monitor.mcp.protocol.PORT_FALLBACK_COUNT
 import java.io.FileDescriptor
 import java.io.FileOutputStream
 import java.io.PrintStream
@@ -22,7 +23,7 @@ Ktor Monitor MCP companion
 
 Usage: java -jar ktor-monitor-mcp-companion-<version>-all.jar [--port 8765] [--token <secret>]
 
-  --port    WebSocket port the apps connect to (env KTOR_MONITOR_MCP_PORT, default 8765).
+  --port    Preferred WebSocket port (env KTOR_MONITOR_MCP_PORT, default 8765); if busy, the next free one (up to +9).
   --token   Shared secret the apps must send (env KTOR_MONITOR_MCP_TOKEN, default: none).
 
 The MCP server speaks over stdin/stdout. Logs go to stderr.
@@ -39,13 +40,24 @@ fun main(args: Array<String>) {
     }
 
     val registry = AppRegistry()
-    val server = try {
-        startWebSocketServer(registry, options.port, options.token)
-    } catch (exception: Exception) {
-        log("Cannot listen on $DEFAULT_HOST:${options.port}: ${exception.message}")
+    var lastError: Exception? = null
+    val started = (options.port until options.port + PORT_FALLBACK_COUNT)
+        .filter { it <= 65535 }
+        .firstNotNullOfOrNull { port ->
+            try {
+                port to startWebSocketServer(registry, port, options.token)
+            } catch (exception: Exception) {
+                lastError = exception
+                log("Port $port is busy, trying the next one")
+                null
+            }
+        }
+    if (started == null) {
+        log("Cannot listen on $DEFAULT_HOST:${options.port}..: ${lastError?.message}")
         exitProcess(1)
     }
-    log("Listening for apps on ws://$DEFAULT_HOST:${options.port}")
+    val (port, server) = started
+    log("Listening for apps on ws://$DEFAULT_HOST:$port")
 
     val mcp = McpServer(registry, McpServer::class.java.`package`?.implementationVersion ?: "dev")
     val out = PrintStream(FileOutputStream(FileDescriptor.out), true, Charsets.UTF_8)
