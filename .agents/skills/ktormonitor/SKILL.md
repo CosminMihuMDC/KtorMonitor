@@ -326,13 +326,18 @@ dependencies {
 ```
 
 ```kotlin
-import ro.cosminmihu.ktor.monitor.KtorMonitorMcp
+import ro.cosminmihu.ktor.monitor.KtorMonitor
 
 // Call once, e.g. in debug builds only. Does nothing unless called.
-KtorMonitorMcp.start {
-    // host = "127.0.0.1"; port = 2991; token = null; appName = null
+KtorMonitor.MCP.start {
+    appName = "MyApp" // recommended: shows which app is which in list_apps
+    // host = "127.0.0.1"
+    // port = 2991
+    // token = null
 }
 ```
+
+Always set `appName` (optional, but recommended): by default it is only the platform name, so several apps cannot be told apart in `list_apps`.
 
 Download the companion fat JAR (Java 11+; its version must equal the library version):
 
@@ -356,13 +361,18 @@ Claude Code: `claude mcp add ktor-monitor -- java -jar <abs path>`):
 }
 ```
 
+Port: default `2991`. If it is busy (e.g. another project's companion is running), the companion
+automatically takes the next free port (up to `3000`) and the app connects to every companion in that range,
+so no manual port is needed; `--port` / `port` only change the preferred first port.
+
 Connectivity notes: Desktop/Web use `127.0.0.1` as is; Android emulator/device needs
-`adb reverse tcp:2991 tcp:2991` (and the `INTERNET` permission); iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
+`adb reverse tcp:2991 tcp:2991` (for the fallback range also `tcp:2992` … `tcp:3000`), the `INTERNET` permission and cleartext
+traffic allowed in debug; iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
 in `Info.plist`.
 
 Optional: set `token` in `start {}` and pass the same value to the companion with `--token` (or the
 `KTOR_MONITOR_MCP_TOKEN` env var); it is verified with a challenge/response and never sent over the socket.
-A mismatch shows as `McpConnectionStatus.Rejected` and a red **AI!** badge in the list header.
+A mismatch shows as `KtorMonitor.MCP.ConnectionStatus.Rejected` and a red **AI!** badge in the list header.
 
 Exposed tools: `list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`. Headers are masked
 by `sanitizeHeader` as usual; **bodies are not sanitized** — don't enable MCP on traffic with sensitive

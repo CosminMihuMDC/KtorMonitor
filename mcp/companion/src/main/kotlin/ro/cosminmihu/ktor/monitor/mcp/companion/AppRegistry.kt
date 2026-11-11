@@ -80,7 +80,7 @@ internal class AppRegistry(private val requestTimeout: Duration = 15.seconds) {
                 ?: throw ToolException("No app with id '$appId' is connected. Use list_apps to see the connected apps.")
 
             apps.isEmpty() -> throw ToolException(
-                "No app is connected. Start the app with KtorMonitorMcp.start() and make sure it can reach this " +
+                "No app is connected. Start the app with KtorMonitor.MCP.start() and make sure it can reach this " +
                     "machine (Android device: adb reverse tcp:PORT tcp:PORT)."
             )
 

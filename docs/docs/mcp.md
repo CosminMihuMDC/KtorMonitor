@@ -14,7 +14,7 @@ The app connects **out** to the companion, so it also works in browsers and on i
 Do these in order. Every step is required unless marked optional.
 
 1. **App:** add the `ktor-monitor-mcp` dependency (step 1).
-2. **App:** call `KtorMonitorMcp.start()` once at startup, in debug builds only (step 1).
+2. **App:** call `KtorMonitor.MCP.start()` once at startup, in debug builds only (step 1).
 3. **Machine:** download the companion JAR (step 2).
 4. **AI client:** register the JAR as an MCP server and restart the client (step 3).
 5. **Android/iOS only:** make the app able to reach `127.0.0.1:2991` (see [Connectivity](#5-connectivity)).
@@ -47,20 +47,24 @@ Start it once, as early as possible (e.g. `Application.onCreate`, `main()`, or w
 It does nothing unless you call it:
 
 ```kotlin
-import ro.cosminmihu.ktor.monitor.KtorMonitorMcp
+import ro.cosminmihu.ktor.monitor.KtorMonitor
 
-KtorMonitorMcp.start()
+KtorMonitor.MCP.start()
 
 // or with options (these are the defaults):
-KtorMonitorMcp.start {
+KtorMonitor.MCP.start {
     host = "127.0.0.1"
     port = 2991
     token = null      // shared secret, must match the companion (optional)
-    appName = null    // name shown by list_apps (optional)
+    appName = null    // name shown by list_apps (optional, but recommended)
 }
 ```
 
-`KtorMonitorMcp.status` exposes the connection state (`Stopped`, `Connecting`, `Connected`, `Rejected`).
+!!! tip "Set `appName`"
+    `appName` is optional, but set it (e.g. `appName = "MyApp"`). Without it the app shows up as just its
+    platform name, so with several apps or projects connected you cannot tell them apart in `list_apps`.
+
+`KtorMonitor.MCP.status` exposes the connection state (`Stopped`, `Connecting`, `Connected`, `Rejected`).
 The list header shows a blinking **AI** badge while connected and a static red **AI!** when the companion
 rejected the connection (wrong `token`, or different library and companion versions). Nothing is shown while
 connecting or stopped.
@@ -219,7 +223,7 @@ to keep the token out of the process list. The server only listens on `127.0.0.1
 | Symptom | Fix |
 |---------|-----|
 | AI client shows the server as failed / no tools | Check `java -version` is 11+, the JAR path is absolute and is the `-all` JAR. Companion logs go to stderr prefixed with `[ktor-monitor-mcp]` (see the client's MCP log). |
-| `list_apps` returns nothing | The app is not connected: it did not call `KtorMonitorMcp.start()`, is a release build (no-op), or cannot reach the host/port (see [Connectivity](#5-connectivity)). |
+| `list_apps` returns nothing | The app is not connected: it did not call `KtorMonitor.MCP.start()`, is a release build (no-op), or cannot reach the host/port (see [Connectivity](#5-connectivity)). |
 | Red **AI!** badge / `Rejected` | `token` differs between app and companion, or library and companion versions differ. |
 | Port already in use | Handled automatically (next free port, up to 9 more). If all are busy, stop old companions or change `--port` and the app `port`. |
 | Android: connection fails | Run `adb reverse tcp:2991 tcp:2991`, allow cleartext in debug, add `INTERNET` permission. |

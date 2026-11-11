@@ -6,40 +6,42 @@
 // - Show declarations: true
 
 // Library unique name: <ro.cosminmihu.ktor:library-mcp-no-op>
-final enum class ro.cosminmihu.ktor.monitor/McpConnectionStatus : kotlin/Enum<ro.cosminmihu.ktor.monitor/McpConnectionStatus> { // ro.cosminmihu.ktor.monitor/McpConnectionStatus|null[0]
-    enum entry Connected // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Connected|null[0]
-    enum entry Connecting // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Connecting|null[0]
-    enum entry Rejected // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Rejected|null[0]
-    enum entry Stopped // ro.cosminmihu.ktor.monitor/McpConnectionStatus.Stopped|null[0]
+final object ro.cosminmihu.ktor.monitor/KtorMonitor { // ro.cosminmihu.ktor.monitor/KtorMonitor|null[0]
+    final object MCP { // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP|null[0]
+        final val status // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.status|{}status[0]
+            final fun <get-status>(): kotlinx.coroutines.flow/StateFlow<ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus> // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.status.<get-status>|<get-status>(){}[0]
 
-    final val entries // ro.cosminmihu.ktor.monitor/McpConnectionStatus.entries|#static{}entries[0]
-        final fun <get-entries>(): kotlin.enums/EnumEntries<ro.cosminmihu.ktor.monitor/McpConnectionStatus> // ro.cosminmihu.ktor.monitor/McpConnectionStatus.entries.<get-entries>|<get-entries>#static(){}[0]
+        final fun start(kotlin/Function1<ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config, kotlin/Unit> = ...) // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.start|start(kotlin.Function1<ro.cosminmihu.ktor.monitor.KtorMonitor.MCP.Config,kotlin.Unit>){}[0]
+        final fun stop() // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.stop|stop(){}[0]
 
-    final fun valueOf(kotlin/String): ro.cosminmihu.ktor.monitor/McpConnectionStatus // ro.cosminmihu.ktor.monitor/McpConnectionStatus.valueOf|valueOf#static(kotlin.String){}[0]
-    final fun values(): kotlin/Array<ro.cosminmihu.ktor.monitor/McpConnectionStatus> // ro.cosminmihu.ktor.monitor/McpConnectionStatus.values|values#static(){}[0]
-}
+        final enum class ConnectionStatus : kotlin/Enum<ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus> { // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus|null[0]
+            enum entry Connected // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.Connected|null[0]
+            enum entry Connecting // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.Connecting|null[0]
+            enum entry Rejected // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.Rejected|null[0]
+            enum entry Stopped // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.Stopped|null[0]
 
-final class ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig { // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig|null[0]
-    constructor <init>() // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.<init>|<init>(){}[0]
+            final val entries // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.entries|#static{}entries[0]
+                final fun <get-entries>(): kotlin.enums/EnumEntries<ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus> // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.entries.<get-entries>|<get-entries>#static(){}[0]
 
-    final var appName // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.appName|{}appName[0]
-        final fun <get-appName>(): kotlin/String? // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.appName.<get-appName>|<get-appName>(){}[0]
-        final fun <set-appName>(kotlin/String?) // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.appName.<set-appName>|<set-appName>(kotlin.String?){}[0]
-    final var host // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.host|{}host[0]
-        final fun <get-host>(): kotlin/String // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.host.<get-host>|<get-host>(){}[0]
-        final fun <set-host>(kotlin/String) // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.host.<set-host>|<set-host>(kotlin.String){}[0]
-    final var port // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.port|{}port[0]
-        final fun <get-port>(): kotlin/Int // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.port.<get-port>|<get-port>(){}[0]
-        final fun <set-port>(kotlin/Int) // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.port.<set-port>|<set-port>(kotlin.Int){}[0]
-    final var token // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.token|{}token[0]
-        final fun <get-token>(): kotlin/String? // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.token.<get-token>|<get-token>(){}[0]
-        final fun <set-token>(kotlin/String?) // ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig.token.<set-token>|<set-token>(kotlin.String?){}[0]
-}
+            final fun valueOf(kotlin/String): ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.valueOf|valueOf#static(kotlin.String){}[0]
+            final fun values(): kotlin/Array<ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus> // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.ConnectionStatus.values|values#static(){}[0]
+        }
 
-final object ro.cosminmihu.ktor.monitor/KtorMonitorMcp { // ro.cosminmihu.ktor.monitor/KtorMonitorMcp|null[0]
-    final val status // ro.cosminmihu.ktor.monitor/KtorMonitorMcp.status|{}status[0]
-        final fun <get-status>(): kotlinx.coroutines.flow/StateFlow<ro.cosminmihu.ktor.monitor/McpConnectionStatus> // ro.cosminmihu.ktor.monitor/KtorMonitorMcp.status.<get-status>|<get-status>(){}[0]
+        final class Config { // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config|null[0]
+            constructor <init>() // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.<init>|<init>(){}[0]
 
-    final fun start(kotlin/Function1<ro.cosminmihu.ktor.monitor/KtorMonitorMcpConfig, kotlin/Unit> = ...) // ro.cosminmihu.ktor.monitor/KtorMonitorMcp.start|start(kotlin.Function1<ro.cosminmihu.ktor.monitor.KtorMonitorMcpConfig,kotlin.Unit>){}[0]
-    final fun stop() // ro.cosminmihu.ktor.monitor/KtorMonitorMcp.stop|stop(){}[0]
+            final var appName // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.appName|{}appName[0]
+                final fun <get-appName>(): kotlin/String? // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.appName.<get-appName>|<get-appName>(){}[0]
+                final fun <set-appName>(kotlin/String?) // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.appName.<set-appName>|<set-appName>(kotlin.String?){}[0]
+            final var host // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.host|{}host[0]
+                final fun <get-host>(): kotlin/String // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.host.<get-host>|<get-host>(){}[0]
+                final fun <set-host>(kotlin/String) // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.host.<set-host>|<set-host>(kotlin.String){}[0]
+            final var port // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.port|{}port[0]
+                final fun <get-port>(): kotlin/Int // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.port.<get-port>|<get-port>(){}[0]
+                final fun <set-port>(kotlin/Int) // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.port.<set-port>|<set-port>(kotlin.Int){}[0]
+            final var token // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.token|{}token[0]
+                final fun <get-token>(): kotlin/String? // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.token.<get-token>|<get-token>(){}[0]
+                final fun <set-token>(kotlin/String?) // ro.cosminmihu.ktor.monitor/KtorMonitor.MCP.Config.token.<set-token>|<set-token>(kotlin.String?){}[0]
+        }
+    }
 }

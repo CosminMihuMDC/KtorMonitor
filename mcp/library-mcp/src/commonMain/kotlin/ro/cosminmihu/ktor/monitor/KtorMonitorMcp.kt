@@ -16,143 +16,149 @@ import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_PORT
 import ro.cosminmihu.ktor.monitor.mcp.protocol.PORT_FALLBACK_COUNT
 
 /**
- * Lets AI agents (Copilot, Claude, Cursor, ...) query the calls captured by Ktor Monitor, through
- * the [Model Context Protocol](https://modelcontextprotocol.io).
- *
- * The app connects **to** a small companion process running on the developer machine, which exposes the
- * MCP tools to the AI. This works the same on Android, iOS, desktop and web.
- *
- * Start the companion (`ktor-monitor-mcp-companion-<version>-all.jar`) from the AI client MCP config,
- * then start the connection in debug builds:
- * ```kotlin
- * KtorMonitorMcp.start {
- *     port = 2991
- *     token = "my-secret" // optional, must match the companion --token
- * }
- * ```
- *
- * The AI gets read-only access to the stored calls. Header values hidden with `sanitizeHeader` are
- * already masked in the stored data, so they are never exposed. Bodies are **not** sanitized.
+ * Ktor Monitor entry point for optional features, such as `KtorMonitor.MCP` from `ktor-monitor-mcp`.
  */
-public object KtorMonitorMcp {
-
-    private val job = MutableStateFlow<Job?>(null)
-    private val mutableStatus = MutableStateFlow(McpConnectionStatus.Stopped)
+public object KtorMonitor {
 
     /**
-     * The state of the connection to the companion.
+     * Lets AI agents (Copilot, Claude, Cursor, ...) query the calls captured by Ktor Monitor, through
+     * the [Model Context Protocol](https://modelcontextprotocol.io).
+     *
+     * The app connects **to** a small companion process running on the developer machine, which exposes the
+     * MCP tools to the AI. This works the same on Android, iOS, desktop and web.
+     *
+     * Start the companion (`ktor-monitor-mcp-companion-<version>-all.jar`) from the AI client MCP config,
+     * then start the connection in debug builds:
+     * ```kotlin
+     * KtorMonitor.MCP.start {
+     *     port = 2991
+     *     token = "my-secret" // optional, must match the companion --token
+     * }
+     * ```
+     *
+     * The AI gets read-only access to the stored calls. Header values hidden with `sanitizeHeader` are
+     * already masked in the stored data, so they are never exposed. Bodies are **not** sanitized.
      */
-    public val status: StateFlow<McpConnectionStatus> = mutableStatus.asStateFlow()
+    public object MCP {
 
-    /**
-     * Connect to the companion. Reconnects automatically until [stop] is called.
-     * Calling it again restarts the connection with the new [block] settings.
-     */
-    @OptIn(InternalKtorMonitorApi::class)
-    public fun start(block: KtorMonitorMcpConfig.() -> Unit = {}) {
-        val config = KtorMonitorMcpConfig().apply(block)
-        val appId = InternalLibraryBridge.newCallId()
-        // A busy port makes the companion use the next free one, so connect to every companion in the range.
-        val ports = (config.port until config.port + PORT_FALLBACK_COUNT).filter { it <= 65535 }
-        val portStatuses = ports.map { MutableStateFlow(McpConnectionStatus.Connecting) }
-        val clients = ports.mapIndexed { index, port ->
-            McpClient(
-                settings = McpSettings(
-                    host = config.host,
-                    port = port,
-                    token = config.token,
-                    appId = appId,
-                    appName = config.appName ?: platformName(),
-                    platform = platformName(),
-                ),
-                status = portStatuses[index],
-                query = InternalLibraryBridge::mcpQuery,
+        private val job = MutableStateFlow<Job?>(null)
+        private val mutableStatus = MutableStateFlow(ConnectionStatus.Stopped)
+
+        /**
+         * The state of the connection to the companion.
+         */
+        public val status: StateFlow<ConnectionStatus> = mutableStatus.asStateFlow()
+
+        /**
+         * Connect to the companion. Reconnects automatically until [stop] is called.
+         * Calling it again restarts the connection with the new [block] settings.
+         */
+        @OptIn(InternalKtorMonitorApi::class)
+        public fun start(block: Config.() -> Unit = {}) {
+            val config = Config().apply(block)
+            val appId = InternalLibraryBridge.newCallId()
+            // A busy port makes the companion use the next free one, so connect to every companion in the range.
+            val ports = (config.port until config.port + PORT_FALLBACK_COUNT).filter { it <= 65535 }
+            val portStatuses = ports.map { MutableStateFlow(ConnectionStatus.Connecting) }
+            val clients = ports.mapIndexed { index, port ->
+                McpClient(
+                    settings = McpSettings(
+                        host = config.host,
+                        port = port,
+                        token = config.token,
+                        appId = appId,
+                        appName = config.appName ?: platformName(),
+                        platform = platformName(),
+                    ),
+                    status = portStatuses[index],
+                    query = InternalLibraryBridge::mcpQuery,
+                )
+            }
+            mutableStatus.value = ConnectionStatus.Connecting
+            val newJob = InternalLibraryBridge.coroutineScope().launch(start = CoroutineStart.LAZY) {
+                launch { mutableStatus.collect { publish(it) } }
+                launch {
+                    combine(portStatuses) { statuses ->
+                        when {
+                            ConnectionStatus.Connected in statuses -> ConnectionStatus.Connected
+                            ConnectionStatus.Rejected in statuses -> ConnectionStatus.Rejected
+                            else -> ConnectionStatus.Connecting
+                        }
+                    }.collect { mutableStatus.value = it }
+                }
+                clients.forEach { launch { it.run() } }
+            }
+            job.getAndUpdate { newJob }?.cancel()
+            newJob.start()
+        }
+
+        /**
+         * Disconnect from the companion.
+         */
+        public fun stop() {
+            job.getAndUpdate { null }?.cancel()
+            mutableStatus.value = ConnectionStatus.Stopped
+            publish(ConnectionStatus.Stopped)
+        }
+
+        @OptIn(InternalKtorMonitorApi::class)
+        private fun publish(status: ConnectionStatus) {
+            InternalLibraryBridge.setMcpStatus(
+                isConnected = when (status) {
+                    ConnectionStatus.Stopped -> null
+                    ConnectionStatus.Connecting, ConnectionStatus.Rejected -> false
+                    ConnectionStatus.Connected -> true
+                },
+                isRejected = status == ConnectionStatus.Rejected,
             )
         }
-        mutableStatus.value = McpConnectionStatus.Connecting
-        val newJob = InternalLibraryBridge.coroutineScope().launch(start = CoroutineStart.LAZY) {
-            launch { mutableStatus.collect { publish(it) } }
-            launch {
-                combine(portStatuses) { statuses ->
-                    when {
-                        McpConnectionStatus.Connected in statuses -> McpConnectionStatus.Connected
-                        McpConnectionStatus.Rejected in statuses -> McpConnectionStatus.Rejected
-                        else -> McpConnectionStatus.Connecting
-                    }
-                }.collect { mutableStatus.value = it }
-            }
-            clients.forEach { launch { it.run() } }
+
+        /**
+         * Configuration for [KtorMonitor.MCP.start].
+         */
+        public class Config {
+
+            /**
+             * The machine running the companion. By default `127.0.0.1`, the address the companion listens on.
+             *
+             * - Android emulator and device: run `adb reverse tcp:2991 tcp:2991` and keep `127.0.0.1`
+             *   (or use `10.0.2.2` on the emulator).
+             * - iOS simulator, desktop, web: `127.0.0.1`.
+             */
+            public var host: String = DEFAULT_HOST
+
+            /**
+             * The companion port. By default 2991. If the companion finds it busy it uses the next free port,
+             * so the app also tries the following ports (up to 9 more).
+             */
+            public var port: Int = DEFAULT_PORT
+
+            /**
+             * Shared secret, must match the companion `--token`. By default none.
+             */
+            public var token: String? = null
+
+            /**
+             * The name shown by the `list_apps` tool. By default the platform name.
+             */
+            public var appName: String? = null
         }
-        job.getAndUpdate { newJob }?.cancel()
-        newJob.start()
+
+        /**
+         * The state of the connection to the MCP companion.
+         */
+        public enum class ConnectionStatus {
+            /** [KtorMonitor.MCP.start] was not called or [KtorMonitor.MCP.stop] was called. */
+            Stopped,
+
+            /** Trying to reach the companion. */
+            Connecting,
+
+            /** Connected, AI agents can query the calls. */
+            Connected,
+
+            /** The companion refused the connection (wrong token or incompatible version), check the companion log. */
+            Rejected,
+        }
     }
-
-    /**
-     * Disconnect from the companion.
-     */
-    public fun stop() {
-        job.getAndUpdate { null }?.cancel()
-        mutableStatus.value = McpConnectionStatus.Stopped
-        publish(McpConnectionStatus.Stopped)
-    }
-
-    @OptIn(InternalKtorMonitorApi::class)
-    private fun publish(status: McpConnectionStatus) {
-        InternalLibraryBridge.setMcpStatus(
-            isConnected = when (status) {
-                McpConnectionStatus.Stopped -> null
-                McpConnectionStatus.Connecting, McpConnectionStatus.Rejected -> false
-                McpConnectionStatus.Connected -> true
-            },
-            isRejected = status == McpConnectionStatus.Rejected,
-        )
-    }
-}
-
-/**
- * Configuration for [KtorMonitorMcp.start].
- */
-public class KtorMonitorMcpConfig {
-
-    /**
-     * The machine running the companion. By default `127.0.0.1`, the address the companion listens on.
-     *
-     * - Android emulator and device: run `adb reverse tcp:2991 tcp:2991` and keep `127.0.0.1`
-     *   (or use `10.0.2.2` on the emulator).
-     * - iOS simulator, desktop, web: `127.0.0.1`.
-     */
-    public var host: String = DEFAULT_HOST
-
-    /**
-     * The companion port. By default 2991. If the companion finds it busy it uses the next free port,
-     * so the app also tries the following ports (up to 9 more).
-     */
-    public var port: Int = DEFAULT_PORT
-
-    /**
-     * Shared secret, must match the companion `--token`. By default none.
-     */
-    public var token: String? = null
-
-    /**
-     * The name shown by the `list_apps` tool. By default the platform name.
-     */
-    public var appName: String? = null
-}
-
-/**
- * The state of the connection to the MCP companion.
- */
-public enum class McpConnectionStatus {
-    /** [KtorMonitorMcp.start] was not called or [KtorMonitorMcp.stop] was called. */
-    Stopped,
-
-    /** Trying to reach the companion. */
-    Connecting,
-
-    /** Connected, AI agents can query the calls. */
-    Connected,
-
-    /** The companion refused the connection (wrong token or incompatible version), check the companion log. */
-    Rejected,
 }

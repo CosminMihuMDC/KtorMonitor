@@ -19,7 +19,7 @@ import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.time.TimeSource
-import ro.cosminmihu.ktor.monitor.McpConnectionStatus
+import ro.cosminmihu.ktor.monitor.KtorMonitor.MCP.ConnectionStatus
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Auth
 import ro.cosminmihu.ktor.monitor.mcp.protocol.Cancel
@@ -50,7 +50,7 @@ internal class McpSettings(
 /** WebSocket client that answers the companion requests with the stored calls. */
 internal class McpClient(
     private val settings: McpSettings,
-    private val status: MutableStateFlow<McpConnectionStatus>,
+    private val status: MutableStateFlow<ConnectionStatus>,
     private val query: suspend (method: String, paramsJson: String) -> String,
     private val retryDelays: List<Duration> = listOf(1.seconds, 2.seconds, 5.seconds, 10.seconds),
 ) {
@@ -60,7 +60,7 @@ internal class McpClient(
         var attempt = 0
         try {
             while (currentCoroutineContext().isActive) {
-                if (status.value != McpConnectionStatus.Rejected) status.value = McpConnectionStatus.Connecting
+                if (status.value != ConnectionStatus.Rejected) status.value = ConnectionStatus.Connecting
                 var connectedAt: TimeSource.Monotonic.ValueTimeMark? = null
                 try {
                     connect(client) { connectedAt = TimeSource.Monotonic.markNow() }
@@ -69,7 +69,7 @@ internal class McpClient(
                 } catch (_: Throwable) {
                     // Companion not running or connection lost, retry.
                 }
-                if (status.value != McpConnectionStatus.Rejected) status.value = McpConnectionStatus.Connecting
+                if (status.value != ConnectionStatus.Rejected) status.value = ConnectionStatus.Connecting
                 // Only reset the backoff when the connection was stable, so a companion that drops us right away is not hammered.
                 if (connectedAt?.let { it.elapsedNow() >= STABLE_CONNECTION } == true) attempt = 0
                 delay(retryDelays[minOf(attempt++, retryDelays.lastIndex)])
@@ -96,7 +96,7 @@ internal class McpClient(
                 is Challenge -> message
                 is HelloAck -> {
                     // Either an explicit refusal (e.g. protocol version) or a companion without authentication.
-                    status.value = McpConnectionStatus.Rejected
+                    status.value = ConnectionStatus.Rejected
                     return@webSocket
                 }
 
@@ -107,17 +107,17 @@ internal class McpClient(
                 !constantTimeEquals(challenge.proof, companionProof(token, clientNonce, challenge.serverNonce))
             ) {
                 // The peer does not know the token: do not talk to it.
-                status.value = McpConnectionStatus.Rejected
+                status.value = ConnectionStatus.Rejected
                 return@webSocket
             }
             send(Frame.Text(Auth(token?.let { appProof(it, clientNonce, challenge.serverNonce) }).encode()))
 
             val ack = withTimeoutOrNull(HELLO_TIMEOUT) { readMessage() } as? HelloAck ?: return@webSocket
             if (!ack.ok) {
-                status.value = McpConnectionStatus.Rejected
+                status.value = ConnectionStatus.Rejected
                 return@webSocket
             }
-            status.value = McpConnectionStatus.Connected
+            status.value = ConnectionStatus.Connected
             onConnected()
 
             val permits = Semaphore(MAX_CONCURRENT_REQUESTS)

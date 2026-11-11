@@ -18,7 +18,7 @@ import kotlinx.coroutines.withTimeout
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import ro.cosminmihu.ktor.monitor.McpConnectionStatus
+import ro.cosminmihu.ktor.monitor.KtorMonitor.MCP.ConnectionStatus
 import ro.cosminmihu.ktor.monitor.mcp.protocol.DEFAULT_HOST
 import ro.cosminmihu.ktor.monitor.mcp.protocol.APP_PATH
 import io.ktor.server.websocket.DefaultWebSocketServerSession
@@ -83,7 +83,7 @@ class McpClientTest {
             }
         }.start(wait = false)
 
-        val status = MutableStateFlow(McpConnectionStatus.Stopped)
+        val status = MutableStateFlow(ConnectionStatus.Stopped)
         val job = launch(Dispatchers.IO) {
             McpClient(
                 settings = settings(port),
@@ -99,7 +99,7 @@ class McpClientTest {
                 assertEquals("app-1", hello.await().appId)
                 assertEquals("""{"method":"list_calls","params":{"limit":5}}""", ok.await().result)
                 assertEquals("failed query", failed.await().error)
-                assertEquals(McpConnectionStatus.Connected, status.first { it != McpConnectionStatus.Connecting })
+                assertEquals(ConnectionStatus.Connected, status.first { it != ConnectionStatus.Connecting })
             }
         } finally {
             job.cancel()
@@ -111,12 +111,12 @@ class McpClientTest {
     @Test
     fun keepsRetryingUntilTheCompanionStarts() = runBlocking {
         val port = ServerSocket(0).use { it.localPort }
-        val status = MutableStateFlow(McpConnectionStatus.Stopped)
+        val status = MutableStateFlow(ConnectionStatus.Stopped)
         val job = launch(Dispatchers.IO) {
             McpClient(settings(port), status, { _, _ -> "{}" }, retryDelays = listOf(50.milliseconds)).run()
         }
         try {
-            withTimeout(5.seconds) { status.first { it == McpConnectionStatus.Connecting } }
+            withTimeout(5.seconds) { status.first { it == ConnectionStatus.Connecting } }
 
             val connected = CompletableDeferred<Unit>()
             val server = embeddedServer(CIO, port = port, host = DEFAULT_HOST) {
@@ -131,7 +131,7 @@ class McpClientTest {
             }.start(wait = false)
             try {
                 withTimeout(10.seconds) { connected.await() }
-                assertTrue(status.first { it == McpConnectionStatus.Connected } == McpConnectionStatus.Connected)
+                assertTrue(status.first { it == ConnectionStatus.Connected } == ConnectionStatus.Connected)
             } finally {
                 server.stop(100, 500)
             }
@@ -152,14 +152,14 @@ class McpClientTest {
                 }
             }
         }.start(wait = false)
-        val status = MutableStateFlow(McpConnectionStatus.Stopped)
+        val status = MutableStateFlow(ConnectionStatus.Stopped)
         val job = launch(Dispatchers.IO) {
             McpClient(settings(port), status, { _, _ -> "{}" }, retryDelays = listOf(50.milliseconds)).run()
         }
         try {
             assertEquals(
-                McpConnectionStatus.Rejected,
-                withTimeout(10.seconds) { status.first { it == McpConnectionStatus.Rejected } },
+                ConnectionStatus.Rejected,
+                withTimeout(10.seconds) { status.first { it == ConnectionStatus.Rejected } },
             )
         } finally {
             job.cancel()
@@ -182,12 +182,12 @@ class McpClientTest {
                 }
             }
         }.start(wait = false)
-        val status = MutableStateFlow(McpConnectionStatus.Stopped)
+        val status = MutableStateFlow(ConnectionStatus.Stopped)
         val job = launch(Dispatchers.IO) {
             McpClient(settings(port), status, { _, _ -> "{}" }, retryDelays = listOf(50.milliseconds)).run()
         }
         try {
-            withTimeout(10.seconds) { status.first { it == McpConnectionStatus.Rejected } }
+            withTimeout(10.seconds) { status.first { it == ConnectionStatus.Rejected } }
             assertEquals(false, withTimeout(5.seconds) { sawAuth.await() })
         } finally {
             job.cancel()

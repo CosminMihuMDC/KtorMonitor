@@ -54,8 +54,11 @@ Try the live web demo: [DEMO](https://cosminmihu.ro/static/apps/ktormonitor/web/
     ```
 
     ```kotlin
-    KtorMonitorMcp.start {
-        // host = "127.0.0.1"; port = 2991; token = null; appName = null
+    KtorMonitor.MCP.start {
+        appName = "MyApp" // recommended: shows which app is which in list_apps
+        // host = "127.0.0.1"
+        // port = 2991
+        // token = null
     }
     ```
 
