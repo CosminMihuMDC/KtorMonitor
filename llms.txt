@@ -22,6 +22,7 @@
 - SSE (Server-Sent Events) and WebSocket monitoring
 - Data export to files
 - Push notification summary of active requests (Android & iOS)
+- Optional MCP integration: let AI agents (Copilot, Claude, Cursor, ...) query captured calls
 - Production-safe: no-op variants for release builds
 
 ---
@@ -322,6 +323,63 @@ Every library module has an ABI-equivalent **no-op** counterpart. Swap to it in 
 | `ktor-monitor-okhttp-interceptor` | `ktor-monitor-okhttp-interceptor-no-op` |
 | `ktor-monitor-http4k-filter` | `ktor-monitor-http4k-filter-no-op` |
 | `ktor-monitor-core` | `ktor-monitor-core-no-op` |
+| `ktor-monitor-mcp` (optional) | `ktor-monitor-mcp-no-op` |
+
+---
+
+## Optional: MCP (AI agents query captured calls)
+
+Entirely optional and off by default. Read-only, debug-time only; works with any HTTP client on Android, iOS, Desktop and Web.
+
+```
+AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:2991)──< your app
+```
+
+```kotlin
+// build.gradle.kts
+dependencies {
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.1")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.1")
+}
+```
+
+```kotlin
+import ro.cosminmihu.ktor.monitor.KtorMonitor
+
+// Call once, debug builds only. Does nothing unless called.
+KtorMonitor.MCP.start {
+    appName = "MyApp" // recommended: identifies the app in list_apps
+    // host = "127.0.0.1"
+    // port = 2991
+    // token = null
+}
+```
+
+Companion fat JAR (Java 11+; version must equal the library version):
+
+```bash
+mkdir -p ~/.ktor-monitor && curl -L -o ~/.ktor-monitor/ktor-monitor-mcp-companion-all.jar \
+  https://repo1.maven.org/maven2/ro/cosminmihu/ktor/ktor-monitor-mcp-companion/1.18.1/ktor-monitor-mcp-companion-1.18.1-all.jar
+```
+
+Register it in the AI client's MCP config with an **absolute** JAR path (the client launches it; restart the client afterwards):
+
+```json
+{
+  "mcpServers": {
+    "ktor-monitor": {
+      "command": "java",
+      "args": ["-jar", "/absolute/path/ktor-monitor-mcp-companion-all.jar"]
+    }
+  }
+}
+```
+
+- Default port `2991`; if busy, the companion takes the next free port (up to `3000`) and the app connects to all companions in that range.
+- Android: `adb reverse tcp:2991 tcp:2991` (and `tcp:2992`…`tcp:3000` for fallbacks), `INTERNET` permission, cleartext allowed in debug. iOS simulator: `NSAllowsLocalNetworking = true`.
+- Optional `token` in `start {}` + `--token` / `KTOR_MONITOR_MCP_TOKEN` on the companion; mismatch shows `ConnectionStatus.Rejected`.
+- Tools: `list_apps`, `list_calls`, `get_call`, `search_calls`, `get_stats`. Headers are masked by `sanitizeHeader`; **bodies are not sanitized**.
+- Details: https://cosminmihumdc.github.io/KtorMonitor/mcp/
 
 ---
 
