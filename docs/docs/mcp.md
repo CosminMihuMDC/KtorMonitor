@@ -26,7 +26,7 @@ Do these in order. Every step is required unless marked optional.
 
 ## 1. Add the module to your app (debug only)
 
-Dependency (replace `<version>` with the Ktor Monitor version, e.g. `1.18.0`):
+Dependency (replace `<version>` with the Ktor Monitor version, e.g. `1.18.1`):
 
 ```kotlin
 // Android module
@@ -74,7 +74,7 @@ connecting or stopped.
 The companion is the MCP server your AI client starts. It is a single JAR (Java 11+):
 
 ```bash
-VERSION=1.18.0   # same as the library version
+VERSION=1.18.1   # same as the library version
 mkdir -p ~/.ktor-monitor
 curl -L -o ~/.ktor-monitor/ktor-monitor-mcp-companion-all.jar \
   "https://repo1.maven.org/maven2/ro/cosminmihu/ktor/ktor-monitor-mcp-companion/$VERSION/ktor-monitor-mcp-companion-$VERSION-all.jar"

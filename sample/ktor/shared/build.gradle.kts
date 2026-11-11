@@ -62,13 +62,13 @@ kotlin {
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(projects.ktor.libraryKtor)
             implementation(projects.mcp.libraryMcp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.1")
 //            implementation(projects.mcp.libraryMcpNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.1")
             implementation(projects.sample.shared)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.1")
 //            implementation(projects.ktor.libraryKtorNoOp)
-//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
+//            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.1")
         }
         webMain.dependencies {
             implementation(libs.ktor.client.js)

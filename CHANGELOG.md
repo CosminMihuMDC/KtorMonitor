@@ -3,7 +3,16 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [1.18.0]
+## [1.18.1]
+### Added
+* MCP companion: support for fallback WebSocket ports.
+
+### Changed
+* MCP companion: default WebSocket port is now `2991`.
+* MCP API usage refactored from `KtorMonitorMcp` to `KtorMonitor.MCP`.
+* Improved MCP setup, configuration and troubleshooting documentation.
+
+## [1.18.1]
 ### Added
 * MCP support: new artifact `ktor-monitor-mcp` (and `-no-op`).
 

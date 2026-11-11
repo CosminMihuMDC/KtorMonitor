@@ -53,8 +53,8 @@ any platform, independent of the HTTP client used.
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp:1.18.1")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-mcp-no-op:1.18.1")
 }
 ```
 
@@ -79,7 +79,7 @@ connectivity per platform.
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.1")
         }
     }
 }
@@ -93,7 +93,7 @@ To isolate KtorMonitor from release builds, use the `ktor-monitor-logging-no-op`
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
+            implementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.1")
         }
     }
 }
@@ -105,8 +105,8 @@ kotlin {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-logging:1.18.1")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-logging-no-op:1.18.1")
 }
 ```
 
@@ -139,8 +139,8 @@ HttpClient {
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.18.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.18.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor:1.18.1")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-okhttp-interceptor-no-op:1.18.1")
 }
 ```
 
@@ -176,8 +176,8 @@ OkHttpClient.Builder()
 
 ```kotlin
 dependencies {
-    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.18.0")
-    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.18.0")
+    debugImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter:1.18.1")
+    releaseImplementation("ro.cosminmihu.ktor:ktor-monitor-http4k-filter-no-op:1.18.1")
 }
 ```
 
