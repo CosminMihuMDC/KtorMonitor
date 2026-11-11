@@ -156,7 +156,7 @@
 
     ```kotlin
     KtorMonitorMcp.start {
-        // host = "127.0.0.1"; port = 8765; token = null; appName = null
+        // host = "127.0.0.1"; port = 2991; token = null; appName = null
     }
     ```
 

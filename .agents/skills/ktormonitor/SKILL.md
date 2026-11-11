@@ -311,7 +311,7 @@ of which HTTP client (Ktor/OkHttp/http4k) is used, on Android, iOS, Desktop and 
 and debug-time only.
 
 ```
-AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:8765)──< your app
+AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:2991)──< your app
 ```
 
 The app only connects **out** to a small companion JAR running on the developer's machine (which is
@@ -330,7 +330,7 @@ import ro.cosminmihu.ktor.monitor.KtorMonitorMcp
 
 // Call once, e.g. in debug builds only. Does nothing unless called.
 KtorMonitorMcp.start {
-    // host = "127.0.0.1"; port = 8765; token = null; appName = null
+    // host = "127.0.0.1"; port = 2991; token = null; appName = null
 }
 ```
 
@@ -357,7 +357,7 @@ Claude Code: `claude mcp add ktor-monitor -- java -jar <abs path>`):
 ```
 
 Connectivity notes: Desktop/Web use `127.0.0.1` as is; Android emulator/device needs
-`adb reverse tcp:8765 tcp:8765` (and the `INTERNET` permission); iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
+`adb reverse tcp:2991 tcp:2991` (and the `INTERNET` permission); iOS simulator needs `NSAppTransportSecurity > NSAllowsLocalNetworking = true`
 in `Info.plist`.
 
 Optional: set `token` in `start {}` and pass the same value to the companion with `--token` (or the

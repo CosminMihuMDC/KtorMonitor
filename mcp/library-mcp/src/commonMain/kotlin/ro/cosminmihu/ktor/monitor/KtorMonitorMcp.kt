@@ -26,7 +26,7 @@ import ro.cosminmihu.ktor.monitor.mcp.protocol.PORT_FALLBACK_COUNT
  * then start the connection in debug builds:
  * ```kotlin
  * KtorMonitorMcp.start {
- *     port = 8765
+ *     port = 2991
  *     token = "my-secret" // optional, must match the companion --token
  * }
  * ```
@@ -117,14 +117,14 @@ public class KtorMonitorMcpConfig {
     /**
      * The machine running the companion. By default `127.0.0.1`, the address the companion listens on.
      *
-     * - Android emulator and device: run `adb reverse tcp:8765 tcp:8765` and keep `127.0.0.1`
+     * - Android emulator and device: run `adb reverse tcp:2991 tcp:2991` and keep `127.0.0.1`
      *   (or use `10.0.2.2` on the emulator).
      * - iOS simulator, desktop, web: `127.0.0.1`.
      */
     public var host: String = DEFAULT_HOST
 
     /**
-     * The companion port. By default 8765. If the companion finds it busy it uses the next free port,
+     * The companion port. By default 2991. If the companion finds it busy it uses the next free port,
      * so the app also tries the following ports (up to 9 more).
      */
     public var port: Int = DEFAULT_PORT

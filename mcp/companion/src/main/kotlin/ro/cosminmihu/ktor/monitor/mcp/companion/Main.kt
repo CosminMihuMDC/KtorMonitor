@@ -21,9 +21,9 @@ import kotlin.system.exitProcess
 private const val USAGE = """
 Ktor Monitor MCP companion
 
-Usage: java -jar ktor-monitor-mcp-companion-<version>-all.jar [--port 8765] [--token <secret>]
+Usage: java -jar ktor-monitor-mcp-companion-<version>-all.jar [--port 2991] [--token <secret>]
 
-  --port    Preferred WebSocket port (env KTOR_MONITOR_MCP_PORT, default 8765); if busy, the next free one (up to +9).
+  --port    Preferred WebSocket port (env KTOR_MONITOR_MCP_PORT, default 2991); if busy, the next free one (up to +9).
   --token   Shared secret the apps must send (env KTOR_MONITOR_MCP_TOKEN, default: none).
 
 The MCP server speaks over stdin/stdout. Logs go to stderr.

@@ -4,7 +4,7 @@ Let any MCP-capable AI agent (Copilot, Claude, Cursor, ...) query the calls capt
 Read-only, debug-time, works on Android, iOS, Desktop and Web.
 
 ```
-AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:8765)──< your app
+AI client ──stdio (MCP)──> companion JAR ──WebSocket (127.0.0.1:2991)──< your app
 ```
 
 The app connects **out** to the companion, so it also works in browsers and on iOS.
@@ -17,7 +17,7 @@ Do these in order. Every step is required unless marked optional.
 2. **App:** call `KtorMonitorMcp.start()` once at startup, in debug builds only (step 1).
 3. **Machine:** download the companion JAR (step 2).
 4. **AI client:** register the JAR as an MCP server and restart the client (step 3).
-5. **Android/iOS only:** make the app able to reach `127.0.0.1:8765` (see [Connectivity](#5-connectivity)).
+5. **Android/iOS only:** make the app able to reach `127.0.0.1:2991` (see [Connectivity](#5-connectivity)).
 6. **Verify:** run the app, then ask the AI to call `list_apps` (step 4).
 
 !!! note "Prerequisites"
@@ -54,7 +54,7 @@ KtorMonitorMcp.start()
 // or with options (these are the defaults):
 KtorMonitorMcp.start {
     host = "127.0.0.1"
-    port = 8765
+    port = 2991
     token = null      // shared secret, must match the companion (optional)
     appName = null    // name shown by list_apps (optional)
 }
@@ -188,7 +188,7 @@ The server name is `ktor-monitor`.
 
 Restart the client (or reload MCP servers) after editing the config.
 
-Options (optional): `--port` / `KTOR_MONITOR_MCP_PORT` (default `8765`), `--token` / `KTOR_MONITOR_MCP_TOKEN`
+Options (optional): `--port` / `KTOR_MONITOR_MCP_PORT` (default `2991`), `--token` / `KTOR_MONITOR_MCP_TOKEN`
 (must match `token` in the app config). Add them to `args`, or use `"env": { "KTOR_MONITOR_MCP_TOKEN": "..." }`
 to keep the token out of the process list. The server only listens on `127.0.0.1`.
 
@@ -197,7 +197,7 @@ to keep the token out of the process list. The server only listens on `127.0.0.1
     the companion automatically uses the next free one, up to 9 ports after the configured one, and logs it.
     The app connects to every companion in that range, so no manual port is needed. Note that the app is then
     visible to the AI client of each companion running on the same machine.
-    On Android, run `adb reverse` for the range (e.g. `tcp:8765` to `tcp:8774`).
+    On Android, run `adb reverse` for the range (e.g. `tcp:2991` to `tcp:3000`).
 
 ## 4. Verify it works
 
@@ -211,7 +211,7 @@ to keep the token out of the process list. The server only listens on `127.0.0.1
 | Platform          | Notes |
 |-------------------|-------|
 | Desktop / Web     | `127.0.0.1` works as is. |
-| Android emulator/device | `adb reverse tcp:8765 tcp:8765` (emulator can also use `10.0.2.2`). Needs cleartext traffic allowed in debug. |
+| Android emulator/device | `adb reverse tcp:2991 tcp:2991` (emulator can also use `10.0.2.2`). Needs cleartext traffic allowed in debug. |
 | iOS simulator     | Add `NSAppTransportSecurity > NSAllowsLocalNetworking = true` to `Info.plist`. |
 
 ## Troubleshooting
@@ -222,7 +222,7 @@ to keep the token out of the process list. The server only listens on `127.0.0.1
 | `list_apps` returns nothing | The app is not connected: it did not call `KtorMonitorMcp.start()`, is a release build (no-op), or cannot reach the host/port (see [Connectivity](#5-connectivity)). |
 | Red **AI!** badge / `Rejected` | `token` differs between app and companion, or library and companion versions differ. |
 | Port already in use | Handled automatically (next free port, up to 9 more). If all are busy, stop old companions or change `--port` and the app `port`. |
-| Android: connection fails | Run `adb reverse tcp:8765 tcp:8765`, allow cleartext in debug, add `INTERNET` permission. |
+| Android: connection fails | Run `adb reverse tcp:2991 tcp:2991`, allow cleartext in debug, add `INTERNET` permission. |
 
 ## Tools
 

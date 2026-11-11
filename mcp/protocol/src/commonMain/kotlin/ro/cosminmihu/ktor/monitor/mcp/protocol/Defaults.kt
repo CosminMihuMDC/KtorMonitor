@@ -7,7 +7,7 @@ package ro.cosminmihu.ktor.monitor.mcp.protocol
 internal const val DEFAULT_HOST: String = "127.0.0.1"
 
 /** Default WebSocket port of the companion. Plain constants, also compiled into the no-op library. */
-internal const val DEFAULT_PORT: Int = 8765
+internal const val DEFAULT_PORT: Int = 2991
 
 /**
  * When the preferred port is busy (e.g. a companion of another project), the companion takes the next free
