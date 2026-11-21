@@ -1,5 +1,5 @@
 [versions]
-agp = "9.5.1"
+agp = "9.5.2"
 android-compileSdk = "37"
 android-minSdk = "24"
 android-targetSdk = "37"
@@ -36,7 +36,7 @@ maven-publish = "0.37.0"
 navigation3 = "1.2.0"
 binary-compatibility-validator = "0.18.2"
 dokka = "2.3.0"
-buildkonfig = "0.24.0"
+buildkonfig = "0.24.1"
 shadow = "9.6.1"
 
 [libraries]
