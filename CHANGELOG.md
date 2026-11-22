@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [Unreleased]
+### Added
+* Keyboard navigation for the detail screen, hand cursor on clickable elements and tooltip icon buttons.
+
+### Changed
+* UI state now persists across configuration changes using `rememberSaveable`.
+* Updated dependencies:
+  * Compose Multiplatform 1.12.2
+  * Ktor 3.6.1
+  * OkHttp 5.5.1
+  * kotlinx-serialization 1.13.0
+  * kotlinx-collections-immutable 0.5.2
+  * Navigation3 1.2.0
+  * KSP 2.3.13
+  * Koin plugin 1.2.3
+  * AGP 9.5.2
+  * Dokka 2.3.0
+  * BuildKonfig 0.24.1
+* Added Kotlin archives publication format.
+
 ## [1.18.1]
 ### Added
 * MCP companion: support for fallback WebSocket ports.
@@ -12,7 +32,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * MCP API usage refactored from `KtorMonitorMcp` to `KtorMonitor.MCP`.
 * Improved MCP setup, configuration and troubleshooting documentation.
 
-## [1.18.1]
+## [1.18.0]
 ### Added
 * MCP support: new artifact `ktor-monitor-mcp` (and `-no-op`).
 
