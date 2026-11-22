@@ -11,23 +11,33 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.foundation.focusable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.isShiftPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
@@ -62,7 +72,6 @@ private const val PAGE_INDEX_SUMMARY = 0
 private const val PAGE_INDEX_REQUEST = 1
 private const val PAGE_INDEX_RESPONSE = 2
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun DetailScreen(
     uiState: DetailUiState,
@@ -74,9 +83,32 @@ internal fun DetailScreen(
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState { PAGE_COUNT }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(Unit) {
+        runCatching { focusRequester.requestFocus() }
+    }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .focusRequester(focusRequester)
+            .focusable()
+            .onPreviewKeyEvent { event ->
+                if (event.type != KeyEventType.KeyDown ||
+                    !(event.isCtrlPressed || event.isMetaPressed)
+                ) {
+                    return@onPreviewKeyEvent false
+                }
+                val page = when (event.key) {
+                    Key.One -> PAGE_INDEX_SUMMARY
+                    Key.Two -> PAGE_INDEX_REQUEST
+                    Key.Three -> PAGE_INDEX_RESPONSE
+                    Key.Tab -> (pagerState.currentPage + if (event.isShiftPressed) PAGE_COUNT - 1 else 1) % PAGE_COUNT
+                    else -> return@onPreviewKeyEvent false
+                }
+                coroutineScope.launch { pagerState.animateScrollToPage(page) }
+                true
+            },
         topBar = {
             Column {
                 TopAppBar(
