@@ -3,6 +3,7 @@ package ro.cosminmihu.ktor.monitor.ui.detail.formater
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -147,7 +148,7 @@ private fun JsonRowView(
             CodeLine(
                 lineNumber = row.lineNumber,
                 modifier = Modifier
-                    .clickable(enabled = row.hasChildren) { if (row.hasChildren) onToggle(row.id) },
+                    .handCursor(row.hasChildren).clickable(enabled = row.hasChildren) { if (row.hasChildren) onToggle(row.id) },
             ) {
                 Row(
                     modifier = Modifier

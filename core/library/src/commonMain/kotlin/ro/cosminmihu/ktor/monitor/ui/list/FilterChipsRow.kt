@@ -33,6 +33,7 @@ import io.ktor.http.HttpMethod
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.domain.model.ContentType
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter_content_type
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter_duration
@@ -75,6 +76,7 @@ internal fun FilterChipsRow(
             }
             Box {
                 FilterChip(
+                    modifier = Modifier.handCursor(),
                     selected = filter.hosts.isNotEmpty(),
                     onClick = { hostMenuExpanded = true },
                     label = { Text(hostLabel) },
@@ -125,6 +127,7 @@ internal fun FilterChipsRow(
             }
             Box {
                 FilterChip(
+                    modifier = Modifier.handCursor(),
                     selected = filter.methods.isNotEmpty(),
                     onClick = { methodMenuExpanded = true },
                     label = { Text(methodLabel) },
@@ -172,6 +175,7 @@ internal fun FilterChipsRow(
         }
         Box {
             FilterChip(
+                modifier = Modifier.handCursor(),
                 selected = filter.responseCodeRanges.isNotEmpty(),
                 onClick = { codeMenuExpanded = true },
                 label = { Text(codeLabel) },
@@ -221,6 +225,7 @@ internal fun FilterChipsRow(
         }
         Box {
             FilterChip(
+                modifier = Modifier.handCursor(),
                 selected = filter.durations.isNotEmpty(),
                 onClick = { durationMenuExpanded = true },
                 label = { Text(durationLabel) },
@@ -271,6 +276,7 @@ internal fun FilterChipsRow(
             }
             Box {
                 FilterChip(
+                    modifier = Modifier.handCursor(),
                     selected = filter.contentTypes.isNotEmpty(),
                     onClick = { contentTypeMenuExpanded = true },
                     label = { Text(contentTypeLabel) },
@@ -316,6 +322,7 @@ internal fun FilterChipsRow(
         }
         Box {
             FilterChip(
+                modifier = Modifier.handCursor(),
                 selected = filter.sizeSort != null,
                 onClick = { sortMenuExpanded = true },
                 label = { Text(sortLabel) },

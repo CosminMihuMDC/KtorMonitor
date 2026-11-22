@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontWeight
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.TooltipIconButton
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import ro.cosminmihu.ktor.monitor.ui.icons.Icons
 import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.ArrowBackIos
 import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
@@ -78,7 +80,10 @@ internal fun DetailScreen(
             Column {
                 TopAppBar(
                     navigationIcon = {
-                        IconButton(onClick = onBack) {
+                        TooltipIconButton(
+                            tooltip = stringResource(Res.string.ktor_back),
+                            onClick = onBack,
+                        ) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
                                 contentDescription = stringResource(Res.string.ktor_back),
@@ -99,6 +104,7 @@ internal fun DetailScreen(
 
                             tabs.forEachIndexed { index, stringRes ->
                                 Tab(
+                                    modifier = Modifier.handCursor(),
                                     selected = pagerState.currentPage == index,
                                     onClick = {
                                         coroutineScope.launch { pagerState.animateScrollToPage(index) }
@@ -168,7 +174,10 @@ private fun ExportCall(
 ) {
     var menuExpanded by remember { mutableStateOf(false) }
     Box {
-        IconButton(onClick = { menuExpanded = true }) {
+        TooltipIconButton(
+            tooltip = stringResource(Res.string.ktor_more),
+            onClick = { menuExpanded = true },
+        ) {
             Icon(
                 imageVector = Icons.Filled.Share,
                 contentDescription = stringResource(Res.string.ktor_more),

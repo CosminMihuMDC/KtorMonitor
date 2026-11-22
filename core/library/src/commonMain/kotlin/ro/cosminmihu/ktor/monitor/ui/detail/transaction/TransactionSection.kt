@@ -40,6 +40,7 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import ro.cosminmihu.ktor.monitor.core.ClipboardManager
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_copy
 
@@ -74,6 +75,7 @@ internal fun TransactionSection(
                     exit = fadeOut() + shrinkHorizontally(),
                 ) {
                     TextButton(
+                        modifier = Modifier.handCursor(),
                         onClick = { scope.launch { clipboard.setText(copyText()) } },
                     ) {
                         Icon(
@@ -87,7 +89,7 @@ internal fun TransactionSection(
                 }
             }
 
-            IconButton(onClick = { show = !show }) {
+            IconButton(onClick = { show = !show }, modifier = Modifier.handCursor()) {
                 val rotation by animateFloatAsState(targetValue = if (show) 180f else 0f)
                 Icon(
                     imageVector = Icons.Default.KeyboardArrowDown,

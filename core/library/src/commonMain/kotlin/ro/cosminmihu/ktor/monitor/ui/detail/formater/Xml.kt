@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -187,7 +188,7 @@ private fun XmlNodeView(
                 CodeLine(
                     lineNumber = openingLine,
                     modifier = Modifier
-                        .clickable(enabled = hasChildren) { isExpanded = !isExpanded },
+                        .handCursor(hasChildren).clickable(enabled = hasChildren) { isExpanded = !isExpanded },
                 ) {
                     Row(
                         modifier = Modifier

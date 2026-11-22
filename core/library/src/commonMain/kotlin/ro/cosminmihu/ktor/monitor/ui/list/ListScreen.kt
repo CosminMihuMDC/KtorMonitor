@@ -13,6 +13,7 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,6 +48,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.semantics.contentDescription
@@ -63,6 +71,8 @@ import ro.cosminmihu.ktor.monitor.domain.model.Mcp
 import ro.cosminmihu.ktor.monitor.domain.model.NetworkClient
 import ro.cosminmihu.ktor.monitor.ui.Dimens
 import ro.cosminmihu.ktor.monitor.ui.Loading
+import ro.cosminmihu.ktor.monitor.ui.TooltipIconButton
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import ro.cosminmihu.ktor.monitor.ui.VerticalScrollbarBox
 import ro.cosminmihu.ktor.monitor.ui.icons.Icons
 import ro.cosminmihu.ktor.monitor.ui.icons.automirrored.filled.Article
@@ -137,17 +147,67 @@ internal fun ListScreen(
     var showSearchBar by rememberSaveable { mutableStateOf(false) }
     var isShareMenuExpanded by rememberSaveable { mutableStateOf(false) }
     val searchFocusRequester = remember { FocusRequester() }
+    val rootFocusRequester = remember { FocusRequester() }
+    val toggleSearchBar = {
+        showSearchBar = !showSearchBar
+        if (!showSearchBar) {
+            resetFilter()
+        }
+    }
 
     LaunchedEffect(showSearchBar) {
         if (showSearchBar) {
             searchFocusRequester.requestFocus()
         } else {
             searchFocusRequester.freeFocus()
+            // Keep key events flowing to the shortcut handler on the root.
+            runCatching { rootFocusRequester.requestFocus() }
         }
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .focusRequester(rootFocusRequester)
+            .focusable()
+            .onPreviewKeyEvent { event ->
+                if (event.type != KeyEventType.KeyDown) {
+                    return@onPreviewKeyEvent false
+                }
+                val ctrl = event.isCtrlPressed || event.isMetaPressed
+                when {
+                    ctrl && event.key == Key.F && !uiState.isSelectionMode -> {
+                        if (showSearchBar) {
+                            runCatching { searchFocusRequester.requestFocus() }
+                        } else {
+                            showSearchBar = true
+                        }
+                        true
+                    }
+
+                    event.key == Key.Escape && uiState.isSelectionMode -> {
+                        clearSelection()
+                        true
+                    }
+
+                    event.key == Key.Escape && showSearchBar -> {
+                        toggleSearchBar()
+                        true
+                    }
+
+                    ctrl && event.key == Key.A && uiState.isSelectionMode && !showSearchBar -> {
+                        selectAllVisible()
+                        true
+                    }
+
+                    event.key == Key.Delete && uiState.isSelectionMode &&
+                        uiState.canBulkExport && !showSearchBar -> {
+                        deleteSelectedCalls()
+                        true
+                    }
+
+                    else -> false
+                }
+            },
         topBar = {
             Column {
                 TopAppBar(
@@ -157,7 +217,7 @@ internal fun ListScreen(
                                 Text(
                                     text = stringResource(Res.string.ktor_library_name),
                                     fontWeight = FontWeight.Bold,
-                                    modifier = Modifier.clickable { uriHandler.openUri(URL.GITHUB_REPO) },
+                                    modifier = Modifier.handCursor().clickable { uriHandler.openUri(URL.GITHUB_REPO) },
                                     maxLines = 2,
                                     overflow = TextOverflow.Ellipsis
                                 )
@@ -186,7 +246,7 @@ internal fun ListScreen(
                                         text = "${stringResource(Res.string.ktor_source_prefix)} $label",
                                         style = MaterialTheme.typography.labelSmall,
                                         color = MaterialTheme.colorScheme.primary,
-                                        modifier = Modifier.clickable { uriHandler.openUri(url) },
+                                        modifier = Modifier.handCursor().clickable { uriHandler.openUri(url) },
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                     )
@@ -245,6 +305,7 @@ internal fun ListScreen(
                             contentDescription = stringResource(Res.string.ktor_library_name),
                             modifier = Modifier
                                 .size(Dimens.ExtraExtraLarge)
+                                .handCursor()
                                 .clickable { uriHandler.openUri(URL.GITHUB_REPO) },
                         )
                     },
@@ -253,7 +314,10 @@ internal fun ListScreen(
 
                         if (uiState.isSelectionMode) {
                             if (uiState.canBulkExport) {
-                                IconButton(onClick = clearSelectedCalls) {
+                                TooltipIconButton(
+                                    tooltip = stringResource(Res.string.ktor_clear_selection),
+                                    onClick = clearSelectedCalls,
+                                ) {
                                     Icon(
                                         imageVector = vectorResource(Res.drawable.ktor_selection_remove),
                                         contentDescription = stringResource(Res.string.ktor_clear_selection),
@@ -261,7 +325,10 @@ internal fun ListScreen(
                                     )
                                 }
                             } else {
-                                IconButton(onClick = selectAllVisible) {
+                                TooltipIconButton(
+                                    tooltip = stringResource(Res.string.ktor_select_all) + " (Ctrl+A)",
+                                    onClick = selectAllVisible,
+                                ) {
                                     Icon(
                                         imageVector = vectorResource(Res.drawable.ktor_select_all),
                                         contentDescription = stringResource(Res.string.ktor_select_all),
@@ -272,7 +339,10 @@ internal fun ListScreen(
 
                             if (uiState.canBulkExport) {
                                 Box {
-                                    IconButton(onClick = { isShareMenuExpanded = true }) {
+                                    TooltipIconButton(
+                                        tooltip = stringResource(Res.string.ktor_share_selection),
+                                        onClick = { isShareMenuExpanded = true },
+                                    ) {
                                         Icon(
                                             imageVector = Icons.Filled.Share,
                                             contentDescription = stringResource(Res.string.ktor_share_selection),
@@ -326,7 +396,10 @@ internal fun ListScreen(
                                     }
                                 }
 
-                                IconButton(onClick = deleteSelectedCalls) {
+                                TooltipIconButton(
+                                    tooltip = stringResource(Res.string.ktor_delete_selection) + " (Delete)",
+                                    onClick = deleteSelectedCalls,
+                                ) {
                                     Icon(
                                         imageVector = Icons.Filled.Delete,
                                         contentDescription = stringResource(Res.string.ktor_delete_selection),
@@ -335,7 +408,10 @@ internal fun ListScreen(
                                 }
                             }
 
-                            IconButton(onClick = clearSelection) {
+                            TooltipIconButton(
+                                tooltip = stringResource(Res.string.ktor_close) + " (Esc)",
+                                onClick = clearSelection,
+                            ) {
                                 Icon(
                                     imageVector = Icons.Filled.Close,
                                     contentDescription = stringResource(Res.string.ktor_close),
@@ -346,8 +422,9 @@ internal fun ListScreen(
                             return@TopAppBar
                         }
 
-                        IconButton(
-                            onClick = toggleOnlyError
+                        TooltipIconButton(
+                            tooltip = stringResource(Res.string.ktor_error),
+                            onClick = toggleOnlyError,
                         ) {
                             Icon(
                                 imageVector = when (uiState.filter.onlyError) {
@@ -359,13 +436,9 @@ internal fun ListScreen(
                             )
                         }
 
-                        IconButton(
-                            onClick = {
-                                showSearchBar = !showSearchBar
-                                if (!showSearchBar) {
-                                    resetFilter()
-                                }
-                            }
+                        TooltipIconButton(
+                            tooltip = stringResource(Res.string.ktor_filter) + " (Ctrl+F)",
+                            onClick = toggleSearchBar,
                         ) {
                             Icon(
                                 imageVector = when (showSearchBar) {
@@ -376,7 +449,8 @@ internal fun ListScreen(
                                 tint = MaterialTheme.colorScheme.primary,
                             )
                         }
-                        IconButton(
+                        TooltipIconButton(
+                            tooltip = stringResource(Res.string.ktor_select),
                             onClick = enterSelectionMode,
                         ) {
                             Icon(
@@ -473,6 +547,7 @@ internal fun ListScreen(
                                     call = item,
                                     modifier = Modifier
                                         .animateItem()
+                                        .handCursor()
                                         .clickable {
                                             when (uiState.isSelectionMode) {
                                                 true -> toggleSelection(item.id)

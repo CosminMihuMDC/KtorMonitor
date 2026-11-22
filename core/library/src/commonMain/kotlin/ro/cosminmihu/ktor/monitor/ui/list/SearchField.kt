@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.TooltipIconButton
 import ro.cosminmihu.ktor.monitor.ui.resources.Res
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_close
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter
@@ -51,7 +52,8 @@ internal fun SearchField(
             label = { Text(stringResource(Res.string.ktor_filter)) },
             trailingIcon = {
                 if (searchQuery.isNotEmpty()) {
-                    IconButton(
+                    TooltipIconButton(
+                        tooltip = stringResource(Res.string.ktor_close),
                         onClick = {
                             searchQuery = ""
                             onClear()

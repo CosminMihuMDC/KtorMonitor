@@ -44,6 +44,8 @@ import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import ro.cosminmihu.ktor.monitor.core.ClipboardManager
 import ro.cosminmihu.ktor.monitor.ui.Dimens
+import ro.cosminmihu.ktor.monitor.ui.TooltipIconButton
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState
 import ro.cosminmihu.ktor.monitor.ui.detail.DetailUiState.StreamMessageType
 import ro.cosminmihu.ktor.monitor.ui.icons.Icons
@@ -143,7 +145,7 @@ internal fun StreamView(stream: DetailUiState.Stream, modifier: Modifier = Modif
                 if (!atEnd) {
                     SmallFloatingActionButton(
                         onClick = { scope.launch { listState.animateScrollToItem(visible.lastIndex) } },
-                        modifier = Modifier.align(Alignment.BottomEnd).padding(Dimens.Small),
+                        modifier = Modifier.align(Alignment.BottomEnd).padding(Dimens.Small).handCursor(),
                     ) {
                         Icon(
                             imageVector = Icons.Default.KeyboardArrowDown,
@@ -305,7 +307,10 @@ private fun StreamMessageItem(
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f),
                     )
-                    IconButton(onClick = onCopy) {
+                    TooltipIconButton(
+                        tooltip = stringResource(Res.string.ktor_stream_copy_message),
+                        onClick = onCopy,
+                    ) {
                         Icon(
                             imageVector = Icons.Default.ContentCopy,
                             contentDescription = stringResource(Res.string.ktor_stream_copy_message),

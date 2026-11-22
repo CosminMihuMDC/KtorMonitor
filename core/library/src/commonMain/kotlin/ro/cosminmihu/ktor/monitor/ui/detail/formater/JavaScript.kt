@@ -3,6 +3,7 @@ package ro.cosminmihu.ktor.monitor.ui.detail.formater
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -129,7 +130,7 @@ private fun JsCodeRow(
     CodeLine(
         lineNumber = lineIndex + 1,
         modifier = if (isFoldOpener) {
-            Modifier.clickable(onClick = onToggle)
+            Modifier.handCursor().clickable(onClick = onToggle)
         } else {
             Modifier
         },

@@ -3,6 +3,7 @@ package ro.cosminmihu.ktor.monitor.ui.detail.formater
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import ro.cosminmihu.ktor.monitor.ui.handCursor
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -135,7 +136,7 @@ private fun FormRowView(
             val arrowRotation by animateFloatAsState(targetValue = if (!row.isCollapsed) 0f else -90f)
             CodeLine(
                 lineNumber = row.lineNumber,
-                modifier = Modifier.clickable { onToggle(row.id) },
+                modifier = Modifier.handCursor().clickable { onToggle(row.id) },
             ) {
                 Row(
                     modifier = Modifier
