@@ -3,7 +3,7 @@ package ro.cosminmihu.ktor.monitor.ui.main
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
-import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
 import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
 import androidx.compose.runtime.Composable
@@ -26,7 +26,7 @@ import ro.cosminmihu.ktor.monitor.ui.nav.rememberListDetailSceneStrategy
 internal fun MainContent(modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(backStackConfig, Nav.List)
     var selectionCount by rememberSaveable { mutableStateOf<Int?>(null) }
-    val directive = calculatePaneScaffoldDirective(currentWindowAdaptiveInfo())
+    val directive = calculatePaneScaffoldDirective(currentWindowAdaptiveInfoV2())
     val isTwoPane = directive.maxHorizontalPartitions > 1
     val listDetailStrategy = rememberListDetailSceneStrategy(directive)
 
