@@ -28,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -181,7 +182,7 @@ private fun XmlNodeView(
             val hasChildren = node.childNodeSize() > 0
             // If it has children, we track expanded state.
             // Empty tags <tag /> are not expandable.
-            var isExpanded by remember { mutableStateOf(isInitiallyExpanded) }
+            var isExpanded by rememberSaveable { mutableStateOf(isInitiallyExpanded) }
             val arrowRotation by animateFloatAsState(targetValue = if (isExpanded) 0f else -90f)
 
             Column {

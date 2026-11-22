@@ -31,6 +31,7 @@ internal fun DetailRoute(
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
     selectionCount: Int? = null,
+    showBack: Boolean = true,
 ) {
     if (id == null) {
         if (selectionCount != null) SelectionState(selectionCount, modifier) else EmptyState(modifier)
@@ -49,6 +50,7 @@ internal fun DetailRoute(
     DetailScreen(
         modifier = modifier,
         uiState = uiState,
+        showBack = showBack,
         onBack = onBack,
         onCopy = viewModel::copy,
         onShare = viewModel::share,

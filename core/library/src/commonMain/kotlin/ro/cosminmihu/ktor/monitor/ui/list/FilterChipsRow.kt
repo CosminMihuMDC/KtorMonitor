@@ -16,7 +16,6 @@ import ro.cosminmihu.ktor.monitor.ui.icons.filled.Tune
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.RadioButton
@@ -24,8 +23,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -44,7 +43,6 @@ import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter_sort_response_size
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter_sort_size_asc
 import ro.cosminmihu.ktor.monitor.ui.resources.ktor_filter_sort_size_desc
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun FilterChipsRow(
     filter: ListUiState.Filter,
@@ -69,7 +67,7 @@ internal fun FilterChipsRow(
     ) {
         // Chip 1: Host
         if (availableHosts.isNotEmpty()) {
-            var hostMenuExpanded by remember { mutableStateOf(false) }
+            var hostMenuExpanded by rememberSaveable { mutableStateOf(false) }
             val hostLabel = when {
                 filter.hosts.isEmpty() -> stringResource(Res.string.ktor_filter_host)
                 else -> filter.hosts.sorted().joinToString(", ")
@@ -115,7 +113,7 @@ internal fun FilterChipsRow(
 
         // Chip 2: Method
         if (availableMethods.isNotEmpty()) {
-            var methodMenuExpanded by remember { mutableStateOf(false) }
+            var methodMenuExpanded by rememberSaveable { mutableStateOf(false) }
             val methodLabel = when {
                 filter.methods.isEmpty() -> stringResource(Res.string.ktor_filter_method)
                 else -> {
@@ -168,7 +166,7 @@ internal fun FilterChipsRow(
         }
 
         // Chip 3: Response code range
-        var codeMenuExpanded by remember { mutableStateOf(false) }
+        var codeMenuExpanded by rememberSaveable { mutableStateOf(false) }
         val codeLabel = when {
             filter.responseCodeRanges.isEmpty() -> stringResource(Res.string.ktor_filter_response_code)
             else -> filter.responseCodeRanges.sortedBy { it.ordinal }.joinToString(", ") { it.label }
@@ -218,7 +216,7 @@ internal fun FilterChipsRow(
         }
 
         // Chip 4: Duration
-        var durationMenuExpanded by remember { mutableStateOf(false) }
+        var durationMenuExpanded by rememberSaveable { mutableStateOf(false) }
         val durationLabel = when {
             filter.durations.isEmpty() -> stringResource(Res.string.ktor_filter_duration)
             else -> filter.durations.sortedBy { it.ordinal }.joinToString(", ") { it.label }
@@ -269,7 +267,7 @@ internal fun FilterChipsRow(
 
         // Chip 5: Content-Type
         if (availableContentTypes.isNotEmpty()) {
-            var contentTypeMenuExpanded by remember { mutableStateOf(false) }
+            var contentTypeMenuExpanded by rememberSaveable { mutableStateOf(false) }
             val contentTypeLabel = when {
                 filter.contentTypes.isEmpty() -> stringResource(Res.string.ktor_filter_content_type)
                 else -> filter.contentTypes.sortedBy { it.ordinal }.joinToString(", ") { it.contentName }
@@ -314,7 +312,7 @@ internal fun FilterChipsRow(
         }
 
         // Chip 6: Sort by size
-        var sortMenuExpanded by remember { mutableStateOf(false) }
+        var sortMenuExpanded by rememberSaveable { mutableStateOf(false) }
         val sortLabel = when (filter.sizeSort) {
             ListUiState.Filter.SizeSort.ASC -> stringResource(Res.string.ktor_filter_sort_size_asc)
             ListUiState.Filter.SizeSort.DESC -> stringResource(Res.string.ktor_filter_sort_size_desc)

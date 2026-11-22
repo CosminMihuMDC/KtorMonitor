@@ -68,6 +68,7 @@ internal fun DetailScreen(
     uiState: DetailUiState,
     modifier: Modifier = Modifier,
     onBack: () -> Unit,
+    showBack: Boolean = true,
     onCopy: (DetailUiState.ClipboardCopyType) -> Unit,
     onShare: (DetailUiState.FileShareType) -> Unit,
 ) {
@@ -80,15 +81,17 @@ internal fun DetailScreen(
             Column {
                 TopAppBar(
                     navigationIcon = {
-                        TooltipIconButton(
-                            tooltip = stringResource(Res.string.ktor_back),
-                            onClick = onBack,
-                        ) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
-                                contentDescription = stringResource(Res.string.ktor_back),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
+                        if (showBack) {
+                            TooltipIconButton(
+                                tooltip = stringResource(Res.string.ktor_back),
+                                onClick = onBack,
+                            ) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBackIos,
+                                    contentDescription = stringResource(Res.string.ktor_back),
+                                    tint = MaterialTheme.colorScheme.primary
+                                )
+                            }
                         }
                     },
                     title = {

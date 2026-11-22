@@ -7,6 +7,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import ro.cosminmihu.ktor.monitor.ui.enumSaver
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import ro.cosminmihu.ktor.monitor.ui.Dimens
@@ -35,7 +37,7 @@ internal fun Transaction(
     modifier: Modifier = Modifier,
     stream: DetailUiState.Stream? = null,
 ) {
-    var displayMode by remember(body) {
+    var displayMode by rememberSaveable(body, stateSaver = enumSaver<DisplayMode>()) {
         mutableStateOf(
             when {
                 body?.supportsStream == true -> DisplayMode.STREAM

@@ -5,6 +5,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.VerticalDragHandle
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.layout.PaneExpansionAnchor
+import androidx.compose.material3.adaptive.layout.PaneScaffoldDirective
 import androidx.compose.material3.adaptive.layout.rememberPaneExpansionState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -13,8 +14,11 @@ import androidx.navigation3.runtime.NavKey
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
-internal fun rememberListDetailSceneStrategy() =
+internal fun rememberListDetailSceneStrategy(
+    directive: PaneScaffoldDirective,
+) =
     androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy<NavKey>(
+        directive = directive,
         paneExpansionState = rememberPaneExpansionState(
             anchors = listOf(
                 PaneExpansionAnchor.Proportion(0.25f),

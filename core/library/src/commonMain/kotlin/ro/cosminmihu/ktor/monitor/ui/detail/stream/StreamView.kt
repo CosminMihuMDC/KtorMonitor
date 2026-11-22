@@ -30,6 +30,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
+import ro.cosminmihu.ktor.monitor.ui.enumSaver
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -78,9 +80,11 @@ private enum class Direction { ALL, SENT, RECEIVED }
 internal fun StreamView(stream: DetailUiState.Stream, modifier: Modifier = Modifier) {
     val clipboard = koinInject<ClipboardManager>()
     val scope = rememberCoroutineScope()
-    var direction by remember { mutableStateOf(Direction.ALL) }
-    var showControl by remember { mutableStateOf(true) }
-    var formatJson by remember { mutableStateOf(true) }
+    var direction by rememberSaveable(stateSaver = enumSaver<Direction>()) {
+        mutableStateOf(Direction.ALL)
+    }
+    var showControl by rememberSaveable { mutableStateOf(true) }
+    var formatJson by rememberSaveable { mutableStateOf(true) }
     val listState = rememberLazyListState()
 
     val isWs = stream.kind == DetailUiState.StreamKind.WebSocket
